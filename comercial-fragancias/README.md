@@ -1,54 +1,25 @@
-# Remotion video
+# Comercial de fragancias
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+Video vertical (1080×1920, 15 s, 30 fps) para Reels y TikTok con los body mist
+shimmer Bare Vanilla, Coconut Passion y Pure Seduction. Hecho con [Remotion](https://www.remotion.dev).
 
-Welcome to your Remotion project!
-
-## Commands
-
-**Install Dependencies**
+## Uso
 
 ```console
-npm i --loglevel=error
+npm i
+npm run dev                                              # editor visual en el navegador
+npx remotion render Comercial out/comercial-fragancias.mp4  # exporta el MP4
 ```
 
-**Start Preview**
+## Qué editar
 
-```console
-npm run dev
-```
+- **Nombre de la tienda y texto del botón final:** `src/Root.tsx` (`tienda` y `llamado`).
+  También se pueden cambiar desde el panel de props del editor.
+- **Nombres, notas y colores de cada fragancia:** `src/fragancias.ts`.
+- **Duración de cada escena:** constantes al principio de `src/Comercial.tsx`.
+- **Fotos de las botellas (PNG sin fondo):** `public/`.
 
-**Render video**
+## Licencia
 
-```console
-npx remotion render
-```
-
-**Upgrade Remotion**
-
-```console
-npx remotion upgrade
-```
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+Remotion requiere licencia de empresa para algunas organizaciones.
+[Ver condiciones](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
