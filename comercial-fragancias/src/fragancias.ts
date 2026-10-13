@@ -8,7 +8,6 @@ export type Fragancia = {
   fondoCentro: string;
   fondoBorde: string;
   brillo: string;
-  texto: string;
 };
 
 export const fragancias: Fragancia[] = [
@@ -21,7 +20,6 @@ export const fragancias: Fragancia[] = [
     fondoCentro: "#fbeee0",
     fondoBorde: "#c8956c",
     brillo: "#ffd9a8",
-    texto: "#4a2c1c",
   },
   {
     id: "coconut-passion",
@@ -32,7 +30,6 @@ export const fragancias: Fragancia[] = [
     fondoCentro: "#fbf5e2",
     fondoBorde: "#c3a35f",
     brillo: "#fff0b8",
-    texto: "#4a3a17",
   },
   {
     id: "pure-seduction",
@@ -43,6 +40,5 @@ export const fragancias: Fragancia[] = [
     fondoCentro: "#fbe4ee",
     fondoBorde: "#b0567f",
     brillo: "#ffc8de",
-    texto: "#561a38",
   },
 ];

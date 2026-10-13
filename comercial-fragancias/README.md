@@ -13,11 +13,13 @@ npx remotion render Comercial out/comercial-fragancias.mp4  # exporta el MP4
 
 ## Qué editar
 
-- **Nombre de la tienda y texto del botón final:** `src/Root.tsx` (`tienda` y `llamado`).
+- **Usuario y texto del botón final:** `src/Root.tsx` (`usuario` y `llamado`).
   También se pueden cambiar desde el panel de props del editor.
 - **Nombres, notas y colores de cada fragancia:** `src/fragancias.ts`.
 - **Duración de cada escena:** constantes al principio de `src/Comercial.tsx`.
 - **Fotos de las botellas (PNG sin fondo):** `public/`.
+- **Logo y colores de la marca:** `public/marca/` y `src/marca.ts`.
+- **Tipografía (Poppins):** `public/fuentes/` y `src/fuentes.ts`.
 
 ## Licencia
 

@@ -7,7 +7,7 @@ import { Intro } from "./escenas/Intro";
 import { fragancias } from "./fragancias";
 
 export type ComercialProps = {
-  tienda: string;
+  usuario: string;
   llamado: string;
 };
 
@@ -24,7 +24,7 @@ export const DURACION_TOTAL =
 
 const transicion = linearTiming({ durationInFrames: DURACION_TRANSICION });
 
-export const Comercial: React.FC<ComercialProps> = ({ tienda, llamado }) => {
+export const Comercial: React.FC<ComercialProps> = ({ usuario, llamado }) => {
   return (
     <TransitionSeries>
       <TransitionSeries.Sequence durationInFrames={DURACION_INTRO}>
@@ -42,7 +42,7 @@ export const Comercial: React.FC<ComercialProps> = ({ tienda, llamado }) => {
       ])}
       <TransitionSeries.Transition presentation={fade()} timing={transicion} />
       <TransitionSeries.Sequence durationInFrames={DURACION_FINAL}>
-        <Final tienda={tienda} llamado={llamado} />
+        <Final usuario={usuario} llamado={llamado} />
       </TransitionSeries.Sequence>
     </TransitionSeries>
   );

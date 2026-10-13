@@ -2,7 +2,7 @@ import { Composition } from "remotion";
 import { Comercial, ComercialProps, DURACION_TOTAL } from "./Comercial";
 
 const props: ComercialProps = {
-  tienda: "",
+  usuario: "@larese",
   llamado: "Pedí el tuyo por DM",
 };
 

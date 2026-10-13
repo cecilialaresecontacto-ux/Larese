@@ -1,9 +1,11 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Aparecer } from "../componentes/Aparecer";
 import { Botella } from "../componentes/Botella";
-import { Destellos } from "../componentes/Destellos";
 import { Fragancia } from "../fragancias";
-import { sans, serif } from "../fuentes";
+import { fuente } from "../fuentes";
+import { marca } from "../marca";
+
+const ALTO_LOGO = 56;
 
 export const EscenaFragancia: React.FC<{ fragancia: Fragancia; numero: number }> = ({
   fragancia,
@@ -37,18 +39,25 @@ export const EscenaFragancia: React.FC<{ fragancia: Fragancia; numero: number }>
             opacity: halo,
           }}
         />
-        <Destellos cantidad={55} semilla={`${fragancia.id}-atras`} color="#fbe3a6" />
-        <AbsoluteFill style={{ alignItems: "center", top: 250 }}>
+        <AbsoluteFill style={{ alignItems: "center", top: 270 }}>
           <div
             style={{
               opacity: interpolate(entrada, [0, 0.4], [0, 1], { extrapolateRight: "clamp" }),
               transform: `translateY(${interpolate(entrada, [0, 1], [500, 0]) + flotar}px) rotate(${giro}deg) scale(${interpolate(entrada, [0, 1], [0.85, 1])})`,
             }}
           >
-            <Botella imagen={fragancia.imagen} alto={1000} proporcion={fragancia.proporcion} inicioReflejo={28} />
+            <Botella imagen={fragancia.imagen} alto={980} proporcion={fragancia.proporcion} inicioReflejo={28} />
           </div>
         </AbsoluteFill>
-        <Destellos cantidad={25} semilla={`${fragancia.id}-frente`} color="#fff1c4" />
+      </AbsoluteFill>
+
+      <AbsoluteFill style={{ alignItems: "center", top: 110 }}>
+        <Aparecer desde={6}>
+          <Img
+            src={staticFile(marca.logo)}
+            style={{ height: ALTO_LOGO, width: ALTO_LOGO * marca.logoProporcion }}
+          />
+        </Aparecer>
       </AbsoluteFill>
 
       <AbsoluteFill
@@ -57,16 +66,17 @@ export const EscenaFragancia: React.FC<{ fragancia: Fragancia; numero: number }>
           alignItems: "center",
           paddingBottom: 170,
           textAlign: "center",
-          color: fragancia.texto,
+          color: marca.negro,
+          fontFamily: fuente,
         }}
       >
-        <Aparecer desde={18} style={{ fontFamily: sans, fontSize: 28, letterSpacing: 10, fontWeight: 500, opacity: 0.8 }}>
+        <Aparecer desde={18} style={{ fontSize: 26, letterSpacing: 10, fontWeight: 500, opacity: 0.75 }}>
           {`0${numero} · SHIMMER`}
         </Aparecer>
-        <Aparecer desde={24} style={{ fontFamily: serif, fontSize: 108, fontWeight: 600, marginTop: 14 }}>
+        <Aparecer desde={24} style={{ fontSize: 96, fontWeight: 600, letterSpacing: -2, marginTop: 10 }}>
           {fragancia.nombre}
         </Aparecer>
-        <Aparecer desde={32} style={{ fontFamily: serif, fontStyle: "italic", fontSize: 52, marginTop: 10 }}>
+        <Aparecer desde={32} style={{ fontSize: 44, fontWeight: 300, marginTop: 6 }}>
           {fragancia.notas}
         </Aparecer>
       </AbsoluteFill>

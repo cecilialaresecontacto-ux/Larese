@@ -1,19 +1,21 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Aparecer } from "../componentes/Aparecer";
 import { Botella } from "../componentes/Botella";
-import { Destellos } from "../componentes/Destellos";
 import { fragancias } from "../fragancias";
-import { sans, serif } from "../fuentes";
+import { fuente } from "../fuentes";
+import { marca } from "../marca";
 
 type Props = {
-  tienda: string;
+  usuario: string;
   llamado: string;
 };
+
+const ALTO_LOGO = 110;
 
 // Coconut a la izquierda, Bare Vanilla al centro, Pure Seduction a la derecha
 const orden = [1, 0, 2];
 
-export const Final: React.FC<Props> = ({ tienda, llamado }) => {
+export const Final: React.FC<Props> = ({ usuario, llamado }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const latido = 1 + 0.04 * Math.sin(frame / 5);
@@ -22,21 +24,22 @@ export const Final: React.FC<Props> = ({ tienda, llamado }) => {
     <AbsoluteFill
       style={{
         background: "radial-gradient(circle at 50% 55%, #fff4e6 0%, #efcfc0 50%, #b9846a 100%)",
+        fontFamily: fuente,
+        color: marca.negro,
       }}
     >
-      <Destellos cantidad={90} semilla="final" />
-      <AbsoluteFill style={{ alignItems: "center", textAlign: "center", color: "#4a2c1c", paddingTop: 170 }}>
-        <Aparecer desde={30} style={{ fontFamily: sans, fontSize: 30, letterSpacing: 12, fontWeight: 500 }}>
+      <AbsoluteFill style={{ alignItems: "center", textAlign: "center", paddingTop: 160 }}>
+        <Aparecer desde={30} style={{ fontSize: 28, letterSpacing: 12, fontWeight: 500 }}>
           BODY MIST · 250 ML
         </Aparecer>
-        <Aparecer desde={36} style={{ fontFamily: serif, fontSize: 112, lineHeight: 1.05, marginTop: 24 }}>
+        <Aparecer desde={36} style={{ fontSize: 104, fontWeight: 600, lineHeight: 1.05, letterSpacing: -2, marginTop: 24 }}>
           Elegí tu
           <br />
-          <span style={{ fontStyle: "italic", color: "#a8742f" }}>brillo favorito</span>
+          <span style={{ fontWeight: 300 }}>brillo favorito</span>
         </Aparecer>
       </AbsoluteFill>
 
-      <AbsoluteFill style={{ flexDirection: "row", justifyContent: "center", alignItems: "flex-end", gap: 30, paddingBottom: 430 }}>
+      <AbsoluteFill style={{ flexDirection: "row", justifyContent: "center", alignItems: "flex-end", gap: 30, paddingBottom: 560 }}>
         {orden.map((indice, posicion) => {
           const f = fragancias[indice];
           const entrada = spring({
@@ -59,7 +62,7 @@ export const Final: React.FC<Props> = ({ tienda, llamado }) => {
             >
               <Botella
                 imagen={f.imagen}
-                alto={esCentro ? 820 : 720}
+                alto={esCentro ? 720 : 630}
                 proporcion={f.proporcion}
                 inicioReflejo={45 + posicion * 8}
               />
@@ -68,24 +71,27 @@ export const Final: React.FC<Props> = ({ tienda, llamado }) => {
         })}
       </AbsoluteFill>
 
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 170, textAlign: "center" }}>
-        {tienda ? (
-          <Aparecer desde={50} style={{ fontFamily: serif, fontSize: 64, color: "#4a2c1c", marginBottom: 30 }}>
-            {tienda}
-          </Aparecer>
-        ) : null}
-        <Aparecer desde={58}>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 150, textAlign: "center" }}>
+        <Aparecer desde={48}>
+          <Img
+            src={staticFile(marca.logo)}
+            style={{ height: ALTO_LOGO, width: ALTO_LOGO * marca.logoProporcion }}
+          />
+        </Aparecer>
+        <Aparecer desde={54} style={{ fontSize: 40, fontWeight: 500, marginTop: 18, marginBottom: 36 }}>
+          {usuario}
+        </Aparecer>
+        <Aparecer desde={60}>
           <div
             style={{
-              fontFamily: sans,
               fontWeight: 600,
-              fontSize: 44,
-              letterSpacing: 3,
-              color: "#fff8ee",
-              background: "linear-gradient(135deg, #c99a4f, #8f5f2a)",
-              padding: "28px 64px",
+              fontSize: 40,
+              letterSpacing: 1,
+              color: marca.blanco,
+              background: marca.negro,
+              padding: "26px 64px",
               borderRadius: 999,
-              boxShadow: "0 12px 40px rgba(120, 70, 30, 0.35)",
+              boxShadow: "0 12px 40px rgba(0, 0, 0, 0.25)",
               transform: `scale(${latido})`,
             }}
           >

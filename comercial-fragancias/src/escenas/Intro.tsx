@@ -1,15 +1,17 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Aparecer } from "../componentes/Aparecer";
-import { Destellos } from "../componentes/Destellos";
-import { sans, serif } from "../fuentes";
+import { fuente } from "../fuentes";
+import { marca } from "../marca";
 
 export const Intro: React.FC = () => {
   const frame = useCurrentFrame();
-  const linea = interpolate(frame, [10, 40], [0, 360], {
+  const { fps } = useVideoConfig();
+  const logo = spring({ frame, fps, config: { damping: 12, mass: 0.7 }, durationInFrames: 35 });
+  const linea = interpolate(frame, [18, 45], [0, 320], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const zoom = interpolate(frame, [0, 90], [1.08, 1]);
+  const zoom = interpolate(frame, [0, 90], [1.06, 1]);
 
   return (
     <AbsoluteFill
@@ -17,29 +19,36 @@ export const Intro: React.FC = () => {
         background: "radial-gradient(circle at 50% 45%, #fff6ea 0%, #ecd3b6 55%, #b98a5e 100%)",
       }}
     >
-      <Destellos cantidad={110} semilla="intro" />
       <AbsoluteFill
         style={{
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          color: "#4a2c1c",
+          color: marca.negro,
+          fontFamily: fuente,
           transform: `scale(${zoom})`,
         }}
       >
-        <Aparecer desde={5} style={{ fontFamily: sans, fontSize: 34, letterSpacing: 12, fontWeight: 500 }}>
+        <Img
+          src={staticFile(marca.isotipo)}
+          style={{
+            width: 220,
+            height: 220,
+            marginBottom: 60,
+            opacity: logo,
+            transform: `scale(${interpolate(logo, [0, 1], [0.6, 1])})`,
+          }}
+        />
+        <Aparecer desde={12} style={{ fontSize: 30, letterSpacing: 12, fontWeight: 500 }}>
           SHIMMER FRAGRANCE MIST
         </Aparecer>
-        <div style={{ height: 2, width: linea, background: "#b8893f", margin: "40px 0" }} />
-        <Aparecer desde={15} style={{ fontFamily: serif, fontSize: 130, lineHeight: 1.05 }}>
+        <div style={{ height: 3, width: linea, background: marca.negro, margin: "40px 0" }} />
+        <Aparecer desde={22} style={{ fontSize: 120, fontWeight: 600, lineHeight: 1.05, letterSpacing: -2 }}>
           Perfumá
           <br />
           tu piel
         </Aparecer>
-        <Aparecer
-          desde={28}
-          style={{ fontFamily: serif, fontStyle: "italic", fontSize: 92, color: "#a8742f", marginTop: 20 }}
-        >
+        <Aparecer desde={32} style={{ fontSize: 64, fontWeight: 300, marginTop: 24 }}>
           con brillo dorado
         </Aparecer>
       </AbsoluteFill>

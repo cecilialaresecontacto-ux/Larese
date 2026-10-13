@@ -1,16 +1,10 @@
 import { loadFont } from "@remotion/fonts";
 import { staticFile } from "remotion";
 
-// Tipografías de Google Fonts (licencia OFL), guardadas en public/fuentes
+// Poppins (Google Fonts, licencia OFL), guardada en public/fuentes
 // para que el render no dependa de internet
-export const serif = "Playfair Display";
-export const sans = "Montserrat";
+export const fuente = "Poppins";
 
-loadFont({ family: serif, url: staticFile("fuentes/PlayfairDisplay.woff2"), weight: "400 900" });
-loadFont({
-  family: serif,
-  url: staticFile("fuentes/PlayfairDisplay-Italic.woff2"),
-  weight: "400 900",
-  style: "italic",
-});
-loadFont({ family: sans, url: staticFile("fuentes/Montserrat.woff2"), weight: "100 900" });
+for (const peso of ["300", "400", "500", "600", "700"]) {
+  loadFont({ family: fuente, url: staticFile(`fuentes/Poppins-${peso}.woff2`), weight: peso });
+}
