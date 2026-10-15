@@ -12,7 +12,7 @@ import {
 import { Aparecer } from "../componentes/Aparecer";
 import { fuente } from "../fuentes";
 import { marca } from "../marca";
-import { DURACION_CIERRE, Toma, tomas } from "./tomas";
+import { DURACION_CIERRE, DURACION_FOTO, fotoFinal, Toma, tomas } from "./tomas";
 
 export type DecantsProps = {
   titulo: string;
@@ -23,7 +23,7 @@ export type DecantsProps = {
 };
 
 export const DURACION_DECANTS =
-  tomas.reduce((total, t) => total + t.duracion, 0) + DURACION_CIERRE;
+  tomas.reduce((total, t) => total + t.duracion, 0) + DURACION_FOTO + DURACION_CIERRE;
 
 const sombra = "0 4px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.35)";
 
@@ -173,6 +173,20 @@ const FraseIntermedia: React.FC<{ frase: string }> = ({ frase }) => (
   </AbsoluteFill>
 );
 
+// Foto de los decants listos, con zoom lento
+const Resultado: React.FC = () => {
+  const frame = useCurrentFrame();
+  const zoom = interpolate(frame, [0, DURACION_FOTO], [1.0, 1.1]);
+
+  return (
+    <Corte>
+      <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "50% 70%" }}>
+        <Img src={staticFile(fotoFinal)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      </AbsoluteFill>
+    </Corte>
+  );
+};
+
 const Cierre: React.FC<{ usuario: string; llamado: string }> = ({ usuario, llamado }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -265,10 +279,13 @@ export const Decants: React.FC<DecantsProps> = ({ titulo, subtitulo, frase, usua
   return (
     <AbsoluteFill style={{ backgroundColor: marca.negro }}>
       {secuencias}
-      <Sequence durationInFrames={finTomas}>
+      <Sequence from={finTomas} durationInFrames={DURACION_FOTO}>
+        <Resultado />
+      </Sequence>
+      <Sequence durationInFrames={finTomas + DURACION_FOTO}>
         <MarcaDeAgua />
       </Sequence>
-      <Sequence from={finTomas} durationInFrames={DURACION_CIERRE}>
+      <Sequence from={finTomas + DURACION_FOTO} durationInFrames={DURACION_CIERRE}>
         <Cierre usuario={usuario} llamado={llamado} />
       </Sequence>
     </AbsoluteFill>

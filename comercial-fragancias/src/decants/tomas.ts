@@ -21,5 +21,7 @@ export const tomas: Toma[] = [
   { clip: "clips/5260.mp4", desde: 1.5, velocidad: 1.6, duracion: 60, frase: true },
 ];
 
-// Placa final con el logo
+// Foto de los decants terminados (el clip IMG_5288 dura 0,3 s) y placa final con el logo
+export const fotoFinal = "clips/5288-final.jpg";
+export const DURACION_FOTO = 45;
 export const DURACION_CIERRE = 75;
