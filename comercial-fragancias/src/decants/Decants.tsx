@@ -12,7 +12,7 @@ import {
 import { Aparecer } from "../componentes/Aparecer";
 import { fuente } from "../fuentes";
 import { marca } from "../marca";
-import { DURACION_CIERRE, DURACION_FOTO, fotoFinal, Toma, tomas } from "./tomas";
+import { DURACION_CIERRE, Toma, tomas } from "./tomas";
 
 export type DecantsProps = {
   titulo: string;
@@ -23,7 +23,7 @@ export type DecantsProps = {
 };
 
 export const DURACION_DECANTS =
-  tomas.reduce((total, t) => total + t.duracion, 0) + DURACION_FOTO + DURACION_CIERRE;
+  tomas.reduce((total, t) => total + t.duracion, 0) + DURACION_CIERRE;
 
 const sombra = "0 4px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.35)";
 
@@ -173,36 +173,6 @@ const FraseIntermedia: React.FC<{ frase: string }> = ({ frase }) => (
   </AbsoluteFill>
 );
 
-// Foto de los decants listos, con zoom lento
-const Resultado: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const zoom = interpolate(frame, [0, DURACION_FOTO], [1.0, 1.14]);
-  const sello = spring({ frame: frame - 10, fps, config: { damping: 10 }, durationInFrames: 20 });
-
-  return (
-    <Corte>
-      <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "50% 70%" }}>
-        <Img src={staticFile(fotoFinal)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-      </AbsoluteFill>
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 330, fontFamily: fuente, textAlign: "center" }}>
-        <div
-          style={{
-            fontSize: 110,
-            fontWeight: 700,
-            letterSpacing: -3,
-            color: marca.blanco,
-            textShadow: sombra,
-            transform: `scale(${sello}) rotate(${interpolate(sello, [0, 1], [-8, -3])}deg)`,
-          }}
-        >
-          ¡Listos! ✨
-        </div>
-      </AbsoluteFill>
-    </Corte>
-  );
-};
-
 const Cierre: React.FC<{ usuario: string; llamado: string }> = ({ usuario, llamado }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -278,16 +248,15 @@ export const Decants: React.FC<DecantsProps> = ({ titulo, subtitulo, frase, usua
     const desde = inicio;
     inicio += toma.duracion;
     const esPrimera = i === 0;
-    const esUltima = i === tomas.length - 1;
 
     return (
-      <Sequence key={toma.clip} from={desde} durationInFrames={toma.duracion}>
+      <Sequence key={i} from={desde} durationInFrames={toma.duracion}>
         <Corte>
           <Clip toma={toma} />
         </Corte>
         {esPrimera ? <Gancho titulo={titulo} subtitulo={subtitulo} /> : null}
         {toma.marca && toma.nombre ? <Rotulo marcaPerfume={toma.marca} nombre={toma.nombre} /> : null}
-        {esUltima ? <FraseIntermedia frase={frase} /> : null}
+        {toma.frase ? <FraseIntermedia frase={frase} /> : null}
       </Sequence>
     );
   });
@@ -296,13 +265,10 @@ export const Decants: React.FC<DecantsProps> = ({ titulo, subtitulo, frase, usua
   return (
     <AbsoluteFill style={{ backgroundColor: marca.negro }}>
       {secuencias}
-      <Sequence from={finTomas} durationInFrames={DURACION_FOTO}>
-        <Resultado />
-      </Sequence>
-      <Sequence durationInFrames={finTomas + DURACION_FOTO}>
+      <Sequence durationInFrames={finTomas}>
         <MarcaDeAgua />
       </Sequence>
-      <Sequence from={finTomas + DURACION_FOTO} durationInFrames={DURACION_CIERRE}>
+      <Sequence from={finTomas} durationInFrames={DURACION_CIERRE}>
         <Cierre usuario={usuario} llamado={llamado} />
       </Sequence>
     </AbsoluteFill>

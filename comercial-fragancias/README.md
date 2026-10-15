@@ -28,7 +28,7 @@ Remotion requiere licencia de empresa para algunas organizaciones.
 
 ## Reel "Armando decants de 3 ml"
 
-Composición `Decants` (1080×1920, ~17 s, 30 fps) con los clips reales de
+Composición `Decants` (1080×1920, ~15 s, 30 fps) con los clips reales de
 `public/clips` y el logo de Larese.
 
 ```console
