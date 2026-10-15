@@ -25,3 +25,15 @@ npx remotion render Comercial out/comercial-fragancias.mp4  # exporta el MP4
 
 Remotion requiere licencia de empresa para algunas organizaciones.
 [Ver condiciones](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+
+## Reel "Armando decants de 3 ml"
+
+Composición `Decants` (1080×1920, ~17 s, 30 fps) con los clips reales de
+`public/clips` y el logo de Larese.
+
+```console
+npx remotion render Decants out/larese-decants-3ml.mp4
+```
+
+- **Textos (gancho, frase, usuario, botón):** `src/Root.tsx` (`propsDecants`).
+- **Orden, recorte, velocidad y nombre de cada toma:** `src/decants/tomas.ts`.
