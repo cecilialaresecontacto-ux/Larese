@@ -9,7 +9,7 @@ const BLANCO = "#ffffff";
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 // Las 5 fotos en abanico, como tarjetas, para la apertura y el cierre
-const Abanico: React.FC<{ top: number; ancho: number }> = ({ top, ancho }) => {
+export const Abanico: React.FC<{ top: number; ancho: number; separacion?: number }> = ({ top, ancho, separacion = 150 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const centro = (productos.length - 1) / 2;
@@ -25,7 +25,7 @@ const Abanico: React.FC<{ top: number; ancho: number }> = ({ top, ancho }) => {
             src={staticFile(p.imagen)}
             style={{
               position: "absolute",
-              left: 540 - ancho / 2 + desvio * 150,
+              left: 540 - ancho / 2 + desvio * separacion,
               top: Math.abs(desvio) * 34,
               width: ancho,
               height: alto,

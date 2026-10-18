@@ -7,6 +7,40 @@ const BLANCO = "#ffffff";
 const LOGO_PROPORCION = 612 / 133;
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
+// Medidas de cada formato, como en el script del skill: historia 1080×1920 y post 1080×1350
+export type Medidas = {
+  logoAncho: number;
+  logoY: number;
+  encabezadoY: number;
+  etiqueta: number;
+  subtitulo: number;
+  cta: number;
+  pie: number;
+  pieAbajo: number;
+};
+
+export const HISTORIA: Medidas = {
+  logoAncho: 250,
+  logoY: 170,
+  encabezadoY: 300,
+  etiqueta: 34,
+  subtitulo: 32,
+  cta: 40,
+  pie: 30,
+  pieAbajo: 190,
+};
+
+export const POST: Medidas = {
+  logoAncho: 210,
+  logoY: 56,
+  encabezadoY: 150,
+  etiqueta: 28,
+  subtitulo: 26,
+  cta: 32,
+  pie: 24,
+  pieAbajo: 60,
+};
+
 // Fondo de marca: degradado de un color y el logo gigante transparente
 export const Fondo: React.FC<{ paleta: Paleta; centroMarca?: number }> = ({ paleta, centroMarca = 980 }) => {
   const frame = useCurrentFrame();
@@ -34,24 +68,30 @@ export const Fondo: React.FC<{ paleta: Paleta; centroMarca?: number }> = ({ pale
   );
 };
 
-export const LogoArriba: React.FC = () => (
-  <AbsoluteFill style={{ alignItems: "center", top: 170 }}>
+export const LogoArriba: React.FC<{ m?: Medidas }> = ({ m = HISTORIA }) => (
+  <AbsoluteFill style={{ alignItems: "center", top: m.logoY }}>
     <Aparecer desde={0}>
-      <Img src={staticFile("marca/logo-store-blanco.png")} style={{ width: 250, height: 250 / LOGO_PROPORCION }} />
+      <Img
+        src={staticFile("marca/logo-store-blanco.png")}
+        style={{ width: m.logoAncho, height: m.logoAncho / LOGO_PROPORCION }}
+      />
     </Aparecer>
   </AbsoluteFill>
 );
 
 // Etiqueta, título y subtítulo centrados, como en las piezas del skill
-export const Encabezado: React.FC<{ etiqueta?: string; titulo: string; subtitulo?: string; tamano?: number }> = ({
-  etiqueta,
-  titulo,
-  subtitulo,
-  tamano = 116,
-}) => (
-  <AbsoluteFill style={{ alignItems: "center", top: 300, textAlign: "center", color: BLANCO, fontFamily: fuente, padding: "0 65px" }}>
+export const Encabezado: React.FC<{
+  etiqueta?: string;
+  titulo: string;
+  subtitulo?: string;
+  tamano?: number;
+  m?: Medidas;
+}> = ({ etiqueta, titulo, subtitulo, tamano = 116, m = HISTORIA }) => (
+  <AbsoluteFill
+    style={{ alignItems: "center", top: m.encabezadoY, textAlign: "center", color: BLANCO, fontFamily: fuente, padding: "0 65px" }}
+  >
     {etiqueta ? (
-      <Aparecer desde={4} style={{ fontSize: 34, fontWeight: 600, letterSpacing: 34 * 0.06 }}>
+      <Aparecer desde={4} style={{ fontSize: m.etiqueta, fontWeight: 600, letterSpacing: m.etiqueta * 0.06 }}>
         {etiqueta.toUpperCase()}
       </Aparecer>
     ) : null}
@@ -59,7 +99,7 @@ export const Encabezado: React.FC<{ etiqueta?: string; titulo: string; subtitulo
       {titulo.toUpperCase()}
     </Aparecer>
     {subtitulo ? (
-      <Aparecer desde={12} style={{ fontSize: 32, fontWeight: 500, letterSpacing: 32 * 0.04, marginTop: 14 }}>
+      <Aparecer desde={12} style={{ fontSize: m.subtitulo, fontWeight: 500, letterSpacing: m.subtitulo * 0.04, marginTop: m.subtitulo * 0.4 }}>
         {subtitulo.toUpperCase()}
       </Aparecer>
     ) : null}
@@ -95,7 +135,12 @@ export const FotoCentral: React.FC<{ imagen: string; proporcion: number; ancho: 
   );
 };
 
-export const Pildora: React.FC<{ texto: string; paleta: Paleta; desde?: number }> = ({ texto, paleta, desde = 26 }) => {
+export const Pildora: React.FC<{ texto: string; paleta: Paleta; desde?: number; m?: Medidas }> = ({
+  texto,
+  paleta,
+  desde = 26,
+  m = HISTORIA,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const pop = spring({ frame: frame - desde, fps, config: { damping: 10, mass: 0.6 }, durationInFrames: 30 });
@@ -103,10 +148,10 @@ export const Pildora: React.FC<{ texto: string; paleta: Paleta; desde?: number }
     <div
       style={{
         fontFamily: fuente,
-        fontSize: 40,
+        fontSize: m.cta,
         fontWeight: 600,
         color: BLANCO,
-        padding: "18px 44px",
+        padding: `${m.cta * 0.45}px ${m.cta * 1.1}px`,
         borderRadius: 999,
         background: `color-mix(in srgb, ${paleta.oscuro} 84%, transparent)`,
         opacity: interpolate(pop, [0, 0.3], [0, 1], clamp),
@@ -118,19 +163,21 @@ export const Pildora: React.FC<{ texto: string; paleta: Paleta; desde?: number }
   );
 };
 
-const Circulo: React.FC<{ paleta: Paleta; children: React.ReactNode }> = ({ paleta, children }) => (
-  <svg width={63} height={63} viewBox="0 0 64 64">
+const Circulo: React.FC<{ paleta: Paleta; lado: number; children: React.ReactNode }> = ({ paleta, lado, children }) => (
+  <svg width={lado} height={lado} viewBox="0 0 64 64">
     <circle cx={32} cy={32} r={32} fill={paleta.oscuro} />
     {children}
   </svg>
 );
 
 // Pie con WhatsApp y envíos, como el que agrega el script del skill
-export const Pie: React.FC<{ paleta: Paleta; desde?: number }> = ({ paleta, desde = 32 }) => (
-  <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 190 }}>
+export const Pie: React.FC<{ paleta: Paleta; desde?: number; m?: Medidas }> = ({ paleta, desde = 32, m = HISTORIA }) => (
+  <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: m.pieAbajo }}>
     <Aparecer desde={desde}>
-      <div style={{ display: "flex", alignItems: "center", gap: 18, fontFamily: fuente, fontSize: 30, fontWeight: 500, color: BLANCO }}>
-        <Circulo paleta={paleta}>
+      <div
+        style={{ display: "flex", alignItems: "center", gap: m.pie * 0.6, fontFamily: fuente, fontSize: m.pie, fontWeight: 500, color: BLANCO }}
+      >
+        <Circulo paleta={paleta} lado={m.pie * 2.1}>
           <g fill="none" stroke={BLANCO} strokeWidth={3.5}>
             <ellipse cx={32} cy={31} rx={14} ry={13.5} />
           </g>
@@ -140,8 +187,8 @@ export const Pie: React.FC<{ paleta: Paleta; desde?: number }> = ({ paleta, desd
           ))}
         </Circulo>
         <span>{WHATSAPP}</span>
-        <div style={{ width: 42 }} />
-        <Circulo paleta={paleta}>
+        <div style={{ width: m.pie * 1.4 }} />
+        <Circulo paleta={paleta} lado={m.pie * 2.1}>
           <g fill={BLANCO}>
             <rect x={13} y={22} width={22} height={16} />
             <path d="M37 26 H45 L51 32 V38 H37 Z" />

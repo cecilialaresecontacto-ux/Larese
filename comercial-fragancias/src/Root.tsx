@@ -4,6 +4,7 @@ import { AnuncioLarese, AnuncioProps, DURACION_ANUNCIO } from "./anuncio/Anuncio
 import { flyers } from "./flyer/datos";
 import { Flyer } from "./flyer/Flyer";
 import { DURACION_FLYER, DURACION_FLYERS, FlyersDecants } from "./flyer/FlyersDecants";
+import { slidesCarrusel } from "./remateMarca/Carrusel";
 import { DURACION_REMATE_LARESE, RemateLarese } from "./remateMarca/RemateLarese";
 import { DURACION_REMATE, RemateDecants, RemateProps } from "./remate/RemateDecants";
 
@@ -60,6 +61,17 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {slidesCarrusel.map((slide, i) => (
+        <Composition
+          key={i}
+          id={`Carrusel-${i + 1}`}
+          component={slide}
+          durationInFrames={90}
+          fps={30}
+          width={1080}
+          height={1350}
+        />
+      ))}
       <Composition
         id="FlyersDecants"
         component={FlyersDecants}

@@ -73,6 +73,15 @@ npx remotion render RemateLarese out/remate-larese.mp4
 
 - **Productos, precios y colores:** `src/remateMarca/marca.ts`.
 
+## Carrusel de Instagram
+
+Siete slides en formato post (1080×1350) con el mismo estilo de marca: portada,
+una por perfume y cierre (`Carrusel-1` a `Carrusel-7`).
+
+```console
+npx remotion still Carrusel-1 out/carrusel/slide-01.png --frame=80
+```
+
 ## Licencia
 
 Remotion requiere licencia de empresa para algunas organizaciones.
