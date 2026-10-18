@@ -52,7 +52,7 @@ npx remotion render AnuncioLarese out/anuncio-larese.mp4
 
 Un flyer por fragancia (`Flyer-asad`, `Flyer-yara`, …) y un video que los pasa
 todos (`FlyersDecants`, ~15 s): fondo pastel de un color, frascos desenfocados
-flotando, nombre gigante de fondo y tipografía Montserrat.
+flotando, nombre gigante de fondo y tipografía Montserrat SemiBold con esquinas redondeadas (como "FRAMBUESA" en la referencia).
 
 ```console
 npx remotion still Flyer-asad out/flyers/flyer-asad.png --frame=95   # imagen

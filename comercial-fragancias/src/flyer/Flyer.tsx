@@ -21,6 +21,15 @@ const flotantes = [
   { x: -130, y: 1240, alto: 560, giro: -14, desenfoque: 10, desde: { x: -400, y: 0 } },
 ];
 
+// Engorda las letras con esquinas redondeadas, como la tipografía de la referencia
+const redondear = (radio: number, color: string, extra = "") =>
+  Array.from({ length: 24 }, (_, i) => {
+    const angulo = (i / 24) * Math.PI * 2;
+    return `${(Math.cos(angulo) * radio).toFixed(2)}px ${(Math.sin(angulo) * radio).toFixed(2)}px 0 ${color}`;
+  })
+    .concat(extra ? [extra] : [])
+    .join(", ");
+
 export const Flyer: React.FC<Props> = ({ fragancia, usuario }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -31,7 +40,7 @@ export const Flyer: React.FC<Props> = ({ fragancia, usuario }) => {
   const flotar = Math.sin(frame / 18) * 12;
   const fondo = spring({ frame, fps, config: { damping: 200 }, durationInFrames: 30 });
   const pastilla = spring({ frame: frame - 30, fps, config: { damping: 10, mass: 0.6 }, durationInFrames: 30 });
-  const tamanoTitulo = Math.min(190, 880 / (fragancia.titulo.length * 0.8));
+  const tamanoTitulo = Math.min(175, 860 / (fragancia.titulo.length * 0.92));
 
   return (
     <AbsoluteFill
@@ -45,12 +54,13 @@ export const Flyer: React.FC<Props> = ({ fragancia, usuario }) => {
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div
           style={{
-            fontSize: 600,
-            fontWeight: 800,
-            letterSpacing: -20,
+            fontSize: 560,
+            fontWeight: 600,
+            letterSpacing: 30,
+            textShadow: redondear(22, marca.blanco),
             whiteSpace: "nowrap",
-            color: "rgba(255, 255, 255, 0.2)",
-            opacity: fondo,
+            color: marca.blanco,
+            opacity: 0.2 * fondo,
             transform: `translate(${interpolate(frame, [0, 150], [90, -60])}px, 120px) rotate(-14deg)`,
           }}
         >
@@ -92,13 +102,24 @@ export const Flyer: React.FC<Props> = ({ fragancia, usuario }) => {
       </AbsoluteFill>
 
       <AbsoluteFill style={{ top: 380, left: 110, right: 60, textShadow: "0 4px 24px rgba(0, 0, 0, 0.12)" }}>
-        <Aparecer desde={8} style={{ fontSize: 44, fontWeight: 600, letterSpacing: 1 }}>
+        <Aparecer desde={8} style={{ fontSize: 44, fontWeight: 500, letterSpacing: 1 }}>
           {fragancia.antetitulo}
         </Aparecer>
-        <Aparecer desde={12} style={{ fontSize: tamanoTitulo, fontWeight: 800, lineHeight: 0.95, letterSpacing: 2, marginTop: 4 }}>
+        <Aparecer
+          desde={12}
+          style={{
+            fontSize: tamanoTitulo,
+            fontWeight: 600,
+            lineHeight: 1,
+            letterSpacing: tamanoTitulo * 0.12,
+            marginTop: 2,
+            marginLeft: tamanoTitulo * 0.04,
+            textShadow: redondear(tamanoTitulo * 0.042, marca.blanco, "0 6px 30px rgba(0, 0, 0, 0.15)"),
+          }}
+        >
           {fragancia.titulo}
         </Aparecer>
-        <Aparecer desde={16} style={{ fontSize: 36, fontWeight: 600, letterSpacing: 1, marginTop: 14 }}>
+        <Aparecer desde={16} style={{ fontSize: 36, fontWeight: 500, letterSpacing: 1, marginTop: 6 }}>
           {fragancia.bajada}
         </Aparecer>
       </AbsoluteFill>
