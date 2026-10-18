@@ -62,6 +62,9 @@ export const FinalRemate: React.FC<Props> = ({ usuario, llamado }) => {
             );
           })}
         </div>
+        <Aparecer desde={26} style={{ fontSize: 64, fontWeight: 600, marginTop: 50, ...textoDorado }}>
+          ¡Y muchos más!
+        </Aparecer>
       </AbsoluteFill>
 
       <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 150, textAlign: "center" }}>
