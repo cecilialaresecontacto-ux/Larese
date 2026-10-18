@@ -48,6 +48,19 @@ npx remotion render AnuncioLarese out/anuncio-larese.mp4
 - **Tomas, palabras y duración de cada una:** `tomas` en `src/anuncio/AnuncioLarese.tsx`.
 - **Frascos sin fondo (PNG):** `public/anuncio/` y `src/anuncio/frascos.ts`.
 
+## Flyers estilo pastelería
+
+Un flyer por fragancia (`Flyer-asad`, `Flyer-yara`, …) y un video que los pasa
+todos (`FlyersDecants`, ~15 s): fondo pastel de un color, frascos desenfocados
+flotando, nombre gigante de fondo y tipografía Montserrat.
+
+```console
+npx remotion still Flyer-asad out/flyers/flyer-asad.png --frame=95   # imagen
+npx remotion render FlyersDecants out/flyers-decants.mp4             # video
+```
+
+- **Textos, colores y fotos de cada flyer:** `src/flyer/datos.ts`.
+
 ## Licencia
 
 Remotion requiere licencia de empresa para algunas organizaciones.
