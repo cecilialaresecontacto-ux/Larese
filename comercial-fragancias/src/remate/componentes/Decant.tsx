@@ -5,14 +5,21 @@ type Props = {
   alto: number;
   // De 0 a 1: cuánto líquido se ve
   llenado: number;
+  liquido?: string;
+  tapa?: string;
 };
 
 // Frasquito de decant dibujado con CSS
-export const Decant: React.FC<Props> = ({ alto, llenado }) => {
+export const Decant: React.FC<Props> = ({
+  alto,
+  llenado,
+  liquido = `linear-gradient(180deg, #f6dd9a, ${dorado} 50%, #9c6a22)`,
+  tapa = "linear-gradient(90deg, #8a6424, #f3d78c 45%, #9c7230)",
+}) => {
   const ancho = alto * 0.3;
   const altoTapa = alto * 0.22;
   const altoVidrio = alto - altoTapa;
-  const liquido = interpolate(llenado, [0, 1], [0, altoVidrio * 0.88]);
+  const altoLiquido = interpolate(llenado, [0, 1], [0, altoVidrio * 0.88]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -21,7 +28,7 @@ export const Decant: React.FC<Props> = ({ alto, llenado }) => {
           width: ancho * 0.7,
           height: altoTapa,
           borderRadius: "10px 10px 4px 4px",
-          background: "linear-gradient(90deg, #8a6424, #f3d78c 45%, #9c7230)",
+          background: tapa,
         }}
       />
       <div
@@ -41,8 +48,8 @@ export const Decant: React.FC<Props> = ({ alto, llenado }) => {
             left: 0,
             right: 0,
             bottom: 0,
-            height: liquido,
-            background: `linear-gradient(180deg, #f6dd9a, ${dorado} 50%, #9c6a22)`,
+            height: altoLiquido,
+            background: liquido,
           }}
         />
         <div

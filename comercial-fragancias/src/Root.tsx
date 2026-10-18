@@ -4,6 +4,7 @@ import { AnuncioLarese, AnuncioProps, DURACION_ANUNCIO } from "./anuncio/Anuncio
 import { flyers } from "./flyer/datos";
 import { Flyer } from "./flyer/Flyer";
 import { DURACION_FLYER, DURACION_FLYERS, FlyersDecants } from "./flyer/FlyersDecants";
+import { DURACION_REMATE_LARESE, RemateLarese } from "./remateMarca/RemateLarese";
 import { DURACION_REMATE, RemateDecants, RemateProps } from "./remate/RemateDecants";
 
 const props: ComercialProps = {
@@ -50,6 +51,14 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={propsAnuncio}
+      />
+      <Composition
+        id="RemateLarese"
+        component={RemateLarese}
+        durationInFrames={DURACION_REMATE_LARESE}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="FlyersDecants"
