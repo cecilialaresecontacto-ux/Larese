@@ -35,6 +35,19 @@ npx remotion render RemateDecants out/remate-decants.mp4
 - **Fotos:** `public/remate/`.
 - **Usuario y texto del botón final:** `propsRemate` en `src/Root.tsx`.
 
+## Anuncio estilo Apple
+
+Tercera composición, `AnuncioLarese` (1080×1920, ~16 s): palabras gigantes con
+cortes rápidos, el frasco reemplaza una letra ("As▯d.", "Y▯ra."), precios sobre
+anillos giratorios, fila de frascos y cierre con el logo.
+
+```console
+npx remotion render AnuncioLarese out/anuncio-larese.mp4
+```
+
+- **Tomas, palabras y duración de cada una:** `tomas` en `src/anuncio/AnuncioLarese.tsx`.
+- **Frascos sin fondo (PNG):** `public/anuncio/` y `src/anuncio/frascos.ts`.
+
 ## Licencia
 
 Remotion requiere licencia de empresa para algunas organizaciones.
