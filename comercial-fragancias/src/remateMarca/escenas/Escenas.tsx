@@ -2,14 +2,14 @@ import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, us
 import { Aparecer } from "../../componentes/Aparecer";
 import { Decant } from "../../remate/componentes/Decant";
 import { fuente } from "../../fuentes";
-import { precios, Producto, productos, rosaPerfume } from "../marca";
-import { Encabezado, Fondo, LogoArriba, Pie, Pildora, ProductoCentral } from "../Piezas";
+import { precios, Producto, productos, gris } from "../marca";
+import { Encabezado, Fondo, FotoCentral, LogoArriba, Pie, Pildora } from "../Piezas";
 
 const BLANCO = "#ffffff";
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
-// Los 5 frascos en abanico, para la apertura y el cierre
-const Abanico: React.FC<{ top: number; alto: number }> = ({ top, alto }) => {
+// Las 5 fotos en abanico, como tarjetas, para la apertura y el cierre
+const Abanico: React.FC<{ top: number; ancho: number }> = ({ top, ancho }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const centro = (productos.length - 1) / 2;
@@ -18,22 +18,22 @@ const Abanico: React.FC<{ top: number; alto: number }> = ({ top, alto }) => {
       {productos.map((p, i) => {
         const desvio = i - centro;
         const entrada = spring({ frame: frame - 6 - i * 3, fps, config: { damping: 13, mass: 0.7 }, durationInFrames: 34 });
-        const altoP = alto * (1 - Math.abs(desvio) * 0.12);
-        const ancho = altoP * p.proporcion;
+        const alto = ancho / p.proporcion;
         return (
           <Img
             key={p.id}
             src={staticFile(p.imagen)}
             style={{
               position: "absolute",
-              left: 540 - ancho / 2 + desvio * 175,
-              top: alto - altoP + Math.abs(desvio) * 14,
+              left: 540 - ancho / 2 + desvio * 150,
+              top: Math.abs(desvio) * 34,
               width: ancho,
-              height: altoP,
+              height: alto,
+              borderRadius: 32,
               zIndex: 10 - Math.abs(desvio),
-              filter: "drop-shadow(0 26px 26px rgba(0, 0, 0, 0.3))",
+              boxShadow: "0 24px 50px rgba(0, 0, 0, 0.3)",
               opacity: interpolate(entrada, [0, 0.3], [0, 1], clamp),
-              transform: `translateY(${interpolate(entrada, [0, 1], [500, 0]) + Math.sin((frame + i * 9) / 18) * 8}px) rotate(${desvio * 5}deg)`,
+              transform: `translateY(${interpolate(entrada, [0, 1], [500, 0]) + Math.sin((frame + i * 9) / 18) * 8}px) rotate(${desvio * 6}deg)`,
             }}
           />
         );
@@ -42,18 +42,16 @@ const Abanico: React.FC<{ top: number; alto: number }> = ({ top, alto }) => {
   );
 };
 
-const todas = productos.map((p) => ({ imagen: p.imagen, proporcion: p.proporcion }));
-
 export const Apertura: React.FC = () => (
   <AbsoluteFill>
-    <Fondo paleta={rosaPerfume} imagenes={todas} />
+    <Fondo paleta={gris} />
     <LogoArriba />
     <Encabezado etiqueta="Decants · 100% originales" titulo="Remate de decants" tamano={120} subtitulo="Perfumes árabes premium" />
-    <Abanico top={760} alto={600} />
+    <Abanico top={820} ancho={350} />
     <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 330 }}>
-      <Pildora texto="Hasta agotar stock" paleta={rosaPerfume} />
+      <Pildora texto="Hasta agotar stock" paleta={gris} />
     </AbsoluteFill>
-    <Pie paleta={rosaPerfume} />
+    <Pie paleta={gris} />
   </AbsoluteFill>
 );
 
@@ -62,7 +60,7 @@ export const Tamanos: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill>
-      <Fondo paleta={rosaPerfume} imagenes={[]} />
+      <Fondo paleta={gris} />
       <LogoArriba />
       <Encabezado etiqueta="Precios de remate" titulo="Elegí tu tamaño" subtitulo="Decant de perfume original" />
       <AbsoluteFill style={{ flexDirection: "row", justifyContent: "center", alignItems: "flex-end", gap: 120, paddingBottom: 560 }}>
@@ -85,8 +83,8 @@ export const Tamanos: React.FC = () => {
               <Decant
                 alto={i === 0 ? 330 : 460}
                 llenado={llenado}
-                liquido="linear-gradient(180deg, #ffffff, #fbe9ec)"
-                tapa="linear-gradient(90deg, #6e3f46, #b98089 45%, #6e3f46)"
+                liquido="linear-gradient(180deg, #ffffff, #eceef1)"
+                tapa="linear-gradient(90deg, #3d3f44, #a5a7ad 45%, #3d3f44)"
               />
               <div style={{ fontSize: 40, fontWeight: 500, marginTop: 40, letterSpacing: 2 }}>{p.ml} ML</div>
               <div style={{ fontSize: 88, fontWeight: 700, lineHeight: 1.05 }}>{p.precio}</div>
@@ -95,9 +93,9 @@ export const Tamanos: React.FC = () => {
         })}
       </AbsoluteFill>
       <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 330 }}>
-        <Pildora texto="¡Pedí el tuyo!" paleta={rosaPerfume} desde={40} />
+        <Pildora texto="¡Pedí el tuyo!" paleta={gris} desde={40} />
       </AbsoluteFill>
-      <Pie paleta={rosaPerfume} desde={44} />
+      <Pie paleta={gris} desde={44} />
     </AbsoluteFill>
   );
 };
@@ -106,7 +104,7 @@ export const Fragancia: React.FC<{ producto: Producto }> = ({ producto }) => {
   const { paleta } = producto;
   return (
     <AbsoluteFill>
-      <Fondo paleta={paleta} imagenes={[producto]} />
+      <Fondo paleta={paleta} />
       <LogoArriba />
       <Encabezado
         etiqueta={`Decant original · ${producto.marca}`}
@@ -114,7 +112,7 @@ export const Fragancia: React.FC<{ producto: Producto }> = ({ producto }) => {
         subtitulo={producto.publico}
         tamano={producto.nombre.length > 10 ? 90 : 116}
       />
-      <ProductoCentral imagen={producto.imagen} proporcion={producto.proporcion} alto={640} top={640} />
+      <FotoCentral imagen={producto.imagen} proporcion={producto.proporcion} ancho={720} top={620} />
       <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 450 }}>
         <Aparecer desde={18}>
           <div style={{ display: "flex", alignItems: "center", gap: 44, fontFamily: fuente, color: BLANCO, textAlign: "center" }}>
@@ -138,18 +136,18 @@ export const Fragancia: React.FC<{ producto: Producto }> = ({ producto }) => {
 
 export const Cierre: React.FC = () => (
   <AbsoluteFill>
-    <Fondo paleta={rosaPerfume} imagenes={todas} />
+    <Fondo paleta={gris} />
     <LogoArriba />
     <Encabezado etiqueta="Remate de decants" titulo="¡Y muchos más!" tamano={120} subtitulo="Hasta agotar stock" />
-    <Abanico top={720} alto={540} />
+    <Abanico top={780} ancho={340} />
     <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 430, fontFamily: fuente, color: BLANCO, textAlign: "center" }}>
       <Aparecer desde={20} style={{ fontSize: 88, fontWeight: 700 }}>
         Desde Gs. 15.000
       </Aparecer>
     </AbsoluteFill>
     <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 330 }}>
-      <Pildora texto="Escribinos por WhatsApp" paleta={rosaPerfume} desde={28} />
+      <Pildora texto="Escribinos por WhatsApp" paleta={gris} desde={28} />
     </AbsoluteFill>
-    <Pie paleta={rosaPerfume} desde={32} />
+    <Pie paleta={gris} desde={32} />
   </AbsoluteFill>
 );

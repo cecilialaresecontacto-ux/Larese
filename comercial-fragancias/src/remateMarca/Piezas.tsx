@@ -7,24 +7,9 @@ const BLANCO = "#ffffff";
 const LOGO_PROPORCION = 612 / 133;
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
-type Imagen = { imagen: string; proporcion: number };
-
-// Copias grandes y desenfocadas en las esquinas: x, y y ancho relativos, giro, desenfoque
-const esquinas = [
-  { x: -0.1, y: 0.05, ancho: 0.32, giro: 18, desenfoque: 10 },
-  { x: 0.74, y: -0.03, ancho: 0.42, giro: -22, desenfoque: 18 },
-  { x: -0.14, y: 0.7, ancho: 0.38, giro: -14, desenfoque: 14 },
-  { x: 0.8, y: 0.8, ancho: 0.3, giro: 25, desenfoque: 9 },
-];
-
-// Fondo de marca: degradado de un color, logo gigante transparente y frascos desenfocados
-export const Fondo: React.FC<{ paleta: Paleta; imagenes: Imagen[]; centroMarca?: number }> = ({
-  paleta,
-  imagenes,
-  centroMarca = 980,
-}) => {
+// Fondo de marca: degradado de un color y el logo gigante transparente
+export const Fondo: React.FC<{ paleta: Paleta; centroMarca?: number }> = ({ paleta, centroMarca = 980 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
   const anchoMarca = 1080 * 1.75;
 
   return (
@@ -45,30 +30,6 @@ export const Fondo: React.FC<{ paleta: Paleta; imagenes: Imagen[]; centroMarca?:
           opacity: 0.14,
         }}
       />
-      {imagenes.length > 0
-        ? esquinas.map((e, i) => {
-            const im = imagenes[i % imagenes.length];
-            const entrada = spring({ frame: frame - i * 3, fps, config: { damping: 200 }, durationInFrames: 30 });
-            const ancho = 1080 * e.ancho;
-            const alto = Math.min(ancho * 1.6, ancho / im.proporcion);
-            return (
-              <Img
-                key={i}
-                src={staticFile(im.imagen)}
-                style={{
-                  position: "absolute",
-                  left: 1080 * e.x + interpolate(entrada, [0, 1], [e.x < 0.5 ? -200 : 200, 0]),
-                  top: 1920 * e.y + Math.sin((frame + i * 20) / 24) * 14,
-                  width: alto * im.proporcion,
-                  height: alto,
-                  filter: `blur(${e.desenfoque}px)`,
-                  opacity: entrada,
-                  transform: `rotate(${-e.giro + Math.sin(frame / 30 + i) * 3}deg)`,
-                }}
-              />
-            );
-          })
-        : null}
     </AbsoluteFill>
   );
 };
@@ -105,47 +66,31 @@ export const Encabezado: React.FC<{ etiqueta?: string; titulo: string; subtitulo
   </AbsoluteFill>
 );
 
-// Producto recortado con sombra suave, que sube y queda flotando
-export const ProductoCentral: React.FC<Imagen & { alto: number; top: number; desde?: number }> = ({
+// Foto del producto como tarjeta redondeada con sombra, que sube y queda flotando
+export const FotoCentral: React.FC<{ imagen: string; proporcion: number; ancho: number; top: number; desde?: number }> = ({
   imagen,
   proporcion,
-  alto,
+  ancho,
   top,
   desde = 4,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const entrada = spring({ frame: frame - desde, fps, config: { damping: 13, mass: 0.8 }, durationInFrames: 36 });
-  const ancho = alto * proporcion;
 
   return (
     <AbsoluteFill style={{ alignItems: "center", top }}>
-      <div
+      <Img
+        src={staticFile(imagen)}
         style={{
-          position: "relative",
           width: ancho,
-          height: alto,
+          height: ancho / proporcion,
+          borderRadius: 48,
+          boxShadow: "0 30px 60px rgba(0, 0, 0, 0.28)",
           opacity: interpolate(entrada, [0, 0.3], [0, 1], clamp),
-          transform: `translateY(${interpolate(entrada, [0, 1], [380, 0])}px) scale(${interpolate(entrada, [0, 1], [0.88, 1])})`,
+          transform: `translateY(${interpolate(entrada, [0, 1], [380, 0]) + Math.sin(frame / 18) * 8}px) scale(${interpolate(entrada, [0, 1], [0.88, 1])})`,
         }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            left: ancho * 0.125,
-            width: ancho * 0.75,
-            bottom: -26,
-            height: 52,
-            borderRadius: "50%",
-            background: "rgba(0, 0, 0, 0.32)",
-            filter: "blur(22px)",
-          }}
-        />
-        <Img
-          src={staticFile(imagen)}
-          style={{ position: "absolute", width: ancho, height: alto, transform: `translateY(${Math.sin(frame / 18) * 10}px)` }}
-        />
-      </div>
+      />
     </AbsoluteFill>
   );
 };

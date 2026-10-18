@@ -64,7 +64,7 @@ npx remotion render FlyersDecants out/flyers-decants.mp4             # video
 ## Remate con el estilo de marca
 
 `RemateLarese` (1080×1920, ~20 s): el anuncio del remate de decants rehecho con el
-estilo del skill de anuncios de Larese (Poppins centrada, fondo del color del frasco,
+estilo del skill de anuncios de Larese (Poppins centrada, fondo del color del frasco o gris si es negro, fotos originales,
 logo "larese STORE" gigante de fondo, píldora y pie con WhatsApp y envíos).
 
 ```console

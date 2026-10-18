@@ -1,6 +1,5 @@
 // Colores y datos de marca, calculados con las reglas del skill de anuncios de Larese:
-// el fondo sale del color del frasco y, si el frasco es negro o plateado, se usa el
-// rosa empolvado de la categoría perfume.
+// el fondo sale del color del frasco y, si el frasco es negro, va gris.
 export type Paleta = {
   color: string;
   oscuro: string;
@@ -8,7 +7,7 @@ export type Paleta = {
   borde: string;
 };
 
-export const rosaPerfume: Paleta = { color: "#ce8690", oscuro: "#955a62", centro: "#df9fa8", borde: "#bc7a83" };
+export const gris: Paleta = { color: "#8c8e94", oscuro: "#52545b", centro: "#a5a5a5", borde: "#7b7c82" };
 
 export const WHATSAPP = "0972 736 002";
 export const ENVIOS = "Envíos a todo Paraguay";
@@ -23,8 +22,9 @@ export type Producto = {
   marca: string;
   nombre: string;
   publico: string;
+  // Foto original del producto, con su fondo blanco
   imagen: string;
-  // Proporción ancho / alto del recorte sin fondo
+  // Proporción ancho / alto de la foto
   proporcion: number;
   paleta: Paleta;
 };
@@ -35,17 +35,17 @@ export const productos: Producto[] = [
     marca: "Lattafa",
     nombre: "Asad",
     publico: "Para él",
-    imagen: "flyer/asad.png",
-    proporcion: 482 / 1100,
-    paleta: { color: "#ac9d74", oscuro: "#736848", centro: "#bdb08b", borde: "#9a8c67" },
+    imagen: "remate/asad.jpg",
+    proporcion: 908 / 854,
+    paleta: gris,
   },
   {
     id: "yara",
     marca: "Lattafa",
     nombre: "Yara",
     publico: "Para ella",
-    imagen: "flyer/yara.png",
-    proporcion: 450 / 1100,
+    imagen: "remate/yara.jpg",
+    proporcion: 991 / 954,
     paleta: { color: "#bc8792", oscuro: "#835861", centro: "#cda0a9", borde: "#aa7a84" },
   },
   {
@@ -53,17 +53,17 @@ export const productos: Producto[] = [
     marca: "Lattafa",
     nombre: "Fakhar Black",
     publico: "Para él",
-    imagen: "flyer/fakhar-black.png",
-    proporcion: 595 / 1100,
-    paleta: rosaPerfume,
+    imagen: "remate/fakhar-black.jpg",
+    proporcion: 481 / 440,
+    paleta: gris,
   },
   {
     id: "fakhar-gold",
     marca: "Lattafa",
     nombre: "Fakhar Gold",
     publico: "Para ella",
-    imagen: "flyer/fakhar-gold.png",
-    proporcion: 564 / 1100,
+    imagen: "remate/fakhar-gold.jpg",
+    proporcion: 476 / 462,
     paleta: { color: "#ac967b", oscuro: "#73624d", centro: "#bdaa93", borde: "#9a866e" },
   },
   {
@@ -71,8 +71,8 @@ export const productos: Producto[] = [
     marca: "Al Wataniah",
     nombre: "Attar Al Wesal",
     publico: "Para él",
-    imagen: "flyer/attar-al-wesal.png",
-    proporcion: 486 / 1100,
-    paleta: rosaPerfume,
+    imagen: "remate/attar-al-wesal.jpg",
+    proporcion: 478 / 432,
+    paleta: gris,
   },
 ];
