@@ -21,6 +21,20 @@ npx remotion render Comercial out/comercial-fragancias.mp4  # exporta el MP4
 - **Logo y colores de la marca:** `public/marca/` y `src/marca.ts`.
 - **Tipografía (Poppins):** `public/fuentes/` y `src/fuentes.ts`.
 
+## Remate de decants
+
+Segunda composición, `RemateDecants` (1080×1920, ~20 s): intro "Remate de decants",
+precios (5 ml Gs. 15.000 · 10 ml Gs. 20.000), una escena por fragancia y cierre
+"¡Hasta agotar stock!" con el logo de Larese Store.
+
+```console
+npx remotion render RemateDecants out/remate-decants.mp4
+```
+
+- **Fragancias y precios:** `src/remate/datos.ts`.
+- **Fotos:** `public/remate/`.
+- **Usuario y texto del botón final:** `propsRemate` en `src/Root.tsx`.
+
 ## Licencia
 
 Remotion requiere licencia de empresa para algunas organizaciones.
