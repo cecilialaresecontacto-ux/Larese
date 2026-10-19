@@ -4,7 +4,7 @@ import { AnuncioLarese, AnuncioProps, DURACION_ANUNCIO } from "./anuncio/Anuncio
 import { flyers } from "./flyer/datos";
 import { Flyer } from "./flyer/Flyer";
 import { DURACION_FLYER, DURACION_FLYERS, FlyersDecants } from "./flyer/FlyersDecants";
-import { HistoriaDecants, slidesDecants } from "./decants/PorQueDecants";
+import { HistoriaDecants, HistoriaDecantsSinMarcas, slidesDecants, slidesDecantsSinMarcas } from "./decants/PorQueDecants";
 import { AnuncioCoco } from "./anuncioMeta/AnuncioCoco";
 import { slidesCarrusel } from "./remateMarca/Carrusel";
 import { DURACION_REMATE_LARESE, RemateLarese } from "./remateMarca/RemateLarese";
@@ -92,6 +92,25 @@ export const RemotionRoot: React.FC = () => {
           height={1350}
         />
       ))}
+      {slidesDecantsSinMarcas.map((slide, i) => (
+        <Composition
+          key={`dsm-${i}`}
+          id={`DecantsSinMarcas-${i + 1}`}
+          component={slide}
+          durationInFrames={90}
+          fps={30}
+          width={1080}
+          height={1350}
+        />
+      ))}
+      <Composition
+        id="DecantsSinMarcas-historia"
+        component={HistoriaDecantsSinMarcas}
+        durationInFrames={90}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="Decants-historia"
         component={HistoriaDecants}

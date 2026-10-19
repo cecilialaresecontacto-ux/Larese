@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Aparecer } from "../componentes/Aparecer";
 import { fuente } from "../fuentes";
@@ -24,10 +25,41 @@ const vialBlanco = {
   tapa: "linear-gradient(90deg, #6e3f46, #b98089 45%, #6e3f46)",
 };
 
+// Versión sin marcas: sin fotos ni nombres de otras marcas, para que Meta no la rechace por propiedad intelectual
+const SinMarcas = createContext(false);
+
+// Tres frasquitos de decant, en lugar de las fotos de marcas
+const Viales: React.FC<{ top: number; alto: number }> = ({ top, alto }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <AbsoluteFill style={{ top, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", gap: alto * 0.28 }}>
+      {[0.72, 1, 0.84].map((escala, i) => {
+        const entrada = spring({ frame: frame - 6 - i * 3, fps, config: { damping: 13, mass: 0.7 }, durationInFrames: 34 });
+        return (
+          <div
+            key={i}
+            style={{
+              marginTop: alto * (1 - escala),
+              opacity: interpolate(entrada, [0, 0.3], [0, 1], clamp),
+              transform: `translateY(${interpolate(entrada, [0, 1], [300, 0])}px)`,
+            }}
+          >
+            <Decant alto={alto * escala} llenado={interpolate(frame, [16 + i * 5, 52 + i * 5], [0, 1], clamp)} {...vialBlanco} />
+          </div>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
 // Fotos originales como tarjetas en abanico
 const Tarjetas: React.FC<{ top: number; alto: number; separacion: number }> = ({ top, alto, separacion }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  if (useContext(SinMarcas)) {
+    return <Viales top={top} alto={alto} />;
+  }
   return (
     <AbsoluteFill style={{ top }}>
       {fotos.map((f, i) => {
@@ -115,19 +147,22 @@ const Razon1: React.FC = () => {
   );
 };
 
-const Razon2: React.FC = () => (
-  <Slide etiqueta="Razón 02" titulo="Pagás mucho menos" tamano={78} cta="¡Pedí el tuyo!">
-    <Texto top={350}>Perfumes de lujo 100% originales, sin gastar de una el precio de un frasco completo.</Texto>
-    <AbsoluteFill style={{ top: 640, alignItems: "center", textAlign: "center", fontFamily: fuente, color: BLANCO }}>
-      <Aparecer desde={20} style={{ fontSize: 30, fontWeight: 500, letterSpacing: 2 }}>
-        POR EJEMPLO, VERSACE BRIGHT CRYSTAL 5 ML
-      </Aparecer>
-      <Aparecer desde={24} style={{ fontSize: 120, fontWeight: 700, lineHeight: 1.1, marginTop: 10 }}>
-        Gs. 45.000
-      </Aparecer>
-    </AbsoluteFill>
-  </Slide>
-);
+const Razon2: React.FC = () => {
+  const sinMarcas = useContext(SinMarcas);
+  return (
+    <Slide etiqueta="Razón 02" titulo="Pagás mucho menos" tamano={78} cta="¡Pedí el tuyo!">
+      <Texto top={350}>Perfumes de lujo 100% originales, sin gastar de una el precio de un frasco completo.</Texto>
+      <AbsoluteFill style={{ top: 640, alignItems: "center", textAlign: "center", fontFamily: fuente, color: BLANCO }}>
+        <Aparecer desde={20} style={{ fontSize: 30, fontWeight: 500, letterSpacing: 2 }}>
+          {sinMarcas ? "DECANTS DE 5 Y 10 ML" : "POR EJEMPLO, VERSACE BRIGHT CRYSTAL 5 ML"}
+        </Aparecer>
+        <Aparecer desde={24} style={{ fontSize: sinMarcas ? 96 : 120, fontWeight: 700, lineHeight: 1.1, marginTop: 10 }}>
+          {sinMarcas ? "Una fracción del precio" : "Gs. 45.000"}
+        </Aparecer>
+      </AbsoluteFill>
+    </Slide>
+  );
+};
 
 const Razon3: React.FC = () => (
   <Slide etiqueta="Razón 03" titulo="Armá tu colección" tamano={78} cta="¡Pedí el tuyo!">
@@ -162,10 +197,16 @@ const Razon5: React.FC = () => (
     <AbsoluteFill style={{ top: 700, alignItems: "center" }}>
       <Aparecer desde={20}>
         <div style={{ position: "relative" }}>
-          <Img
-            src={staticFile("decants/coco-mademoiselle.jpg")}
-            style={{ width: 360, height: 360, borderRadius: 32, boxShadow: "0 24px 50px rgba(0, 0, 0, 0.25)" }}
-          />
+          {useContext(SinMarcas) ? (
+            <div style={{ width: 360, height: 360, display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Decant alto={340} llenado={1} {...vialBlanco} />
+            </div>
+          ) : (
+            <Img
+              src={staticFile("decants/coco-mademoiselle.jpg")}
+              style={{ width: 360, height: 360, borderRadius: 32, boxShadow: "0 24px 50px rgba(0, 0, 0, 0.25)" }}
+            />
+          )}
           <div
             style={{
               position: "absolute",
@@ -205,6 +246,15 @@ const Cierre: React.FC = () => (
 
 export const slidesDecants: React.FC[] = [Portada, Razon1, Razon2, Razon3, Razon4, Razon5, Cierre];
 
+export const slidesDecantsSinMarcas: React.FC[] = slidesDecants.map((S) => {
+  const SinMarca: React.FC = () => (
+    <SinMarcas.Provider value>
+      <S />
+    </SinMarcas.Provider>
+  );
+  return SinMarca;
+});
+
 const razones = [
   "Lo probás en tu piel antes de comprar el frasco",
   "Pagás mucho menos por un perfume de lujo",
@@ -218,6 +268,12 @@ const Check: React.FC = () => (
     <circle cx={23} cy={23} r={23} fill={BLANCO} />
     <path d="M13 24 L20 31 L33 16" fill="none" stroke={rosa.oscuro} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
+);
+
+export const HistoriaDecantsSinMarcas: React.FC = () => (
+  <SinMarcas.Provider value>
+    <HistoriaDecants />
+  </SinMarcas.Provider>
 );
 
 // Historia con las cinco razones en lista
