@@ -4,6 +4,7 @@ import { AnuncioLarese, AnuncioProps, DURACION_ANUNCIO } from "./anuncio/Anuncio
 import { flyers } from "./flyer/datos";
 import { Flyer } from "./flyer/Flyer";
 import { DURACION_FLYER, DURACION_FLYERS, FlyersDecants } from "./flyer/FlyersDecants";
+import { AnuncioCoco } from "./anuncioMeta/AnuncioCoco";
 import { slidesCarrusel } from "./remateMarca/Carrusel";
 import { DURACION_REMATE_LARESE, RemateLarese } from "./remateMarca/RemateLarese";
 import { DURACION_REMATE, RemateDecants, RemateProps } from "./remate/RemateDecants";
@@ -60,6 +61,24 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="MetaCoco-post"
+        component={AnuncioCoco}
+        durationInFrames={90}
+        fps={30}
+        width={1080}
+        height={1350}
+        defaultProps={{ formato: "post" as const }}
+      />
+      <Composition
+        id="MetaCoco-historia"
+        component={AnuncioCoco}
+        durationInFrames={90}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ formato: "historia" as const }}
       />
       {slidesCarrusel.map((slide, i) => (
         <Composition
