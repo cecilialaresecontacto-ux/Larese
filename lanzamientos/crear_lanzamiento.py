@@ -13,6 +13,7 @@ Spec (JSON):
 {
   "marca": "YVES SAINT LAURENT",          # arriba, en texto
   "marca_logo": "logo-ysl-mascara.png",   # opcional: logo de la marca (máscara gris) en lugar del texto
+  "marca_logo_escala": 0.8,               # opcional: achica o agranda ese logo
   "nombre": "Y Iced Cologne",             # grande, abajo del frasco
   "detalle": "Eau de Toilette Intense · 60 ml",
   "imagen": "foto.jpg",                    # ideal: fondo blanco liso
@@ -127,7 +128,7 @@ def armar(SPEC, formato):
     # marca del perfume arriba (en texto, sin logo oficial)
     if SPEC.get("marca_logo"):  # máscara en escala de grises del logo de la marca
         ml = Image.open(SPEC["marca_logo"]).convert("L")
-        ancho = M["marca_t"] * 10.4
+        ancho = M["marca_t"] * 10.4 * SPEC.get("marca_logo_escala", 1.0)
         ml = ml.resize((int(ancho), int(ml.height * ancho / ml.width)), Image.LANCZOS)
         img.alpha_composite(capa_color(ml, TEXTO), (int(cx - ml.width / 2), M["marca_y"] - 8))
         yl = None  # con logo no va la rayita
