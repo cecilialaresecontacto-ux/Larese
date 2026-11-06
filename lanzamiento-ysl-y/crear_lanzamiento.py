@@ -6,9 +6,21 @@ Marca del perfume arriba, frasco grande al centro con reflejo, sello circular
 con texto alrededor del isotipo "la", y abajo "Disponible en" + logo larese STORE.
 
 Uso:
-    python3 crear_lanzamiento.py post salida.png
-    python3 crear_lanzamiento.py historia salida.png
+    python3 crear_lanzamiento.py spec.json post salida.png
+    python3 crear_lanzamiento.py spec.json historia salida.png
+
+Spec (JSON):
+{
+  "marca": "YVES SAINT LAURENT",          # arriba, en texto (nunca el logo oficial)
+  "nombre": "Y Iced Cologne",             # grande, abajo del frasco
+  "detalle": "Eau de Toilette Intense · 60 ml",
+  "imagen": "foto.jpg",                    # ideal: fondo blanco liso
+  "sello": "LANZAMIENTO",                  # texto alrededor del isotipo
+  "sello_rel": [0.98, 0.42],               # opcional: centro del sello relativo al producto (x, y)
+  "pie": "WhatsApp 0972 736 002  ·  Envíos a todo Paraguay"
+}
 """
+import json
 import math
 import os
 import sys
@@ -24,14 +36,7 @@ from crear_pieza import (  # noqa: E402
 
 ISOTIPO = os.path.join(AQUI, "..", "comercial-fragancias", "public", "marca", "isotipo-negro.png")
 
-SPEC = {
-    "marca": "YVES SAINT LAURENT",
-    "nombre": "Y",
-    "detalle": "Eau de Parfum · 100 ml",
-    "imagen": os.path.join(AQUI, "y-edp.jpg"),
-    "sello": "100% ORIGINAL",
-    "pie": "WhatsApp 0972 736 002  ·  Envíos a todo Paraguay",
-}
+PIE = "WhatsApp 0972 736 002  ·  Envíos a todo Paraguay"
 
 MEDIDAS = {
     "post": dict(size=(1080, 1350), marca_y=70, marca_t=46, prod=(185, 925), sello=(835, 440, 118),
@@ -75,10 +80,10 @@ def sello(img, cx, cy, R, texto):
     img.alpha_composite(iso, (int(cx - iso.width / 2), int(cy - iso.height / 2)))
 
 
-def producto_con_reflejo(img, prod, x0, y0, y1):
+def producto_con_reflejo(img, prod, x0, y0, y1, ancho_max):
     """Frasco escalado al alto disponible, centrado en x, con reflejo suave abajo."""
-    alto = int((y1 - y0) * 0.78)
-    esc = alto / prod.height
+    esc = min((y1 - y0) * 0.78 / prod.height, ancho_max / prod.width)
+    alto = int(prod.height * esc)
     p = prod.resize((int(prod.width * esc), alto), Image.LANCZOS)
     p = p.filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=2))
     px = int(x0 - p.width / 2)
@@ -104,7 +109,7 @@ def producto_con_reflejo(img, prod, x0, y0, y1):
     return px, y0, px + p.width, base
 
 
-def armar(formato):
+def armar(SPEC, formato):
     M = MEDIDAS[formato]
     w, h = M["size"]
     img = Image.new("RGBA", (w, h), FONDO + (255,))
@@ -134,15 +139,21 @@ def armar(formato):
     prod, ok = cargar_producto(SPEC["imagen"])
     if not ok:
         raise SystemExit("No se pudo recortar la foto del producto")
-    producto_con_reflejo(img, prod, cx, y0, y1)
+    bx0, by0, bx1, by1 = producto_con_reflejo(img, prod, cx, y0, y1, w * 0.80)
 
     sx, sy, sr = M["sello"]
+    if SPEC.get("sello_rel"):
+        rx, ry = SPEC["sello_rel"]
+        sx, sy = bx0 + (bx1 - bx0) * rx, by0 + (by1 - by0) * ry
+        sx = min(sx, w - sr - 30)
     sello(img, sx, sy, sr, SPEC["sello"])
 
     # nombre del perfume
     d = ImageDraw.Draw(img)
     y = M["nombre_y"]
     fn = fuente(64, "Bold")
+    while ancho_txt(d, SPEC["nombre"].upper(), fn, 6) > w - 140:
+        fn = fuente(fn.size - 4, "Bold")
     txt(d, cx, y, SPEC["nombre"].upper(), fn, TEXTO, esp=6)
     y += alto_linea(fn, 0.95)
     fd = fuente(28, "Medium")
@@ -166,13 +177,18 @@ def armar(formato):
     fp = fuente(24, "Medium")
     d = ImageDraw.Draw(img)
     d.line((cx - 260, M["pie_y"] - 26, cx + 260, M["pie_y"] - 26), fill=(225, 225, 225), width=2)
-    txt(d, cx, M["pie_y"], SPEC["pie"], fp, GRIS)
+    txt(d, cx, M["pie_y"], SPEC.get("pie", PIE), fp, GRIS)
     return img.convert("RGB")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3 or sys.argv[1] not in MEDIDAS:
+    if len(sys.argv) != 4 or sys.argv[2] not in MEDIDAS:
         print(__doc__)
         sys.exit(1)
-    armar(sys.argv[1]).save(sys.argv[2], "PNG")
-    print(sys.argv[2])
+    ruta_spec = os.path.abspath(sys.argv[1])
+    with open(ruta_spec, encoding="utf-8") as fh:
+        spec = json.load(fh)
+    if not os.path.isabs(spec["imagen"]):
+        spec["imagen"] = os.path.join(os.path.dirname(ruta_spec), spec["imagen"])
+    armar(spec, sys.argv[2]).save(sys.argv[3], "PNG")
+    print(sys.argv[3])
