@@ -11,7 +11,8 @@ Uso:
 
 Spec (JSON):
 {
-  "marca": "YVES SAINT LAURENT",          # arriba, en texto (nunca el logo oficial)
+  "marca": "YVES SAINT LAURENT",          # arriba, en texto
+  "marca_logo": "logo-ysl-mascara.png",   # opcional: logo de la marca (máscara gris) en lugar del texto
   "nombre": "Y Iced Cologne",             # grande, abajo del frasco
   "detalle": "Eau de Toilette Intense · 60 ml",
   "imagen": "foto.jpg",                    # ideal: fondo blanco liso
@@ -124,12 +125,20 @@ def armar(SPEC, formato):
     img.alpha_composite(capa_color(banda.filter(ImageFilter.GaussianBlur(3)), (0, 0, 0), 0.10))
 
     # marca del perfume arriba (en texto, sin logo oficial)
-    fm = fuente(M["marca_t"], "Medium")
-    esp = M["marca_t"] * 0.32
-    txt(d, cx, M["marca_y"], SPEC["marca"], fm, TEXTO, esp=esp)
-    yl = M["marca_y"] + alto_linea(fm) + 22
-    lw = 60
-    d.line((cx - lw / 2, yl, cx + lw / 2, yl), fill=TEXTO, width=2)
+    if SPEC.get("marca_logo"):  # máscara en escala de grises del logo de la marca
+        ml = Image.open(SPEC["marca_logo"]).convert("L")
+        ancho = M["marca_t"] * 10.4
+        ml = ml.resize((int(ancho), int(ml.height * ancho / ml.width)), Image.LANCZOS)
+        img.alpha_composite(capa_color(ml, TEXTO), (int(cx - ml.width / 2), M["marca_y"] - 8))
+        yl = None  # con logo no va la rayita
+    else:
+        fm = fuente(M["marca_t"], "Medium")
+        esp = M["marca_t"] * 0.32
+        txt(d, cx, M["marca_y"], SPEC["marca"], fm, TEXTO, esp=esp)
+        yl = M["marca_y"] + alto_linea(fm) + 22
+    if yl is not None:
+        lw = 60
+        d.line((cx - lw / 2, yl, cx + lw / 2, yl), fill=TEXTO, width=2)
 
     # marca de agua "la" gigante detrás del frasco
     m = logo_mascara("monograma", w * 0.95)
@@ -188,7 +197,8 @@ if __name__ == "__main__":
     ruta_spec = os.path.abspath(sys.argv[1])
     with open(ruta_spec, encoding="utf-8") as fh:
         spec = json.load(fh)
-    if not os.path.isabs(spec["imagen"]):
-        spec["imagen"] = os.path.join(os.path.dirname(ruta_spec), spec["imagen"])
+    for k in ("imagen", "marca_logo"):
+        if spec.get(k) and not os.path.isabs(spec[k]):
+            spec[k] = os.path.join(os.path.dirname(ruta_spec), spec[k])
     armar(spec, sys.argv[2]).save(sys.argv[3], "PNG")
     print(sys.argv[3])
