@@ -155,7 +155,7 @@ def armar(SPEC, formato):
     if SPEC.get("sello_rel"):
         rx, ry = SPEC["sello_rel"]
         sx, sy = bx0 + (bx1 - bx0) * rx, by0 + (by1 - by0) * ry
-        sx = min(sx, w - sr - 30)
+        sx = max(sr + 30, min(sx, w - sr - 30))
     sello(img, sx, sy, sr, SPEC["sello"])
 
     # nombre del perfume
