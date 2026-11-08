@@ -31,8 +31,8 @@ function vial(W,H,liq1,liq2,ml,id){
  <!-- vidrio -->
  <rect x="${bx}" y="${by}" width="${bw}" height="${bodyH}" rx="${W*0.13}" fill="url(#g${id})" stroke="#bfc4ca" stroke-width="2"/>
  <!-- logo impreso en vertical -->
- <g transform="translate(${cx-bw*0.19} ${by+bodyH*0.78}) rotate(-90)"><image href="../../comercial-fragancias/public/marca/logo-negro.png" width="${bw*1.45}" height="${bw*1.45*322/1200}"/></g>
- <text x="${cx}" y="${by+bodyH*0.90}" text-anchor="middle" font-family="Arial" font-weight="700" font-size="${bw*0.17}" fill="#161616" letter-spacing="1">${ml}</text>
+ <g transform="translate(${cx-bw*0.19} ${by+bodyH*0.76}) rotate(-90)"><image href="../../comercial-fragancias/public/marca/logo-negro.png" width="${bw*1.45}" height="${bw*1.45*322/1200}"/></g>
+ <text x="${cx}" y="${by+bodyH*0.93}" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="${bw*0.27}" fill="#161616" letter-spacing="0">${ml}</text>
  </svg>`;
  const d=document.createElement('div');d.innerHTML=s;document.getElementById('escena').appendChild(d.firstElementChild);
 }
