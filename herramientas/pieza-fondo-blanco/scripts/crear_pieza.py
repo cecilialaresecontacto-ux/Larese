@@ -22,6 +22,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "precio": 40000,                        # número en guaraníes -> "Gs. 40.000"
   "precio_prefijo": "Desde",              # opcional
   "precio_anterior": 50000,               # opcional, se muestra tachado
+  "precio_anterior_texto": "Precio normal",  # opcional, rótulo sin tachar antes del precio anterior
   "descuento": "-20%",                    # opcional, sello blanco
   "imagen": "producto.png",               # foto del producto (ideal: fondo blanco o PNG recortado)
   "elementos": ["flor.png"],              # opcional: imágenes extra para las esquinas desenfocadas
@@ -390,9 +391,15 @@ def precio(img, cx, y, spec, tam):
         f2 = fuente(tam * 0.46, b"Medium")
         w2 = d.textlength(anterior, font=f2)
         claro = (120, 120, 120, 255)
-        d.text((cx - w2 / 2, y), anterior, font=f2, fill=claro)
+        # "precio_anterior_texto": rótulo sin tachar antes del número (ej. "Precio normal aprox.")
+        rotulo = (spec.get("precio_anterior_texto") or "").strip()
+        wr = d.textlength(rotulo + "  ", font=f2) if rotulo else 0
+        x0 = cx - (wr + w2) / 2
+        if rotulo:
+            d.text((x0, y), rotulo, font=f2, fill=claro)
+        d.text((x0 + wr, y), anterior, font=f2, fill=claro)
         a, _ = f2.getmetrics()
-        d.line((cx - w2 / 2 - 4, y + a * 0.62, cx + w2 / 2 + 4, y + a * 0.62), fill=claro, width=3)
+        d.line((x0 + wr - (2 if rotulo else 4), y + a * 0.62, x0 + wr + w2 + 4, y + a * 0.62), fill=claro, width=3)
         y += alto_linea(f2, 1.05)
     if actual:
         f = fuente(tam, b"Bold")
