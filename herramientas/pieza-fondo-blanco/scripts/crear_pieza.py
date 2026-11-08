@@ -18,6 +18,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "etiqueta": "Decant original",          # línea chica arriba del título
   "titulo": "Good Girl Blush",            # grande, va en mayúsculas
   "subtitulo": "Carolina Herrera · 3, 5 y 10 ml",
+  "subtitulo_destacado": true,            # opcional: subtítulo más grande, en negrita y negro
   "precio": 40000,                        # número en guaraníes -> "Gs. 40.000"
   "precio_prefijo": "Desde",              # opcional
   "precio_anterior": 50000,               # opcional, se muestra tachado
@@ -448,7 +449,10 @@ def armar(spec):
     arriba += alto_linea(ft, 0.86) * len(lt)
     fs, ls = None, []
     if spec.get("subtitulo"):
-        fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), M["sub"], M["sub"] * 0.7, w - 180, 2, b"Medium", 0.04)
+        # "subtitulo_destacado": el subtítulo sale más grande, en negrita y en negro
+        tam_sub = M["sub"] * (1.7 if spec.get("subtitulo_destacado") else 1)
+        peso_sub = b"Bold" if spec.get("subtitulo_destacado") else b"Medium"
+        fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), int(tam_sub), tam_sub * 0.7, w - 180, 2, peso_sub, 0.04)
         arriba += alto_linea(fs, 1.15) * len(ls) + 6
 
     # --- bloque de abajo (medición) ---
@@ -501,7 +505,7 @@ def armar(spec):
     if ls:
         y += 6
         for l in ls:
-            txt(d, cx, y, l, fs, GRIS, esp=M["sub"] * 0.04)
+            txt(d, cx, y, l, fs, TEXTO if spec.get("subtitulo_destacado") else GRIS, esp=M["sub"] * 0.04)
             y += alto_linea(fs, 1.15)
 
     # --- bloque de abajo ---
