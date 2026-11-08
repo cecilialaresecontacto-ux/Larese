@@ -139,8 +139,11 @@ def txt(d, cx, y, t, f, color=TEXTO, esp=0):
 
 
 def envolver(d, t, f, maxw, esp=0):
+    # Solo corta en espacios comunes: un espacio duro (\u00a0) mantiene juntas dos palabras
     lineas, act = [], ""
-    for p in t.split():
+    for p in t.split(" "):
+        if not p:
+            continue
         prueba = (act + " " + p).strip()
         if ancho_txt(d, prueba, f, esp) <= maxw:
             act = prueba
