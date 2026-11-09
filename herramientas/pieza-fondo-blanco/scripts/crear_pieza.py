@@ -57,6 +57,7 @@ TEXTO = (9, 49, 141)       # Deep Blue #09318D
 GRIS = (84, 104, 160)      # Deep Blue suavizado, para textos secundarios
 ACENTO = (9, 49, 141)      # Deep Blue
 ROSA = (238, 210, 226)     # Ballerina #EED2E2
+NEGRO = (22, 22, 22)       # títulos, precio y textos del pie
 
 TAMANOS = {
     "post": (1080, 1350),
@@ -374,7 +375,7 @@ def pie(img, y, tam, color_circulo):
     for (ic, t), aw in zip(items, anchos):
         d.ellipse((x, cy - r, x + 2 * r, cy + r), fill=color_circulo)
         (icono_chat if ic == "chat" else icono_camion)(d, x + r, cy, r * 0.82)
-        d.text((x + 2 * r + tam * 0.6, cy - alto_linea(f) / 2 - tam * 0.05), t, font=f, fill=TEXTO)
+        d.text((x + 2 * r + tam * 0.6, cy - alto_linea(f) / 2 - tam * 0.05), t, font=f, fill=NEGRO)
         x += aw + sep
 
 
@@ -394,7 +395,7 @@ def precio(img, cx, y, spec, tam):
         y += alto_linea(f2, 1.05)
     if actual:
         f = fuente(tam, b"Bold")
-        txt(ImageDraw.Draw(img), cx, y, actual, f)
+        txt(ImageDraw.Draw(img), cx, y, actual, f, NEGRO)
         y += alto_linea(f, 1.05)
     return y
 
@@ -505,7 +506,7 @@ def armar(spec):
         txt(d, cx, y, et, fe, TEXTO, esp=esp_e)
         y += alto_linea(fe, 1.05) + M["eti"] * 0.35
     for l in lt:
-        txt(d, cx, y, l, ft, TEXTO, esp=esp_t)
+        txt(d, cx, y, l, ft, NEGRO, esp=esp_t)
         y += alto_linea(ft, 0.86)
     if ls:
         y += 6

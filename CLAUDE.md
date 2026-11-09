@@ -18,7 +18,8 @@ Todas las piezas para redes (posts, historias, carruseles, portadas) van con **f
 
 Sobre el fondo blanco se usan los colores que eligió la dueña:
 
-- **Deep Blue `#09318D`**: logo, títulos, precio, botón e íconos del pie.
+- **Negro**: títulos, precio y textos del pie.
+- **Deep Blue `#09318D`**: logo, subtítulos, botón e íconos del pie.
 - **Ballerina `#EED2E2`**: detalles, como la píldora de la etiqueta y los sellos (texto en Deep Blue encima).
 - **White `#FCFFFF`**: el blanco de la paleta. El fondo se deja en blanco puro.
 
