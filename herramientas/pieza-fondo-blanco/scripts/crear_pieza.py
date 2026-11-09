@@ -27,6 +27,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "color": "#D4848C",                     # opcional: fuerza el color de fondo
   "categoria": "perfume",                 # perfume | joya | maquillaje | cosmetico | electronica
   "cta": "¡Pedí el tuyo!",                # texto del botón
+  "paleta": "tienda",                     # "tienda" (azul y rosa) o "promo" (negro y rojo naranja)
   "gancho": "...",                        # solo portada: frase grande en lugar del título
   "slides": [ {...}, {...} ]              # solo carrusel: un spec de post por slide
 }
@@ -58,6 +59,22 @@ GRIS = (84, 104, 160)      # Deep Blue suavizado, para textos secundarios
 ACENTO = (9, 49, 141)      # Deep Blue
 ROSA = (238, 210, 226)     # Ballerina #EED2E2
 NEGRO = (22, 22, 22)       # títulos, precio y textos del pie
+ETI_TEXTO = TEXTO          # texto sobre la píldora de la etiqueta y el sello
+
+# "tienda" (por defecto): negro + Deep Blue + Ballerina.
+# "promo" (promos, liquidaciones, fechas con urgencia): Matte Black #28282B + Red Orange #FF4200.
+PALETAS = {
+    "tienda": dict(TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
+                   ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(9, 49, 141)),
+    "promo": dict(TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
+                  ROSA=(255, 66, 0), NEGRO=(40, 40, 43), ETI_TEXTO=(255, 255, 255)),
+}
+
+
+def usar_paleta(nombre):
+    if nombre not in PALETAS:
+        raise SystemExit(f"Paleta desconocida: {nombre}. Usá: {', '.join(PALETAS)}")
+    globals().update(PALETAS[nombre])
 
 TAMANOS = {
     "post": (1080, 1350),
@@ -425,6 +442,7 @@ def armar(spec):
     if formato not in TAMANOS:
         raise SystemExit(f"Formato desconocido: {formato}. Usá: {', '.join(list(TAMANOS) + ['carrusel'])}")
     w, h = TAMANOS[formato]
+    usar_paleta(spec.get("paleta", "tienda"))
     M = MEDIDAS[formato]
 
     prod, recortado = cargar_producto(spec.get("imagen"))
@@ -488,7 +506,7 @@ def armar(spec):
     if spec.get("descuento"):
         r = w * (0.105 if formato in ("historia", "portada") else 0.095)
         sx = min(w - r - 44, pcaja[2] + r * 0.5)
-        sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, TEXTO)
+        sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, ETI_TEXTO)
 
     # --- textos de arriba ---
     d = ImageDraw.Draw(img)
@@ -503,7 +521,7 @@ def armar(spec):
         px, py = M["eti"] * 0.9, M["eti"] * 0.38
         d.rounded_rectangle((cx - we / 2 - px, y + bb[1] - py, cx + we / 2 + px, y + bb[3] + py),
                             radius=(bb[3] - bb[1]) / 2 + py, fill=ROSA)
-        txt(d, cx, y, et, fe, TEXTO, esp=esp_e)
+        txt(d, cx, y, et, fe, ETI_TEXTO, esp=esp_e)
         y += alto_linea(fe, 1.05) + M["eti"] * 0.35
     for l in lt:
         txt(d, cx, y, l, ft, NEGRO, esp=esp_t)

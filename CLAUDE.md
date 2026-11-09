@@ -23,4 +23,12 @@ Sobre el fondo blanco se usan los colores que eligió la dueña:
 - **Ballerina `#EED2E2`**: detalles, como la píldora de la etiqueta y los sellos (texto en Deep Blue encima).
 - **White `#FCFFFF`**: el blanco de la paleta. El fondo se deja en blanco puro.
 
-La herramienta `herramientas/pieza-fondo-blanco` ya usa esta paleta.
+Esta es la paleta **de la tienda** y la herramienta `herramientas/pieza-fondo-blanco` la usa por defecto (`"paleta": "tienda"`).
+
+### Paleta de promos
+
+Para promos, liquidaciones y fechas con urgencia (Black Friday, "últimas horas"), la dueña eligió una segunda paleta. Se activa con `"paleta": "promo"` en el spec:
+
+- **Matte Black `#28282B`**: logo, títulos, precio, botón e íconos.
+- **Red Orange `#FF4200`**: píldora de la etiqueta y sellos (texto blanco encima).
+- El fondo sigue siendo blanco puro.
