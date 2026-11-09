@@ -31,4 +31,4 @@ Para promos, liquidaciones y fechas con urgencia (Black Friday, "últimas horas"
 
 - **Matte Black `#28282B`**: logo, títulos, precio, botón e íconos.
 - **Red Orange `#FF4200`**: píldora de la etiqueta y sellos (texto blanco encima).
-- El fondo sigue siendo blanco puro.
+- **Off-White `#F9F9F9`** de fondo: la dueña lo aprobó para la paleta de promos. Es un blanco apenas grisado; la paleta de la tienda sigue en blanco puro.

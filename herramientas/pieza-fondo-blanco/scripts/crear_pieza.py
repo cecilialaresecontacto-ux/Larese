@@ -62,11 +62,12 @@ NEGRO = (22, 22, 22)       # títulos, precio y textos del pie
 ETI_TEXTO = TEXTO          # texto sobre la píldora de la etiqueta y el sello
 
 # "tienda" (por defecto): negro + Deep Blue + Ballerina.
-# "promo" (promos, liquidaciones, fechas con urgencia): Matte Black #28282B + Red Orange #FF4200.
+# "promo" (promos, liquidaciones, fechas con urgencia): Matte Black #28282B + Red Orange #FF4200
+#   sobre Off-White #F9F9F9.
 PALETAS = {
-    "tienda": dict(TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
+    "tienda": dict(FONDO=(255, 255, 255), TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
                    ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(9, 49, 141)),
-    "promo": dict(TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
+    "promo": dict(FONDO=(249, 249, 249), TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
                   ROSA=(255, 66, 0), NEGRO=(40, 40, 43), ETI_TEXTO=(255, 255, 255)),
 }
 
@@ -242,7 +243,7 @@ def color_del_producto(prod):
 # ---------------- capas ----------------
 
 def fondo(w, h, color):
-    if color == FONDO:  # blanco puro, sin degradé
+    if color == FONDO:  # fondo liso de la paleta, sin degradé
         return Image.new("RGBA", (w, h), FONDO + (255,))
     centro = ajustar_color(color, dv=0.07, ds=-0.06)
     borde = ajustar_color(color, dv=-0.07)
