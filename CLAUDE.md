@@ -13,3 +13,13 @@ Todas las piezas para redes (posts, historias, carruseles, portadas) van con **f
 
   El spec es el mismo que el de la skill. Los campos `color` y `categoria` se ignoran, porque el fondo siempre es blanco.
 - Si armás una pieza a mano o con otra herramienta, también va con fondo blanco y textos oscuros.
+
+## Colores de la tienda
+
+Sobre el fondo blanco se usan los colores que eligió la dueña:
+
+- **Deep Blue `#09318D`**: logo, títulos, precio, botón e íconos del pie.
+- **Ballerina `#EED2E2`**: detalles, como la píldora de la etiqueta y los sellos (texto en Deep Blue encima).
+- **White `#FCFFFF`**: el blanco de la paleta. El fondo se deja en blanco puro.
+
+La herramienta `herramientas/pieza-fondo-blanco` ya usa esta paleta.

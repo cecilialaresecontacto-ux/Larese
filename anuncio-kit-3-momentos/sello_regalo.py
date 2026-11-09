@@ -7,7 +7,7 @@ ImageDraw.Draw(sh).ellipse((cx-r, cy-r+10, cx+r, cy+r+10), fill=110)
 sh = sh.filter(ImageFilter.GaussianBlur(16))
 img.alpha_composite(Image.merge("RGBA", [Image.new("L", img.size, 0)]*3 + [sh]))
 d = ImageDraw.Draw(img)
-d.ellipse((cx-r, cy-r, cx+r, cy+r), fill=(22,22,22))
+d.ellipse((cx-r, cy-r, cx+r, cy+r), fill=(238,210,226))
 def fit(text, weight, max_w, start):
     s = start
     while True:
@@ -24,6 +24,6 @@ total = sum(hs) + gap*2
 y = cy - total/2
 for (t, f), h in zip(lines, hs):
     bb = f.getbbox(t)
-    d.text((cx - d.textlength(t, font=f)/2, y - bb[1]), t, font=f, fill=(255,255,255))
+    d.text((cx - d.textlength(t, font=f)/2, y - bb[1]), t, font=f, fill=(9,49,141))
     y += h + gap
 img.convert("RGB").save(out)
