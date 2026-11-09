@@ -2,7 +2,7 @@
 
 ## Fondo blanco SIEMPRE
 
-Todas las piezas para redes (posts, historias, carruseles, portadas) van con **fondo blanco puro**, sin excepción. La dueña lo pidió así.
+Todas las piezas para redes (posts, historias, carruseles, portadas) van con **fondo Off-White `#F9F9F9`** (un blanco apenas grisado), sin excepción. La dueña lo pidió así: primero pidió blanco puro y después eligió este Off-White para todas las piezas.
 
 - No uses el script de la skill `larese-anuncios` tal cual: arma el fondo con el color del producto y el texto en blanco.
 - Usá la versión de fondo blanco del repo, que tiene el mismo estilo pero con texto negro y grises:
@@ -21,7 +21,7 @@ Sobre el fondo blanco se usan los colores que eligió la dueña:
 - **Negro**: títulos, precio y textos del pie.
 - **Deep Blue `#09318D`**: logo, subtítulos, botón e íconos del pie.
 - **Ballerina `#EED2E2`**: detalles, como la píldora de la etiqueta y los sellos (texto en Deep Blue encima).
-- **White `#FCFFFF`**: el blanco de la paleta. El fondo se deja en blanco puro.
+- **Off-White `#F9F9F9`**: el fondo de todas las piezas.
 
 Esta es la paleta **de la tienda** y la herramienta `herramientas/pieza-fondo-blanco` la usa por defecto (`"paleta": "tienda"`).
 
@@ -31,4 +31,4 @@ Para promos, liquidaciones y fechas con urgencia (Black Friday, "últimas horas"
 
 - **Matte Black `#28282B`**: logo, títulos, precio, botón e íconos.
 - **Red Orange `#FF4200`**: píldora de la etiqueta y sellos (texto blanco encima).
-- **Off-White `#F9F9F9`** de fondo: la dueña lo aprobó para la paleta de promos. Es un blanco apenas grisado; la paleta de la tienda sigue en blanco puro.
+- **Off-White `#F9F9F9`** de fondo, igual que la paleta de la tienda.

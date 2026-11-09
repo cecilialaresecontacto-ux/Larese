@@ -53,7 +53,7 @@ ENVIOS = "Envíos a todo Paraguay"
 BLANCO = (255, 255, 255)
 # Fondo SIEMPRE blanco. Paleta de la tienda: Deep Blue #09318D (textos, botón, íconos)
 # y Ballerina #EED2E2 (detalles: etiqueta y sello). Blanco de la paleta: #FCFFFF (se usa blanco puro).
-FONDO = (255, 255, 255)
+FONDO = (249, 249, 249)   # Off-White #F9F9F9
 TEXTO = (9, 49, 141)       # Deep Blue #09318D
 GRIS = (84, 104, 160)      # Deep Blue suavizado, para textos secundarios
 ACENTO = (9, 49, 141)      # Deep Blue
@@ -65,7 +65,7 @@ ETI_TEXTO = TEXTO          # texto sobre la píldora de la etiqueta y el sello
 # "promo" (promos, liquidaciones, fechas con urgencia): Matte Black #28282B + Red Orange #FF4200
 #   sobre Off-White #F9F9F9.
 PALETAS = {
-    "tienda": dict(FONDO=(255, 255, 255), TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
+    "tienda": dict(FONDO=(249, 249, 249), TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
                    ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(9, 49, 141)),
     "promo": dict(FONDO=(249, 249, 249), TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
                   ROSA=(255, 66, 0), NEGRO=(40, 40, 43), ETI_TEXTO=(255, 255, 255)),
