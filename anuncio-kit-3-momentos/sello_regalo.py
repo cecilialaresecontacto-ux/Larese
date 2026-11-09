@@ -1,9 +1,10 @@
 """Sello '+1 decant de 5 ml de REGALO' con REGALO grande.
-Uso: python3 sello_regalo.py entrada.png salida.png cx cy radio carpeta_fuentes [tienda|promo]"""
+Uso: python3 sello_regalo.py entrada.png salida.png cx cy radio carpeta_fuentes [tienda|promo] ["línea 1|línea 2|PALABRA GRANDE"]"""
 import sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 src, out, cx, cy, r, fonts = sys.argv[1], sys.argv[2], float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), sys.argv[6]
 paleta = sys.argv[7] if len(sys.argv) > 7 else "tienda"
+l1, l2, l3 = (sys.argv[8] if len(sys.argv) > 8 else "+1 decant|de 5 ml de|REGALO").split("|")
 FONDO_SELLO, TEXTO_SELLO = {"tienda": ((238, 210, 226), (9, 49, 141)),
                             "promo": ((255, 66, 0), (255, 255, 255))}[paleta]
 img = Image.open(src).convert("RGBA")
@@ -19,10 +20,11 @@ def fit(text, weight, max_w, start):
         f = ImageFont.truetype(f"{fonts}/Poppins-{weight}.ttf", s)
         if d.textlength(text, font=f) <= max_w or s < 10: return f
         s -= 1
-small1 = fit("+1 decant", "SemiBold", r*1.25, int(r*0.23))
-small2 = fit("de 5 ml de", "SemiBold", r*1.35, small1.size)
-big = fit("REGALO", "ExtraBold", r*1.5, int(r*0.5))
-lines = [("+1 decant", small1), ("de 5 ml de", small2), ("REGALO", big)]
+small1 = fit(l1, "SemiBold", r*1.3, int(r*0.23))
+small2 = fit(l2, "SemiBold", r*1.45, small1.size)
+small1 = small2 = min(small1, small2, key=lambda f: f.size)
+big = fit(l3, "ExtraBold", r*1.5, int(r*0.5))
+lines = [(l1, small1), (l2, small2), (l3, big)]
 hs = [f.getbbox(t)[3]-f.getbbox(t)[1] for t, f in lines]
 gap = r*0.08
 y = cy - (sum(hs) + gap*2)/2
