@@ -52,3 +52,9 @@ Precio elegido por la dueña: Gs. 976.300 + 1 decant de 5 ml de regalo (igual a 
 
 ## Estado en Meta (10 de noviembre)
 Todas las campañas de combos están en pausa: Combo 1.035.000 (ex 1.089.000), Combo 999.000, Combo 976.300 (nunca se activó; le falta el anuncio del feed), Kit 3 Momentos. Las imágenes de Meta todavía dicen "Combo Emprendedor"; las del repo dicen "Combo".
+
+## Trío Diseñador Hombre · 3 decants 5 ml · Gs. 180.000
+Acqua di Giò Profondo · Born in Roma Intense · Le Beau Le Parfum (sueltos Gs. 215.000).
+Meta: campaña activa desde el 10 de noviembre con el VIDEO con música (Gs. 30.000 por día).
+Los 2 anuncios de imagen del mismo conjunto quedan en pausa (tienen las fotos viejas).
+Video también en los Archivos de Shopify.
