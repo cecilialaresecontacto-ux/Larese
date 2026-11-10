@@ -1,5 +1,5 @@
 """Sello '+1 decant de 5 ml de REGALO' con REGALO grande.
-Uso: python3 sello_regalo.py entrada.png salida.png cx cy radio carpeta_fuentes [tienda|promo|rosa] ["línea 1|línea 2|PALABRA GRANDE"]"""
+Uso: python3 sello_regalo.py entrada.png salida.png cx cy radio carpeta_fuentes [tienda|promo|rosa|negro] ["línea 1|línea 2|PALABRA GRANDE"]"""
 import sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 src, out, cx, cy, r, fonts = sys.argv[1], sys.argv[2], float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), sys.argv[6]
@@ -7,7 +7,8 @@ paleta = sys.argv[7] if len(sys.argv) > 7 else "tienda"
 l1, l2, l3 = (sys.argv[8] if len(sys.argv) > 8 else "+1 decant|de 5 ml de|REGALO").split("|")
 FONDO_SELLO, TEXTO_SELLO = {"tienda": ((238, 210, 226), (9, 49, 141)),
                             "promo": ((255, 66, 0), (255, 255, 255)),
-                            "rosa": ((238, 210, 226), (22, 22, 22))}[paleta]
+                            "rosa": ((238, 210, 226), (22, 22, 22)),
+                            "negro": ((22, 22, 22), (255, 255, 255))}[paleta]
 img = Image.open(src).convert("RGBA")
 sh = Image.new("L", img.size, 0)
 ImageDraw.Draw(sh).ellipse((cx-r, cy-r+10, cx+r, cy+r+10), fill=110)
