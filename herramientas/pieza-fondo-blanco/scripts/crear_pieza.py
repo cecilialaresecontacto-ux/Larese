@@ -28,7 +28,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "color": "#D4848C",                     # opcional: fuerza el color de fondo
   "categoria": "perfume",                 # perfume | joya | maquillaje | cosmetico | electronica
   "cta": "¡Pedí el tuyo!",                # texto del botón
-  "paleta": "tienda",                     # "tienda" (azul y rosa) o "promo" (negro y rojo naranja)
+  "paleta": "tienda",                     # "tienda" (azul y rosa), "rosa" (negro y rosa) o "promo" (negro y rojo naranja)
   "gancho": "...",                        # solo portada: frase grande en lugar del título
   "slides": [ {...}, {...} ]              # solo carrusel: un spec de post por slide
 }
@@ -70,6 +70,9 @@ PALETAS = {
                    ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(9, 49, 141)),
     "promo": dict(FONDO=(249, 249, 249), TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
                   ROSA=(255, 66, 0), NEGRO=(40, 40, 43), ETI_TEXTO=(255, 255, 255)),
+    # "rosa": la de la tienda sin el azul: negro + Ballerina #EED2E2 sobre Off-White #F9F9F9.
+    "rosa": dict(FONDO=(249, 249, 249), TEXTO=(22, 22, 22), GRIS=(105, 105, 105), ACENTO=(22, 22, 22),
+                 ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(22, 22, 22)),
 }
 
 
