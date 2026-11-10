@@ -45,4 +45,4 @@ Según el anuncio, comprados sueltos al por mayor suman Gs. 1.127.800 (de ahí s
 Se habló de cambiar Club de Nuit y Turathi Brown por Hawas Verde y Odyssey Aqua; el anuncio de Meta NO se cambió.
 Versión nueva (Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Hawas Verde · Odyssey Aqua):
 costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos.
-Precio propuesto Gs. 949.000 + 1 decant de 5 ml de regalo (la dueña aclaró que el decant es de 5 ml): la clienta ahorra Gs. 27.300, ganancia Gs. 87.200 (9,2%). 2 cuotas de Gs. 521.950.
+Precio elegido por la dueña: Gs. 976.300 + 1 decant de 5 ml de regalo (igual a la suma de sus precios). Ganancia Gs. 114.500 (11,7%). 2 cuotas de Gs. 536.965 (total 1.073.930).
