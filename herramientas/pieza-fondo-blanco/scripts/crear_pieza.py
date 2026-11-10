@@ -21,6 +21,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "precio": 40000,                        # número en guaraníes -> "Gs. 40.000"
   "precio_prefijo": "Desde",              # opcional
   "precio_anterior": 50000,               # opcional, se muestra tachado
+  "precio_frase": "Todo esto a tan solo", # opcional, línea chica arriba del precio
   "descuento": "-20%",                    # opcional, sello blanco
   "imagen": "producto.png",               # foto del producto (ideal: fondo blanco o PNG recortado)
   "elementos": ["flor.png"],              # opcional: imágenes extra para las esquinas desenfocadas
@@ -139,7 +140,7 @@ def txt(d, cx, y, t, f, color=TEXTO, esp=0):
 
 def envolver(d, t, f, maxw, esp=0):
     lineas, act = [], ""
-    for p in t.split():
+    for p in [x for x in t.split(" ") if x]:  # el espacio duro (\u00a0) no corta
         prueba = (act + " " + p).strip()
         if ancho_txt(d, prueba, f, esp) <= maxw:
             act = prueba
@@ -390,6 +391,10 @@ def precio(img, cx, y, spec, tam):
         a, _ = f2.getmetrics()
         d.line((cx - w2 / 2 - 4, y + a * 0.62, cx + w2 / 2 + 4, y + a * 0.62), fill=claro, width=3)
         y += alto_linea(f2, 1.05)
+    if spec.get("precio_frase"):
+        f3 = fuente(tam * 0.46, b"Medium")
+        txt(d, cx, y, spec["precio_frase"], f3, GRIS)
+        y += alto_linea(f3, 1.1)
     if actual:
         f = fuente(tam, b"Bold")
         txt(ImageDraw.Draw(img), cx, y, actual, f)
@@ -401,6 +406,8 @@ def alto_precio(spec, tam):
     al = 0
     if spec.get("precio_anterior"):
         al += alto_linea(fuente(tam * 0.46, b"Medium"), 1.05)
+    if spec.get("precio_frase"):
+        al += alto_linea(fuente(tam * 0.46, b"Medium"), 1.1)
     if spec.get("precio"):
         al += alto_linea(fuente(tam, b"Bold"), 1.05)
     return al
