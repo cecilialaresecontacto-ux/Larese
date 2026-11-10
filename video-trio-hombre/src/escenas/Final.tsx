@@ -9,7 +9,7 @@ type Props = {
 };
 
 const ALTO_LOGO = 64;
-const PROPORCION_TRIO = 2009 / 800;
+const PROPORCION_TRIO = 2001 / 800;
 
 export const Final: React.FC<Props> = ({ precio, llamado }) => {
   const frame = useCurrentFrame();
@@ -28,8 +28,8 @@ export const Final: React.FC<Props> = ({ precio, llamado }) => {
         <Aparecer desde={6} style={{ fontSize: 120, fontWeight: 700, letterSpacing: -3, marginTop: 50, lineHeight: 1 }}>
           3 DECANTS
         </Aparecer>
-        <Aparecer desde={10} style={{ fontSize: 34, fontWeight: 500, color: marca.gris, marginTop: 14, letterSpacing: 2 }}>
-          PROFONDO · BORN IN ROMA INTENSE · LE BEAU
+        <Aparecer desde={10} style={{ fontSize: 29, fontWeight: 500, color: marca.gris, marginTop: 14, letterSpacing: 1 }}>
+          PROFONDO · BORN IN ROMA INTENSE · LE BEAU LE PARFUM
         </Aparecer>
       </AbsoluteFill>
 

@@ -17,7 +17,7 @@ export const fragancias: Fragancia[] = [
     marca: "Giorgio Armani",
     notas: "Fresco y marino, para el día",
     imagen: "profondo.png",
-    proporcion: 433 / 821,
+    proporcion: 280 / 536,
     alto: 900,
   },
   {
@@ -31,11 +31,11 @@ export const fragancias: Fragancia[] = [
   },
   {
     id: "le-beau",
-    nombre: "Le Beau",
+    nombre: "Le Beau Le Parfum",
     marca: "Jean Paul Gaultier",
-    notas: "Seductor, para cuando querés destacar",
+    notas: "Amaderado y seductor, para la noche",
     imagen: "le-beau.png",
-    proporcion: 630 / 817,
-    alto: 760,
+    proporcion: 429 / 560,
+    alto: 860,
   },
 ];

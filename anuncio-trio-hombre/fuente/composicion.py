@@ -1,4 +1,4 @@
-"""Arma trio.png en fila: frasco de Profondo, Born in Roma Intense (con caja) y Le Beau (con lata)."""
+"""Arma trio.png en fila: frasco de Profondo, Born in Roma Intense (con caja) y Le Beau Le Parfum (con lata)."""
 import os
 from PIL import Image, ImageDraw, ImageFilter
 CARPETA = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -9,9 +9,9 @@ def cargar(nombre, alto, recorte_x=None):
         p = p.crop((recorte_x, 0, p.width, p.height)); p = p.crop(p.getbbox())
     return p.resize((int(p.width * alto / p.height), int(alto)), Image.LANCZOS)
 
-piezas = [cargar("acqua-di-gio-profondo", 780, recorte_x=478),  # solo el frasco
+piezas = [cargar("acqua-di-gio-profondo-2", 780),
           cargar("born-in-roma-intense", 760),
-          cargar("le-beau", 780)]
+          cargar("le-beau-le-parfum", 780)]
 sep = 50
 W = sum(p.width for p in piezas) + sep * 2
 H = max(p.height for p in piezas) + 20
