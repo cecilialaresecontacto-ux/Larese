@@ -41,4 +41,5 @@ Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Club de Nuit Intense Man · 
 Según el anuncio, comprados sueltos al por mayor suman Gs. 1.127.800 (de ahí sale que Turathi Brown estaría en Gs. 297.800; confirmar).
 Se habló de cambiar Club de Nuit y Turathi Brown por Hawas Verde y Odyssey Aqua; el anuncio de Meta NO se cambió.
 Versión nueva (Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Hawas Verde · Odyssey Aqua):
-costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos. Precio sugerido Gs. 949.000.
+costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos.
+Precio propuesto Gs. 949.000 + 1 decant de 5 ml de regalo (la dueña aclaró que el decant es de 5 ml): la clienta ahorra Gs. 27.300, ganancia Gs. 87.200 (9,2%) menos el decant. 2 cuotas de Gs. 521.950.
