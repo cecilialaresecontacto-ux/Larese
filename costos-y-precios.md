@@ -58,3 +58,4 @@ Acqua di Giò Profondo · Born in Roma Intense · Le Beau Le Parfum (sueltos Gs.
 Meta: campaña activa desde el 10 de noviembre con el VIDEO con música (Gs. 30.000 por día).
 Los 2 anuncios de imagen del mismo conjunto quedan en pausa (tienen las fotos viejas).
 Video también en los Archivos de Shopify.
+Reel Notas (seguidores) pausado el 10 de noviembre. Activas: Trío en video (Gs. 30.000) y Seguidores 25 julio (Gs. 20.000).
