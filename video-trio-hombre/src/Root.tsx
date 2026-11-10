@@ -1,0 +1,21 @@
+import { Composition } from "remotion";
+import { Comercial, ComercialProps, DURACION_TOTAL } from "./Comercial";
+
+const props: ComercialProps = {
+  precio: "Gs. 180.000",
+  llamado: "Pedí tu trío por WhatsApp",
+};
+
+export const RemotionRoot: React.FC = () => {
+  return (
+    <Composition
+      id="TrioHombre"
+      component={Comercial}
+      durationInFrames={DURACION_TOTAL}
+      fps={30}
+      width={1080}
+      height={1920}
+      defaultProps={props}
+    />
+  );
+};
