@@ -16,6 +16,7 @@ Cuotas: precio contado + 10%, dividido en 2 pagos (igual que en Shopify).
 | Lattafa Khamrah Qahwa | Gs. 121.600 | Gs. 137.700 | Gs. 16.100 | 11,7% | 2 de Gs. 75.735 (total 151.470) |
 | Rasasi Hawas Verde | Gs. 168.200 | Gs. 184.000 | Gs. 15.800 | 8,6% | 2 de Gs. 101.200 (total 202.400) |
 | Armaf Odyssey Aqua | Gs. 116.000 | Gs. 146.000 | Gs. 30.000 | 20,5% | 2 de Gs. 80.300 (total 160.600) |
+| Al Haramain Amber Oud Aqua Dubai | Gs. 217.500 | Gs. 237.500 | Gs. 20.000 | 8,4% | 2 de Gs. 130.625 (total 261.250) |
 
 Notas:
 - Hawas Verde en Shopify figura a Gs. 234.000 contado (no se cambió).
@@ -23,7 +24,6 @@ Notas:
 ## Faltan (pedir a la dueña)
 
 - Rasasi Hawas Ice (frasco)
-- Al Haramain Amber Oud Aqua Dubai (frasco)
 - French Avenue Liquid Brun (frasco)
 - Afnan Turathi Brown (frasco)
 - Decant de 10 ml de diseñador que va de regalo en el combo de Gs. 1.089.000
