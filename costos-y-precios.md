@@ -44,8 +44,11 @@ Anuncio en Meta creado el 10 de noviembre (Gs. 300.000 por día, bajado a Gs. 60
 Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Club de Nuit Intense Man · Turathi Brown.
 Según el anuncio, comprados sueltos al por mayor suman Gs. 1.127.800 (número del 9 de noviembre).
 Con los precios confirmados el 10 de noviembre: costo Gs. 1.012.800 · suma de precios Gs. 1.035.000 · a Gs. 1.089.000 la ganancia es Gs. 76.200; a Gs. 1.035.000 sería Gs. 22.200 (el Turathi Brown se vende por debajo del costo).
-Precio nuevo según la regla de la dueña: Gs. 1.035.000 (2 cuotas de Gs. 569.250, total 1.138.500). El 10 de noviembre se cambió el anuncio de Meta a Gs. 1.035.000 (anuncio viejo de 1.089.000 pausado; 2 anuncios nuevos, post e historia, en el mismo conjunto).
+Precio nuevo según la regla de la dueña: Gs. 1.035.000 (2 cuotas de Gs. 569.250, total 1.138.500). El 10 de noviembre se cambió el anuncio de Meta a Gs. 1.035.000 (anuncio viejo de 1.089.000 pausado; 2 anuncios nuevos, post e historia, en el mismo conjunto). Campaña pausada el 10 de noviembre.
 Se habló de cambiar Club de Nuit y Turathi Brown por Hawas Verde y Odyssey Aqua; el anuncio de Meta NO se cambió.
 Versión nueva (Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Hawas Verde · Odyssey Aqua):
 costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos.
 Precio elegido por la dueña: Gs. 976.300 + 1 decant de 5 ml de regalo (igual a la suma de sus precios). Ganancia Gs. 114.500 (11,7%). 2 cuotas de Gs. 536.965 (total 1.073.930).
+
+## Estado en Meta (10 de noviembre)
+Todas las campañas de combos están en pausa: Combo 1.035.000 (ex 1.089.000), Combo 999.000, Combo 976.300 (nunca se activó; le falta el anuncio del feed), Kit 3 Momentos. Las imágenes de Meta todavía dicen "Combo Emprendedor"; las del repo dicen "Combo".
