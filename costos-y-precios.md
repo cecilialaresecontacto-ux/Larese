@@ -5,6 +5,10 @@ Cuando pase un costo o precio nuevo, agregarlo o corregirlo acá.
 
 Cuotas: precio contado + 10%, dividido en 2 pagos (igual que en Shopify).
 
+Cómo calcular la ganancia (lo pidió la dueña): ganancia = precio de cada perfume − su costo.
+En un combo, la ganancia es precio del combo − suma de los costos de los perfumes.
+El decant de regalo NO se resta como costo del combo.
+
 ## Frascos enteros
 
 | Perfume | Costo | Precio contado | Ganancia | % del precio | 2 cuotas (+10%) |
@@ -27,13 +31,12 @@ Notas:
 ## Faltan (pedir a la dueña)
 
 - Afnan Turathi Brown (frasco)
-- Decant de 10 ml de diseñador que va de regalo en el combo de Gs. 1.089.000
 
 ## Combos
 
 ### Combo Emprendedor · 5 árabes · Gs. 999.000 + 1 decant de 5 ml de regalo
 Club de Nuit Intense Man · 9 PM Rebel · Asad Elixir · Bharara King · Khamrah Qahwa.
-Costo Gs. 921.600 · por separado Gs. 1.053.300 · ganancia Gs. 77.400 (7,7%) antes del decant de regalo.
+Costo Gs. 921.600 · por separado Gs. 1.053.300 · ganancia Gs. 77.400 (7,7%).
 Anuncio en Meta creado el 10 de noviembre (Gs. 300.000 por día, bajado a Gs. 60.000); pausado el mismo día.
 
 ### Combo Emprendedor Hombre · Gs. 1.089.000 + 1 decant de 10 ml de regalo
@@ -42,4 +45,4 @@ Según el anuncio, comprados sueltos al por mayor suman Gs. 1.127.800 (de ahí s
 Se habló de cambiar Club de Nuit y Turathi Brown por Hawas Verde y Odyssey Aqua; el anuncio de Meta NO se cambió.
 Versión nueva (Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Hawas Verde · Odyssey Aqua):
 costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos.
-Precio propuesto Gs. 949.000 + 1 decant de 5 ml de regalo (la dueña aclaró que el decant es de 5 ml): la clienta ahorra Gs. 27.300, ganancia Gs. 87.200 (9,2%) menos el decant. 2 cuotas de Gs. 521.950.
+Precio propuesto Gs. 949.000 + 1 decant de 5 ml de regalo (la dueña aclaró que el decant es de 5 ml): la clienta ahorra Gs. 27.300, ganancia Gs. 87.200 (9,2%). 2 cuotas de Gs. 521.950.
