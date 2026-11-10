@@ -6,6 +6,7 @@ Cuando pase un costo o precio nuevo, agregarlo o corregirlo acá.
 Cuotas: precio contado + 10%, dividido en 2 pagos (igual que en Shopify).
 
 Cómo calcular la ganancia (lo pidió la dueña): ganancia = precio de cada perfume − su costo.
+Precio de un combo = suma de los precios de sus perfumes. No agregar ni restar nada aparte (la dueña ya gana con sus precios).
 En un combo, la ganancia es precio del combo − suma de los costos de los perfumes.
 El decant de regalo NO se resta como costo del combo.
 
@@ -43,6 +44,7 @@ Anuncio en Meta creado el 10 de noviembre (Gs. 300.000 por día, bajado a Gs. 60
 Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Club de Nuit Intense Man · Turathi Brown.
 Según el anuncio, comprados sueltos al por mayor suman Gs. 1.127.800 (número del 9 de noviembre).
 Con los precios confirmados el 10 de noviembre: costo Gs. 1.012.800 · suma de precios Gs. 1.035.000 · a Gs. 1.089.000 la ganancia es Gs. 76.200; a Gs. 1.035.000 sería Gs. 22.200 (el Turathi Brown se vende por debajo del costo).
+Precio nuevo según la regla de la dueña: Gs. 1.035.000 (2 cuotas de Gs. 569.250, total 1.138.500). El anuncio de Meta sigue en Gs. 1.089.000 hasta que ella diga.
 Se habló de cambiar Club de Nuit y Turathi Brown por Hawas Verde y Odyssey Aqua; el anuncio de Meta NO se cambió.
 Versión nueva (Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Hawas Verde · Odyssey Aqua):
 costo Gs. 861.800 · sueltos Gs. 976.300 · a Gs. 1.089.000 saldría MÁS CARO que sueltos.
