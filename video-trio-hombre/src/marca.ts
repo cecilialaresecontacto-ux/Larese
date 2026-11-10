@@ -1,9 +1,9 @@
-// Paleta "rosa" de la tienda: negro + Ballerina sobre Off-White (sin azul)
+// Solo blanco y negro (sin rosa ni azul), como pidió la dueña para este video
 export const marca = {
   negro: "#161616",
   blanco: "#ffffff",
   fondo: "#F9F9F9",
-  rosa: "#EED2E2",
+  halo: "#E4E4E4",
   gris: "#696969",
   logo: "marca/logo-negro.png",
   // Proporción ancho / alto del logo

@@ -33,7 +33,7 @@ export const Botella: React.FC<Props> = ({
           bottom: -alto * 0.03,
           height: alto * 0.06,
           borderRadius: "50%",
-          background: "rgba(60, 30, 20, 0.35)",
+          background: "rgba(0, 0, 0, 0.28)",
           filter: "blur(18px)",
         }}
       />

@@ -1,8 +1,8 @@
 # Video: trío de diseñador para él
 
 Video vertical (1080×1920, 14 s, 30 fps) para Reels, historias y anuncios: 3 decants de 5 ml
-(Acqua di Giò Profondo, Born in Roma Intense y Le Beau) a Gs. 180.000. Paleta "rosa" de la tienda
-(negro + Ballerina sobre Off-White). Hecho con [Remotion](https://www.remotion.dev), a partir de `comercial-fragancias`.
+(Acqua di Giò Profondo, Born in Roma Intense y Le Beau) a Gs. 180.000. Colores: solo blanco y negro
+(solo blanco y negro). Hecho con [Remotion](https://www.remotion.dev), a partir de `comercial-fragancias`.
 
 ## Uso
 

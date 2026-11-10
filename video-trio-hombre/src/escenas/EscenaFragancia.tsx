@@ -29,7 +29,7 @@ export const EscenaFragancia: React.FC<{ fragancia: Fragancia; numero: number }>
             width: 860,
             height: 860,
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${marca.rosa} 0%, transparent 66%)`,
+            background: `radial-gradient(circle, ${marca.halo} 0%, transparent 66%)`,
             opacity: halo,
           }}
         />
@@ -67,7 +67,8 @@ export const EscenaFragancia: React.FC<{ fragancia: Fragancia; numero: number }>
               fontSize: 28,
               letterSpacing: 6,
               fontWeight: 600,
-              background: marca.rosa,
+              background: marca.negro,
+              color: marca.blanco,
               padding: "10px 28px",
               borderRadius: 999,
             }}

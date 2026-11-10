@@ -14,7 +14,7 @@ export const Intro: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        background: `radial-gradient(circle at 50% 48%, ${marca.blanco} 0%, ${marca.fondo} 55%, ${marca.rosa} 140%)`,
+        background: `radial-gradient(circle at 50% 48%, ${marca.blanco} 0%, ${marca.fondo} 55%, ${marca.halo} 140%)`,
       }}
     >
       <AbsoluteFill style={{ alignItems: "center", top: 170 }}>
@@ -38,7 +38,8 @@ export const Intro: React.FC = () => {
               fontSize: 34,
               fontWeight: 600,
               letterSpacing: 6,
-              background: marca.rosa,
+              background: marca.negro,
+              color: marca.blanco,
               padding: "14px 34px",
               borderRadius: 999,
             }}
