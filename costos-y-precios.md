@@ -34,7 +34,7 @@ Notas:
 ### Combo Emprendedor · 5 árabes · Gs. 999.000 + 1 decant de 5 ml de regalo
 Club de Nuit Intense Man · 9 PM Rebel · Asad Elixir · Bharara King · Khamrah Qahwa.
 Costo Gs. 921.600 · por separado Gs. 1.053.300 · ganancia Gs. 77.400 (7,7%) antes del decant de regalo.
-Anuncio activo en Meta desde el 10 de noviembre (Gs. 300.000 por día).
+Anuncio activo en Meta desde el 10 de noviembre (empezó con Gs. 300.000 por día; bajado a Gs. 60.000 por día el mismo día).
 
 ### Combo Emprendedor Hombre · Gs. 1.089.000 + 1 decant de 10 ml de regalo
 Hawas Ice · Amber Oud Aqua Dubai · Liquid Brun · Club de Nuit Intense Man · Turathi Brown.
