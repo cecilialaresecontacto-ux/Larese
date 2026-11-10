@@ -2,7 +2,7 @@
 """
 Genera piezas visuales de LARESE STORE como PNG.
 
-Estilo: fondo de un solo color que combina con el producto, producto recortado y grande
+Estilo: fondo blanco, textos en Deep Blue (#09318D) y detalles en Ballerina (#EED2E2), producto recortado y grande
 en el centro, copias desenfocadas del producto en las esquinas para dar profundidad,
 el logo "larese" gigante y transparente detrás, texto blanco en Poppins
 (títulos en mayúsculas y gruesos), botón tipo píldora y pie con íconos.
@@ -28,6 +28,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "color": "#D4848C",                     # opcional: fuerza el color de fondo
   "categoria": "perfume",                 # perfume | joya | maquillaje | cosmetico | electronica
   "cta": "¡Pedí el tuyo!",                # texto del botón
+  "paleta": "tienda",                     # "tienda" (azul y rosa) o "promo" (negro y rojo naranja)
   "gancho": "...",                        # solo portada: frase grande en lugar del título
   "slides": [ {...}, {...} ]              # solo carrusel: un spec de post por slide
 }
@@ -51,11 +52,31 @@ FUENTES = os.path.join(ASSETS, "fonts")
 WHATSAPP = "0972 736 002"
 ENVIOS = "Envíos a todo Paraguay"
 BLANCO = (255, 255, 255)
-# Fondo SIEMPRE blanco: textos en negro y grises
-FONDO = (255, 255, 255)
-TEXTO = (22, 22, 22)
-GRIS = (105, 105, 105)
-ACENTO = (22, 22, 22)
+# Fondo SIEMPRE blanco. Paleta de la tienda: Deep Blue #09318D (textos, botón, íconos)
+# y Ballerina #EED2E2 (detalles: etiqueta y sello). Blanco de la paleta: #FCFFFF (se usa blanco puro).
+FONDO = (249, 249, 249)   # Off-White #F9F9F9
+TEXTO = (9, 49, 141)       # Deep Blue #09318D
+GRIS = (84, 104, 160)      # Deep Blue suavizado, para textos secundarios
+ACENTO = (9, 49, 141)      # Deep Blue
+ROSA = (238, 210, 226)     # Ballerina #EED2E2
+NEGRO = (22, 22, 22)       # títulos, precio y textos del pie
+ETI_TEXTO = TEXTO          # texto sobre la píldora de la etiqueta y el sello
+
+# "tienda" (por defecto): negro + Deep Blue + Ballerina.
+# "promo" (promos, liquidaciones, fechas con urgencia): Matte Black #28282B + Red Orange #FF4200
+#   sobre Off-White #F9F9F9.
+PALETAS = {
+    "tienda": dict(FONDO=(249, 249, 249), TEXTO=(9, 49, 141), GRIS=(84, 104, 160), ACENTO=(9, 49, 141),
+                   ROSA=(238, 210, 226), NEGRO=(22, 22, 22), ETI_TEXTO=(9, 49, 141)),
+    "promo": dict(FONDO=(249, 249, 249), TEXTO=(40, 40, 43), GRIS=(110, 110, 114), ACENTO=(40, 40, 43),
+                  ROSA=(255, 66, 0), NEGRO=(40, 40, 43), ETI_TEXTO=(255, 255, 255)),
+}
+
+
+def usar_paleta(nombre):
+    if nombre not in PALETAS:
+        raise SystemExit(f"Paleta desconocida: {nombre}. Usá: {', '.join(PALETAS)}")
+    globals().update(PALETAS[nombre])
 
 TAMANOS = {
     "post": (1080, 1350),
@@ -223,7 +244,7 @@ def color_del_producto(prod):
 # ---------------- capas ----------------
 
 def fondo(w, h, color):
-    if color == FONDO:  # blanco puro, sin degradé
+    if color == FONDO:  # fondo liso de la paleta, sin degradé
         return Image.new("RGBA", (w, h), FONDO + (255,))
     centro = ajustar_color(color, dv=0.07, ds=-0.06)
     borde = ajustar_color(color, dv=-0.07)
@@ -322,7 +343,7 @@ def sello(img, cx, cy, texto, r, color_texto):
     ImageDraw.Draw(sombra).ellipse((cx - r, cy - r + 8, cx + r, cy + r + 8), fill=120)
     img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(14)), (0, 0, 0), 0.5))
     d = ImageDraw.Draw(img)
-    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=TEXTO)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=ROSA)
     f, ls, _ = ajustar(d, texto, int(r * 0.62), 20, r * 1.55, 2, b"ExtraBold")
     y = cy - alto_linea(f) * len(ls) / 2 - r * 0.04
     for l in ls:
@@ -338,7 +359,7 @@ def boton(img, cx, y, texto, tam, color_fondo):
     px, py = tam * 1.1, tam * 0.45
     caja = (cx - w / 2 - px, y, cx + w / 2 + px, y + h + 2 * py)
     capa = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(capa).rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=color_fondo + (215,))
+    ImageDraw.Draw(capa).rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=color_fondo + (255,))
     img.alpha_composite(capa)
     txt(ImageDraw.Draw(img), cx, y + py - tam * 0.05, texto, f, BLANCO)
     return caja[3]
@@ -373,7 +394,7 @@ def pie(img, y, tam, color_circulo):
     for (ic, t), aw in zip(items, anchos):
         d.ellipse((x, cy - r, x + 2 * r, cy + r), fill=color_circulo)
         (icono_chat if ic == "chat" else icono_camion)(d, x + r, cy, r * 0.82)
-        d.text((x + 2 * r + tam * 0.6, cy - alto_linea(f) / 2 - tam * 0.05), t, font=f, fill=TEXTO)
+        d.text((x + 2 * r + tam * 0.6, cy - alto_linea(f) / 2 - tam * 0.05), t, font=f, fill=NEGRO)
         x += aw + sep
 
 
@@ -386,7 +407,7 @@ def precio(img, cx, y, spec, tam):
     if anterior:
         f2 = fuente(tam * 0.46, b"Medium")
         w2 = d.textlength(anterior, font=f2)
-        claro = (120, 120, 120, 255)
+        claro = GRIS + (255,)
         d.text((cx - w2 / 2, y), anterior, font=f2, fill=claro)
         a, _ = f2.getmetrics()
         d.line((cx - w2 / 2 - 4, y + a * 0.62, cx + w2 / 2 + 4, y + a * 0.62), fill=claro, width=3)
@@ -397,7 +418,7 @@ def precio(img, cx, y, spec, tam):
         y += alto_linea(f3, 1.1)
     if actual:
         f = fuente(tam, b"Bold")
-        txt(ImageDraw.Draw(img), cx, y, actual, f)
+        txt(ImageDraw.Draw(img), cx, y, actual, f, NEGRO)
         y += alto_linea(f, 1.05)
     return y
 
@@ -429,6 +450,7 @@ def armar(spec):
     if formato not in TAMANOS:
         raise SystemExit(f"Formato desconocido: {formato}. Usá: {', '.join(list(TAMANOS) + ['carrusel'])}")
     w, h = TAMANOS[formato]
+    usar_paleta(spec.get("paleta", "tienda"))
     M = MEDIDAS[formato]
 
     prod, recortado = cargar_producto(spec.get("imagen"))
@@ -451,7 +473,7 @@ def armar(spec):
     y_texto = M["logo_y"] + logo_m.height + M["eti"] * 1.3
     arriba = y_texto
     if spec.get("etiqueta"):
-        arriba += alto_linea(fuente(M["eti"], b"SemiBold"), 1.05)
+        arriba += alto_linea(fuente(M["eti"], b"SemiBold"), 1.05) + M["eti"] * 0.35
     arriba += alto_linea(ft, 0.86) * len(lt)
     fs, ls = None, []
     if spec.get("subtitulo"):
@@ -492,7 +514,7 @@ def armar(spec):
     if spec.get("descuento"):
         r = w * (0.105 if formato in ("historia", "portada") else 0.095)
         sx = min(w - r - 44, pcaja[2] + r * 0.5)
-        sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, BLANCO)
+        sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, ETI_TEXTO)
 
     # --- textos de arriba ---
     d = ImageDraw.Draw(img)
@@ -500,10 +522,17 @@ def armar(spec):
     y = y_texto
     if spec.get("etiqueta"):
         fe = fuente(M["eti"], b"SemiBold")
-        txt(d, cx, y, spec["etiqueta"].upper(), fe, GRIS, esp=M["eti"] * 0.06)
-        y += alto_linea(fe, 1.05)
+        et = spec["etiqueta"].upper()
+        esp_e = M["eti"] * 0.06
+        we = ancho_txt(d, et, fe, esp_e)
+        bb = fe.getbbox(et)
+        px, py = M["eti"] * 0.9, M["eti"] * 0.38
+        d.rounded_rectangle((cx - we / 2 - px, y + bb[1] - py, cx + we / 2 + px, y + bb[3] + py),
+                            radius=(bb[3] - bb[1]) / 2 + py, fill=ROSA)
+        txt(d, cx, y, et, fe, ETI_TEXTO, esp=esp_e)
+        y += alto_linea(fe, 1.05) + M["eti"] * 0.35
     for l in lt:
-        txt(d, cx, y, l, ft, TEXTO, esp=esp_t)
+        txt(d, cx, y, l, ft, NEGRO, esp=esp_t)
         y += alto_linea(ft, 0.86)
     if ls:
         y += 6
