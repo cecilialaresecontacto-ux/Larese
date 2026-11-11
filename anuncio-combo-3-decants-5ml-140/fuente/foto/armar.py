@@ -52,7 +52,7 @@ def frasco(color, nivel=0.80):
     im.putalpha(alfa_im)
     return im
 
-colores = [(246, 190, 160), (238, 196, 112), (240, 170, 196)]   # durazno, ámbar, rosa
+colores = [(140, 182, 234), (238, 196, 112), (240, 170, 196)]   # azul, ámbar, rosa
 frascos = [frasco(c) for c in colores]
 sep = int(W * 0.18)
 lienzo = Image.new('RGBA', (W * 3 + sep * 2, H), (0, 0, 0, 0))
