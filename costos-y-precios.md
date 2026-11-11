@@ -25,7 +25,7 @@ El decant de regalo NO se resta como costo del combo.
 | Rasasi Hawas Ice | Gs. 189.000 | Gs. 198.000 | Gs. 9.000 | 4,5% | 2 de Gs. 108.900 (total 217.800) |
 | French Avenue Liquid Brun | Gs. 171.100 | Gs. 210.800 | Gs. 39.700 | 18,8% | 2 de Gs. 115.940 (total 231.880) |
 | Azzaro The Most Wanted Parfum (diseñador, 100 ml) | Gs. 377.000 | Gs. 510.000 | Gs. 133.000 | 26,1% | 2 de Gs. 280.500 (total 561.000) |
-| Afnan Turathi Brown | Gs. 288.000 | Gs. 205.000 | **−Gs. 83.000 (pérdida)** | −40,5% | 2 de Gs. 112.750 (total 225.500) |
+| Afnan Turathi Brown | Gs. 139.200 | Gs. 200.000 | Gs. 60.800 | 30,4% | 2 de Gs. 110.000 (total 220.000) |
 
 Notas:
 - Hawas Verde en Shopify figura a Gs. 234.000 contado (no se cambió).
@@ -71,3 +71,7 @@ Plan: subir de a 20-30% cada 3 días si la conversación sale barata (menos de G
 (base cierta: en la tienda Parfums de Marly, Creed e Initio pasan los Gs. 1.700.000).
 11 de noviembre: se agregó "+ ENVÍO GRATIS" en rojo a imágenes, video y textos. El video viejo (A) quedó en pausa y se reemplazó por A2.
 Anuncios activos: A2 video, B post, C historia. Ojo: el envío gratis sale de la ganancia (Gs. 269.900 por combo).
+
+11 de noviembre: la dueña corrigió el Turathi Brown (costo Gs. 139.200, precio Gs. 200.000).
+Combo para él (Hawas Ice · Amber Oud · Liquid Brun · Club de Nuit · Turathi Brown): suma de precios Gs. 1.030.000
+(antes 1.035.000) · costo Gs. 864.000 · ganancia Gs. 166.000 (16,1%) · 2 cuotas de Gs. 566.500 (total 1.133.000).
