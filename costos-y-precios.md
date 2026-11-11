@@ -64,3 +64,6 @@ Reel Notas (seguidores) pausado el 10 de noviembre. Activas: Trío en video (Gs.
 ## Combo 5 perfumes · diseñador + árabes · Gs. 1.350.000
 Azzaro The Most Wanted Parfum · Bharara King · Liquid Brun · Club de Nuit Intense Man · Odyssey Aqua.
 Costo Gs. 1.080.100 · suma de precios Gs. 1.340.400 · precio pedido por la dueña Gs. 1.350.000 · ganancia Gs. 269.900 (20%).
+Meta: campaña "COMBO 5 PERFUMES · AZZARO + 4 ÁRABES 1.350.000" activa desde el 11 de noviembre, Gs. 30.000 por día
+(25-50 años, hombres y mujeres, WhatsApp). 3 anuncios: A video (gancho diseñador), B post (regalo), C historia (un perfume para cada momento).
+Plan: subir de a 20-30% cada 3 días si la conversación sale barata (menos de Gs. 8.000).
