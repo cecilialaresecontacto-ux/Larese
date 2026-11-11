@@ -1,0 +1,278 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>@font-face{font-family:Poppins;src:url(Poppins-Bold.ttf);font-weight:700 900}html,body{margin:0;background:#fff}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const q = new URLSearchParams(location.search);
+const FONDO = q.get('fondo') === 'negro' ? 0x000000 : 0xffffff;
+const W = 1500, H = 1800;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.NoToneMapping;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.VSMShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(FONDO);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+scene.environmentIntensity = 1.0;
+
+const camera = new THREE.PerspectiveCamera(22, W / H, 0.1, 100);
+camera.position.set(0, 3.6, 19.5);
+camera.lookAt(0, 3.05, 0);
+
+const luz = new THREE.DirectionalLight(0xffffff, 1.6);
+luz.position.set(-1.2, 14, 2.2);
+luz.castShadow = true;
+luz.shadow.mapSize.set(2048, 2048);
+luz.shadow.radius = 18;
+luz.shadow.blurSamples = 25;
+luz.shadow.bias = -0.0005;
+Object.assign(luz.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 30 });
+scene.add(luz);
+const relleno = new THREE.DirectionalLight(0xffffff, 0.8);
+relleno.position.set(5, 4, 8);
+scene.add(relleno);
+const contra = new THREE.DirectionalLight(0xffffff, 1.2);
+contra.position.set(0, 5, -8);
+scene.add(contra);
+
+// piso que solo muestra la sombra
+const piso = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.12 }));
+piso.rotation.x = -Math.PI / 2;
+piso.receiveShadow = true;
+scene.add(piso);
+
+// ---------- medidas del frasco (unidades ~ cm) ----------
+const R = 0.52;          // radio exterior del vidrio
+const ESP = 0.045;       // espesor del vidrio
+const ALTO = 4.6;        // alto del cuerpo de vidrio
+const FONDO_R = 0.16;    // redondeo de la base
+
+function perfilVidrio() {
+  const p = [];
+  // exterior: base redondeada
+  p.push(new THREE.Vector2(0, 0));
+  for (let i = 0; i <= 10; i++) {
+    const a = -Math.PI / 2 + (i / 10) * (Math.PI / 2);
+    p.push(new THREE.Vector2(R - FONDO_R + Math.cos(a) * FONDO_R, FONDO_R + Math.sin(a) * FONDO_R));
+  }
+  p.push(new THREE.Vector2(R, ALTO));
+  // labio superior
+  p.push(new THREE.Vector2(R - ESP, ALTO));
+  // interior hacia abajo
+  const ri = R - ESP, fi = FONDO_R * 0.8, base = ESP * 2.2;
+  p.push(new THREE.Vector2(ri, base + fi));
+  for (let i = 0; i <= 10; i++) {
+    const a = (i / 10) * (Math.PI / 2);
+    p.push(new THREE.Vector2(ri - fi + Math.cos(a) * fi, base + fi - Math.sin(a) * fi));
+  }
+  p.push(new THREE.Vector2(0, base));
+  return p;
+}
+
+function perfilLiquido(alto) {
+  const ri = R - ESP - 0.004, fi = FONDO_R * 0.8, base = ESP * 2.2 + 0.004;
+  const p = [new THREE.Vector2(0, base)];
+  for (let i = 10; i >= 0; i--) {
+    const a = (i / 10) * (Math.PI / 2);
+    p.push(new THREE.Vector2(ri - fi + Math.cos(a) * fi, base + fi - Math.sin(a) * fi));
+  }
+  p.push(new THREE.Vector2(ri, base + alto));
+  p.push(new THREE.Vector2(0, base + alto));
+  return p;
+}
+
+// vidrio: bordes que oscurecen según el ángulo (como el vidrio real sobre fondo blanco)
+const vidrio = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, side: THREE.FrontSide,
+  uniforms: { tinte: { value: new THREE.Color(0x56626e) }, fuerza: { value: 0.85 } },
+  vertexShader: `varying vec3 vN; varying vec3 vV;
+    void main(){ vec4 mv = modelViewMatrix * vec4(position,1.0); vN = normalize(normalMatrix*normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix*mv; }`,
+  fragmentShader: `uniform vec3 tinte; uniform float fuerza; varying vec3 vN; varying vec3 vV;
+    void main(){ float f = 1.0 - abs(dot(normalize(vN), normalize(vV)));
+      float a = pow(f, 3.2) * fuerza + 0.025;
+      gl_FragColor = vec4(tinte, a); }`,
+});
+const brillo = new THREE.MeshPhysicalMaterial({
+  color: 0x000000, metalness: 0, roughness: 0.02, envMapIntensity: 1.6, clearcoat: 1, clearcoatRoughness: 0.02,
+  transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+});
+const metal = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: 0.26, envMapIntensity: 2.3 });
+const metalOscuro = new THREE.MeshPhysicalMaterial({ color: 0xc4c9cf, metalness: 1, roughness: 0.25, envMapIntensity: 1.6 });
+const tapaMat = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff, metalness: 0, roughness: 0.22, transmission: 1, thickness: 0.15, ior: 1.46,
+  envMapIntensity: 1.2, clearcoat: 0.6,
+});
+const tubitoMat = new THREE.MeshPhysicalMaterial({ color: 0xf4f6f8, roughness: 0.35, transmission: 0.0, transparent: true, opacity: 0.85 });
+
+// textura impresa: logo larese en vertical + "5 ML"
+async function texturaEtiqueta() {
+  const img = new Image();
+  img.src = 'logo-negro.png';
+  await img.decode();
+  await document.fonts.load('700 120px Poppins');
+  const c = document.createElement('canvas');
+  c.width = 2048; c.height = 2048;            // u = vuelta completa, v = alto del cuerpo
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, c.width, c.height);
+  // la cara de adelante del cilindro (en three, u=0.75 queda mirando a +z cuando el lathe empieza en +x...)
+  const cu = c.width * 0.25;                  // se ajusta abajo con la rotación del mesh
+  const anchoFrente = c.width * 0.19;         // ~ 68 grados de vuelta
+  g.save();
+  g.translate(cu, c.height * 0.55);
+  g.rotate(-Math.PI / 2);
+  const lw = c.height * 0.40, lh = lw * img.height / img.width;
+  const esc = Math.min(1, (anchoFrente * 0.95) / lh);
+  g.drawImage(img, -lw * esc / 2, -lh * esc / 2, lw * esc, lh * esc);
+  g.restore();
+  g.fillStyle = '#141414';
+  g.font = `700 ${Math.round(c.height * 0.058)}px Poppins, Arial`;
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = `700 ${Math.round(c.height * 0.048)}px Poppins, Arial`;
+  g.fillText('5 ML', cu, c.height * 0.875);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return t;
+}
+
+function crearFrasco(colorA, colorB, tex) {
+  const g = new THREE.Group();
+
+  // líquido con degradé vertical suave
+  const altoLiq = ALTO * 0.80;
+  const liqGeo = new THREE.LatheGeometry(perfilLiquido(altoLiq), 96);
+  const cols = [];
+  const pos = liqGeo.attributes.position;
+  const ca = new THREE.Color(colorA), cb = new THREE.Color(colorB), tmp = new THREE.Color();
+  for (let i = 0; i < pos.count; i++) {
+    const y = pos.getY(i) / altoLiq;
+    tmp.copy(cb).lerp(ca, Math.min(1, Math.max(0, y * 1.1)));
+    cols.push(tmp.r, tmp.g, tmp.b);
+  }
+  liqGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+  const liq = new THREE.Mesh(liqGeo, new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, roughness: 0.03, metalness: 0, transmission: 1, thickness: 1.0, ior: 1.36,
+    attenuationColor: cb, attenuationDistance: 0.8, envMapIntensity: 1.2, specularIntensity: 1,
+  }));
+  g.add(liq);
+
+  // menisco (superficie del líquido) un poco más claro
+  const men = new THREE.Mesh(new THREE.CircleGeometry(R - ESP - 0.006, 64),
+    new THREE.MeshPhysicalMaterial({ color: ca.clone().lerp(new THREE.Color(0xffffff), 0.35), roughness: 0.05 }));
+  men.rotation.x = -Math.PI / 2;
+  men.position.y = ESP * 2.2 + altoLiq + 0.002;
+  // g.add(men);
+
+  // tubito sumergible
+  const curva = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, ALTO + 0.05, 0), new THREE.Vector3(0.02, ALTO * 0.75, 0.05),
+    new THREE.Vector3(0.12, ALTO * 0.45, 0.1), new THREE.Vector3(-0.08, ALTO * 0.2, 0.12),
+    new THREE.Vector3(0.05, 0.14, 0.05),
+  ]);
+  const tub = new THREE.Mesh(new THREE.TubeGeometry(curva, 120, 0.028, 12, false), tubitoMat);
+  g.add(tub);
+
+  // vidrio
+  const geoV = new THREE.LatheGeometry(perfilVidrio(), 128);
+  const vid = new THREE.Mesh(geoV, vidrio);
+  vid.castShadow = true;
+  g.add(vid);
+  const vidB = new THREE.Mesh(geoV, brillo);
+  vidB.renderOrder = 5;
+  g.add(vidB);
+
+  // impresión sobre el vidrio
+  const imp = new THREE.Mesh(
+    new THREE.CylinderGeometry(R + 0.003, R + 0.003, ALTO - 0.3, 128, 1, true),
+    new THREE.MeshPhysicalMaterial({ map: tex, transparent: true, roughness: 0.35, metalness: 0, alphaTest: 0.02, depthWrite: false })
+  );
+  imp.position.y = (ALTO - 0.3) / 2 + 0.15;
+  imp.rotation.y = -Math.PI / 2;
+  imp.renderOrder = 6;
+  g.add(imp);
+
+  // virola metálica (crimp) con estrías
+  const vir = new THREE.Group();
+  const baseV = new THREE.Mesh(new THREE.CylinderGeometry(R + 0.03, R + 0.03, 0.42, 96), metal);
+  baseV.position.y = ALTO + 0.13;
+  vir.add(baseV);
+  for (let i = 0; i < 3; i++) {
+    const anillo = new THREE.Mesh(new THREE.TorusGeometry(R + 0.03, 0.012, 8, 96), metalOscuro);
+    anillo.rotation.x = Math.PI / 2;
+    anillo.position.y = ALTO + 0.0 + i * 0.13;
+    vir.add(anillo);
+  }
+  const hombro = new THREE.Mesh(new THREE.CylinderGeometry(0.2, R + 0.03, 0.12, 96), metal);
+  hombro.position.y = ALTO + 0.4;
+  vir.add(hombro);
+  // pulsador
+  const puls = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.34, 64), metal);
+  puls.position.y = ALTO + 0.62;
+  vir.add(puls);
+  const tapaPuls = new THREE.Mesh(new THREE.SphereGeometry(0.2, 48, 16, 0, Math.PI * 2, 0, Math.PI / 2), metal);
+  tapaPuls.scale.y = 0.25;
+  tapaPuls.position.y = ALTO + 0.79;
+  vir.add(tapaPuls);
+  const boquilla = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.03, 24), new THREE.MeshStandardMaterial({ color: 0x222222 }));
+  boquilla.rotation.x = Math.PI / 2;
+  boquilla.position.set(0, ALTO + 0.7, 0.2);
+  vir.add(boquilla);
+  vir.children.forEach(m => (m.castShadow = true));
+  g.add(vir);
+
+  // tapa transparente
+  const altoTapa = 1.25, rT = R + 0.07;
+  const perfilTapa = [
+    new THREE.Vector2(rT - 0.02, 0), new THREE.Vector2(rT, 0.03), new THREE.Vector2(rT, altoTapa - 0.12),
+    new THREE.Vector2(rT - 0.03, altoTapa - 0.02), new THREE.Vector2(rT - 0.12, altoTapa), new THREE.Vector2(0, altoTapa),
+    new THREE.Vector2(0, altoTapa - 0.06), new THREE.Vector2(rT - 0.13, altoTapa - 0.06),
+    new THREE.Vector2(rT - 0.05, altoTapa - 0.12), new THREE.Vector2(rT - 0.05, 0.03), new THREE.Vector2(rT - 0.03, 0),
+  ];
+  const tapa = new THREE.Mesh(new THREE.LatheGeometry(perfilTapa, 128), tapaMat);
+  tapa.position.y = ALTO - 0.12;
+  tapa.castShadow = true;
+  g.add(tapa);
+  const bordeTapa = new THREE.Mesh(tapa.geometry, vidrio);
+  bordeTapa.position.copy(tapa.position);
+  bordeTapa.renderOrder = 4;
+  g.add(bordeTapa);
+
+  return g;
+}
+
+const tex = await texturaEtiqueta();
+// en LatheGeometry/CylinderGeometry u=0.25 queda mirando a +z con esta rotación
+const colores = [
+  ['#f7c9b2', '#e7a588'],  // durazno
+  ['#f3d996', '#d9b25d'],  // dorado
+  ['#f2b8cb', '#dc8ea9'],  // rosa
+];
+const sep = 1.75;
+colores.forEach(([a, b], i) => {
+  const f = crearFrasco(a, b, tex);
+  f.position.x = (i - 1) * sep;
+  f.position.z = i === 1 ? 0.25 : 0;
+  f.rotation.y = (i - 1) * -0.06;
+  scene.add(f);
+});
+
+if (q.get('mascara')) {
+  scene.background = new THREE.Color(0x000000);
+  piso.visible = false;
+  scene.overrideMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+}
+renderer.render(scene, camera);
+window.LISTO = true;
+</script>
+</body></html>
