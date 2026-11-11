@@ -22,6 +22,8 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "precio_prefijo": "Desde",              # opcional
   "precio_anterior": 50000,               # opcional, se muestra tachado
   "precio_frase": "Todo esto a tan solo", # opcional, línea chica arriba del precio
+  "destacado": "+ ENVÍO GRATIS",          # opcional, franja grande debajo del precio
+  "destacado_color": "#E3000F",           # opcional, color de esa franja (por defecto, negro)
   "descuento": "-20%",                    # opcional, sello blanco
   "imagen": "producto.png",               # foto del producto (ideal: fondo blanco o PNG recortado)
   "elementos": ["flor.png"],              # opcional: imágenes extra para las esquinas desenfocadas
@@ -426,6 +428,20 @@ def precio(img, cx, y, spec, tam):
         f = fuente(tam, b"Bold")
         txt(ImageDraw.Draw(img), cx, y, actual, f, NEGRO)
         y += alto_linea(f, 1.05)
+    if spec.get("destacado"):
+        # franja grande (fondo NEGRO, texto blanco) para un beneficio: "+ ENVÍO GRATIS"
+        fd = fuente(tam * 0.62, b"ExtraBold")
+        d = ImageDraw.Draw(img)
+        t = spec["destacado"]
+        wd = d.textlength(t, font=fd)
+        bb = fd.getbbox(t)
+        px, py = tam * 0.45, tam * 0.2
+        y += tam * 0.08
+        d.rounded_rectangle((cx - wd / 2 - px, y + bb[1] - py, cx + wd / 2 + px, y + bb[3] + py),
+                            radius=tam * 0.18,
+                            fill=hex_a_rgb(spec["destacado_color"]) if spec.get("destacado_color") else NEGRO)
+        d.text((cx - wd / 2, y), t, font=fd, fill=BLANCO)
+        y += alto_linea(fd, 1.0) + py * 2
     return y
 
 
@@ -437,6 +453,8 @@ def alto_precio(spec, tam):
         al += alto_linea(fuente(tam * 0.46, b"Medium"), 1.1)
     if spec.get("precio"):
         al += alto_linea(fuente(tam, b"Bold"), 1.05)
+    if spec.get("destacado"):
+        al += tam * 0.08 + alto_linea(fuente(tam * 0.62, b"ExtraBold"), 1.0) + tam * 0.4
     return al
 
 

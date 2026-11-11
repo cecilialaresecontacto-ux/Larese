@@ -44,24 +44,39 @@ export const Intro: React.FC = () => {
               borderRadius: 999,
             }}
           >
-            COMBO PARA ÉL
+            POR MENOS QUE 1 PERFUME DE LUJO
           </div>
         </Aparecer>
         <div
           style={{
-            fontSize: 128,
+            fontSize: 112,
             fontWeight: 700,
-            lineHeight: 1,
+            lineHeight: 1.18,
             letterSpacing: -4,
             marginTop: 40,
             opacity: golpe,
             transform: `scale(${interpolate(golpe, [0, 1], [1.6, 1])})`,
           }}
         >
-          5 PERFUMES
+          1 DE DISEÑADOR
+          <br />+ 4 ÁRABES
         </div>
         <Aparecer desde={26} style={{ fontSize: 60, fontWeight: 300, marginTop: 30 }}>
-          1 de diseñador + 4 árabes
+          5 perfumes para él
+        </Aparecer>
+        <Aparecer desde={32} style={{ marginTop: 30 }}>
+          <div
+            style={{
+              fontSize: 64,
+              fontWeight: 700,
+              color: marca.blanco,
+              background: marca.rojo,
+              padding: "8px 36px",
+              borderRadius: 20,
+            }}
+          >
+            + ENVÍO GRATIS
+          </div>
         </Aparecer>
       </AbsoluteFill>
     </AbsoluteFill>

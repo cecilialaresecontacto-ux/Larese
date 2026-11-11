@@ -4,6 +4,7 @@ export const marca = {
   blanco: "#ffffff",
   fondo: "#F9F9F9",
   halo: "#E4E4E4",
+  rojo: "#E3000F",
   gris: "#696969",
   logo: "marca/logo-negro.png",
   // Proporción ancho / alto del logo

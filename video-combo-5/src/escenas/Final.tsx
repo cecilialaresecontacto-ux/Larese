@@ -44,7 +44,7 @@ export const Final: React.FC<Props> = ({ precio, llamado }) => {
         </div>
       </AbsoluteFill>
 
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 200, textAlign: "center" }}>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 170, textAlign: "center" }}>
         <Aparecer desde={24} style={{ fontSize: 44, fontWeight: 400, color: marca.gris }}>
           Todo a tan solo
         </Aparecer>
@@ -59,6 +59,21 @@ export const Final: React.FC<Props> = ({ precio, llamado }) => {
           }}
         >
           {precio}
+        </div>
+        <div
+          style={{
+            fontSize: 74,
+            fontWeight: 700,
+            color: marca.blanco,
+            background: marca.rojo,
+            padding: "10px 40px",
+            borderRadius: 22,
+            marginTop: 18,
+            opacity: precioIn,
+            transform: `scale(${interpolate(precioIn, [0, 1], [1.3, 1])})`,
+          }}
+        >
+          + ENVÍO GRATIS
         </div>
         <Aparecer desde={44} style={{ marginTop: 30 }}>
           <div
@@ -77,7 +92,7 @@ export const Final: React.FC<Props> = ({ precio, llamado }) => {
           </div>
         </Aparecer>
         <Aparecer desde={52} style={{ fontSize: 38, fontWeight: 500, marginTop: 34 }}>
-          0972 736 002 · Envíos a todo Paraguay
+          0972 736 002 · A todo Paraguay
         </Aparecer>
       </AbsoluteFill>
     </AbsoluteFill>
