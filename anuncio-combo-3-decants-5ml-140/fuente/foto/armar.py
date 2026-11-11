@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 src = Image.open(sys.argv[1]).convert('RGB')
+LOGO = sys.argv[3] if len(sys.argv) > 3 else 'logo-negro.png'
 ESC = 2
 X0, Y0, X1, Y1 = 186, 60, 318, 572                       # caja del frasco en la foto
 foto = src.crop((X0, Y0, X1, Y1)).resize(((X1 - X0) * ESC, (Y1 - Y0) * ESC), Image.LANCZOS)
@@ -50,6 +51,16 @@ def frasco(color, nivel=0.80):
     out = out * (1 - mb) + out * (1 - (1 - c) * 0.9) * mb
     im = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA')
     im.putalpha(alfa_im)
+    # logo larese impreso en el vidrio, centrado en el cuerpo
+    logo = Image.open(LOGO).convert('RGBA')
+    ancho = int((IX1 - IX0) * ESC * 0.78)
+    logo = logo.resize((ancho, round(logo.height * ancho / logo.width)), Image.LANCZOS)
+    la = np.asarray(logo).astype(float)
+    la[..., 3] *= 0.92
+    logo = Image.fromarray(la.astype(np.uint8))
+    lx = int(((IX0 + IX1) / 2 - X0) * ESC - ancho / 2)
+    ly = int(((y_liq + IY_FONDO) / 2 - Y0) * ESC - logo.height / 2)
+    im.alpha_composite(logo, (lx, ly))
     return im
 
 colores = [(140, 182, 234), (238, 196, 112), (240, 170, 196)]   # azul, ámbar, rosa
