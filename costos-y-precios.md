@@ -86,3 +86,4 @@ Costo total Gs. 591.600 · precio total Gs. 768.000 · ganancia Gs. 176.400 (23%
 La dueña pasó costo y precio sin decir de cuál es cada uno (139.200/200.000 · 174.000/221.000 · 278.400/347.000); se usa el total.
 11 de noviembre: Combo 3 árabes publicado en Instagram @lareseparfums (post en el feed + historia). No está en Meta Ads.
 11 de noviembre: segunda historia del Combo 3 árabes, con "+ ENVÍO GRATIS" en rojo. El post del feed quedó sin envío gratis (Instagram no deja cambiar la imagen de un post publicado).
+11 de noviembre: post nuevo del Combo 3 árabes con envío gratis publicado en @lareseparfums. La dueña tiene que borrar a mano el post anterior (sin envío gratis).
