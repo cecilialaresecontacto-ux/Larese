@@ -67,3 +67,5 @@ Costo Gs. 1.080.100 · suma de precios Gs. 1.340.400 · precio pedido por la due
 Meta: campaña "COMBO 5 PERFUMES · AZZARO + 4 ÁRABES 1.350.000" activa desde el 11 de noviembre, Gs. 30.000 por día
 (25-50 años, hombres y mujeres, WhatsApp). 3 anuncios: A video (gancho diseñador), B post (regalo), C historia (un perfume para cada momento).
 Plan: subir de a 20-30% cada 3 días si la conversación sale barata (menos de Gs. 8.000).
+11 de noviembre: textos cambiados al gancho "por lo que cuesta UN perfume de lujo: 1 de diseñador + 4 árabes"
+(base cierta: en la tienda Parfums de Marly, Creed e Initio pasan los Gs. 1.700.000).
