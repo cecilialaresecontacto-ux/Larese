@@ -25,7 +25,6 @@ El decant de regalo NO se resta como costo del combo.
 | Rasasi Hawas Ice | Gs. 189.000 | Gs. 198.000 | Gs. 9.000 | 4,5% | 2 de Gs. 108.900 (total 217.800) |
 | French Avenue Liquid Brun | Gs. 171.100 | Gs. 210.800 | Gs. 39.700 | 18,8% | 2 de Gs. 115.940 (total 231.880) |
 | Azzaro The Most Wanted Parfum (diseñador, 100 ml) | Gs. 377.000 | Gs. 510.000 | Gs. 133.000 | 26,1% | 2 de Gs. 280.500 (total 561.000) |
-| Afnan Turathi Brown | Gs. 139.200 | Gs. 200.000 | Gs. 60.800 | 30,4% | 2 de Gs. 110.000 (total 220.000) |
 
 Notas:
 - Hawas Verde en Shopify figura a Gs. 234.000 contado (no se cambió).
@@ -77,3 +76,11 @@ Combo para él (Hawas Ice · Amber Oud · Liquid Brun · Club de Nuit · Turathi
 (antes 1.035.000) · costo Gs. 864.000 · ganancia Gs. 166.000 (16,1%) · 2 cuotas de Gs. 566.500 (total 1.133.000).
 11 de noviembre: los 3 anuncios activos del Combo 5 perfumes dicen "Podés cambiar 1 perfume a tu gusto (el precio puede variar según el que elijas)".
 Para el cambio: precio nuevo = 1.350.000 − precio del perfume que sale + precio del que entra (precios de esta tabla).
+
+11 de noviembre: el Afnan Turathi Brown YA NO EXISTE (lo dijo la dueña). El combo para él de Gs. 1.030.000 / 1.035.000 lo tenía:
+hay que reemplazarlo por otro perfume antes de volver a publicarlo.
+
+## Combo 3 perfumes árabes para él · Gs. 768.000
+Hawas Ice · Hawas Kobra · Afnan Supremacy Collector's Edition.
+Costo total Gs. 591.600 · precio total Gs. 768.000 · ganancia Gs. 176.400 (23%) · 2 cuotas de Gs. 422.400 (total 844.800).
+La dueña pasó costo y precio sin decir de cuál es cada uno (139.200/200.000 · 174.000/221.000 · 278.400/347.000); se usa el total.
