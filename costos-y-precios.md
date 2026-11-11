@@ -95,4 +95,4 @@ La dueña pasó costo y precio sin decir de cuál es cada uno (139.200/200.000 �
 - TRÍO DE DISEÑADOR PARA ÉL (3 decants 5 ml) · Gs. 180.000
 No se cargaron: el de Gs. 1.030.000 (tenía el Turathi Brown, que ya no existe) ni el de Gs. 999.000 (campaña vieja, en pausa).
 - COMBO 3 DECANTS A ELECCIÓN · 5 ML · Gs. 140.000 (lista de perfumes en la descripción; la clienta elige en la nota del pedido o por WhatsApp).
-  Ojo: sigue activo en la web "COMBO ARMÁ TU TRÍO · 3 DECANTS DE 5 ML A ELECCIÓN" a Gs. 190.000.
+  El viejo "COMBO ARMÁ TU TRÍO" de Gs. 190.000 se archivó el 11 de noviembre (ya no aparece en la web).
