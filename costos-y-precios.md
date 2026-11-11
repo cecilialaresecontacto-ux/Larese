@@ -69,3 +69,5 @@ Meta: campaña "COMBO 5 PERFUMES · AZZARO + 4 ÁRABES 1.350.000" activa desde e
 Plan: subir de a 20-30% cada 3 días si la conversación sale barata (menos de Gs. 8.000).
 11 de noviembre: textos cambiados al gancho "por lo que cuesta UN perfume de lujo: 1 de diseñador + 4 árabes"
 (base cierta: en la tienda Parfums de Marly, Creed e Initio pasan los Gs. 1.700.000).
+11 de noviembre: se agregó "+ ENVÍO GRATIS" en rojo a imágenes, video y textos. El video viejo (A) quedó en pausa y se reemplazó por A2.
+Anuncios activos: A2 video, B post, C historia. Ojo: el envío gratis sale de la ganancia (Gs. 269.900 por combo).
