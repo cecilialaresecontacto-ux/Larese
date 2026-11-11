@@ -75,3 +75,5 @@ Anuncios activos: A2 video, B post, C historia. Ojo: el envío gratis sale de la
 11 de noviembre: la dueña corrigió el Turathi Brown (costo Gs. 139.200, precio Gs. 200.000).
 Combo para él (Hawas Ice · Amber Oud · Liquid Brun · Club de Nuit · Turathi Brown): suma de precios Gs. 1.030.000
 (antes 1.035.000) · costo Gs. 864.000 · ganancia Gs. 166.000 (16,1%) · 2 cuotas de Gs. 566.500 (total 1.133.000).
+11 de noviembre: los 3 anuncios activos del Combo 5 perfumes dicen "Podés cambiar 1 perfume a tu gusto (el precio puede variar según el que elijas)".
+Para el cambio: precio nuevo = 1.350.000 − precio del perfume que sale + precio del que entra (precios de esta tabla).
