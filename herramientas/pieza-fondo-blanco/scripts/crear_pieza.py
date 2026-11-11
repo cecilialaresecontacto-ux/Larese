@@ -26,6 +26,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "precio_anterior": 50000,               # opcional, se muestra tachado
   "precio_anterior_texto": "Precio normal",  # opcional, rótulo sin tachar antes del precio anterior
   "descuento": "-20%",                    # opcional, sello blanco
+  "sello_abajo": true,                    # opcional: el sello va a la derecha, a la altura del precio
   "imagen": "producto.png",               # foto del producto (ideal: fondo blanco o PNG recortado)
   "elementos": ["flor.png"],              # opcional: imágenes extra para las esquinas desenfocadas
   "color": "#D4848C",                     # opcional: fuerza el color de fondo
@@ -329,7 +330,7 @@ def sello(img, cx, cy, texto, r, color_texto):
     img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(14)), (0, 0, 0), 0.5))
     d = ImageDraw.Draw(img)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=TEXTO)
-    f, ls, _ = ajustar(d, texto, int(r * 0.62), 20, r * 1.55, 2, b"ExtraBold")
+    f, ls, _ = ajustar(d, texto, int(r * 0.62), 20, r * 1.55, 3, b"ExtraBold")
     y = cy - alto_linea(f) * len(ls) / 2 - r * 0.04
     for l in ls:
         txt(d, cx, y, l, f, color_texto)
@@ -511,8 +512,14 @@ def armar(spec):
         pcaja = (caja[0] + ancho_c * 0.2, caja[1], caja[2] - ancho_c * 0.2, caja[3])
     if spec.get("descuento"):
         r = w * (0.105 if formato in ("historia", "portada") else 0.095)
-        sx = min(w - r - 44, pcaja[2] + r * 0.5)
-        sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, BLANCO)
+        if spec.get("sello_abajo"):  # a la derecha del precio, sin tapar el producto ni el precio
+            ancho_precio = ImageDraw.Draw(img).textlength(guaranies(spec.get("precio")) or "", font=fuente(M["pre"], b"Bold"))
+            libre = (w - 20) - (cx + ancho_precio / 2) - 12
+            r = min(r * 1.08, libre / 2)
+            sello(img, w - r - 20, abajo + r * 0.55, spec["descuento"], r, BLANCO)
+        else:
+            sx = min(w - r - 44, pcaja[2] + r * 0.5)
+            sello(img, sx, pcaja[1] + r * 1.15, spec["descuento"], r, BLANCO)
 
     # --- textos de arriba ---
     d = ImageDraw.Draw(img)
