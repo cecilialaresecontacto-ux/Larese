@@ -24,6 +24,7 @@ El decant de regalo NO se resta como costo del combo.
 | Al Haramain Amber Oud Aqua Dubai | Gs. 217.500 | Gs. 237.500 | Gs. 20.000 | 8,4% | 2 de Gs. 130.625 (total 261.250) |
 | Rasasi Hawas Ice | Gs. 189.000 | Gs. 198.000 | Gs. 9.000 | 4,5% | 2 de Gs. 108.900 (total 217.800) |
 | French Avenue Liquid Brun | Gs. 171.100 | Gs. 210.800 | Gs. 39.700 | 18,8% | 2 de Gs. 115.940 (total 231.880) |
+| Azzaro The Most Wanted Parfum (diseñador, 100 ml) | Gs. 377.000 | Gs. 510.000 | Gs. 133.000 | 26,1% | 2 de Gs. 280.500 (total 561.000) |
 | Afnan Turathi Brown | Gs. 288.000 | Gs. 205.000 | **−Gs. 83.000 (pérdida)** | −40,5% | 2 de Gs. 112.750 (total 225.500) |
 
 Notas:
@@ -59,3 +60,7 @@ Meta: campaña activa desde el 10 de noviembre con el VIDEO con música (Gs. 30.
 Los 2 anuncios de imagen del mismo conjunto quedan en pausa (tienen las fotos viejas).
 Video también en los Archivos de Shopify.
 Reel Notas (seguidores) pausado el 10 de noviembre. Activas: Trío en video (Gs. 30.000) y Seguidores 25 julio (Gs. 20.000).
+
+## Combo 5 perfumes · diseñador + árabes · Gs. 1.350.000
+Azzaro The Most Wanted Parfum · Bharara King · Liquid Brun · Club de Nuit Intense Man · Odyssey Aqua.
+Costo Gs. 1.080.100 · suma de precios Gs. 1.340.400 · precio pedido por la dueña Gs. 1.350.000 · ganancia Gs. 269.900 (20%).
