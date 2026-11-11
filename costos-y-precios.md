@@ -87,3 +87,10 @@ La dueña pasó costo y precio sin decir de cuál es cada uno (139.200/200.000 �
 11 de noviembre: Combo 3 árabes publicado en Instagram @lareseparfums (post en el feed + historia). No está en Meta Ads.
 11 de noviembre: segunda historia del Combo 3 árabes, con "+ ENVÍO GRATIS" en rojo. El post del feed quedó sin envío gratis (Instagram no deja cambiar la imagen de un post publicado).
 11 de noviembre: post nuevo del Combo 3 árabes con envío gratis publicado en @lareseparfums. La dueña tiene que borrar a mano el post anterior (sin envío gratis).
+
+## En la web (Shopify), cargados el 11 de noviembre
+- COMBO 5 PERFUMES | AZZARO + 4 ÁRABES · Gs. 1.350.000 (o 2 cuotas de 742.500) · envío gratis
+- COMBO 3 PERFUMES ÁRABES | HAWAS ICE | HAWAS KOBRA | SUPREMACY · Gs. 768.000 (o 2 cuotas de 422.400) · envío gratis
+- COMBO 5 PERFUMES ÁRABES PARA ÉL | HAWAS ICE | HAWAS VERDE | ODYSSEY AQUA | AMBER OUD | LIQUID BRUN · Gs. 976.300 + decant 5 ml
+- TRÍO DE DISEÑADOR PARA ÉL (3 decants 5 ml) · Gs. 180.000
+No se cargaron: el de Gs. 1.030.000 (tenía el Turathi Brown, que ya no existe) ni el de Gs. 999.000 (campaña vieja, en pausa).
