@@ -18,9 +18,13 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "etiqueta": "Decant original",          # línea chica arriba del título
   "titulo": "Good Girl Blush",            # grande, va en mayúsculas
   "subtitulo": "Carolina Herrera · 3, 5 y 10 ml",
+  "subtitulo_destacado": true,            # opcional: subtítulo más grande, en negrita y negro
   "precio": 40000,                        # número en guaraníes -> "Gs. 40.000"
   "precio_prefijo": "Desde",              # opcional
+  "precio_prefijo_arriba": true,          # opcional: el prefijo va en su propia línea, más chico, arriba del precio
+  "color_destacado": "#D62828",           # opcional: precio y botón en este color para llamar la atención
   "precio_anterior": 50000,               # opcional, se muestra tachado
+  "precio_anterior_texto": "Precio normal",  # opcional, rótulo sin tachar antes del precio anterior
   "descuento": "-20%",                    # opcional, sello blanco
   "imagen": "producto.png",               # foto del producto (ideal: fondo blanco o PNG recortado)
   "elementos": ["flor.png"],              # opcional: imágenes extra para las esquinas desenfocadas
@@ -138,8 +142,11 @@ def txt(d, cx, y, t, f, color=TEXTO, esp=0):
 
 
 def envolver(d, t, f, maxw, esp=0):
+    # Solo corta en espacios comunes: un espacio duro (\u00a0) mantiene juntas dos palabras
     lineas, act = [], ""
-    for p in t.split():
+    for p in t.split(" "):
+        if not p:
+            continue
         prueba = (act + " " + p).strip()
         if ancho_txt(d, prueba, f, esp) <= maxw:
             act = prueba
@@ -379,20 +386,33 @@ def pie(img, y, tam, color_circulo):
 def precio(img, cx, y, spec, tam):
     d = ImageDraw.Draw(img)
     actual = guaranies(spec.get("precio"))
-    if actual and spec.get("precio_prefijo"):
-        actual = f'{spec["precio_prefijo"]} {actual}'
+    prefijo = (spec.get("precio_prefijo") or "").strip()
+    arriba = bool(prefijo and spec.get("precio_prefijo_arriba"))
+    if actual and prefijo and not arriba:
+        actual = f'{prefijo} {actual}'
+    color_precio = hex_a_rgb(spec["color_destacado"]) if spec.get("color_destacado") else TEXTO
     anterior = guaranies(spec.get("precio_anterior"))
     if anterior:
         f2 = fuente(tam * 0.46, b"Medium")
         w2 = d.textlength(anterior, font=f2)
         claro = (120, 120, 120, 255)
-        d.text((cx - w2 / 2, y), anterior, font=f2, fill=claro)
+        # "precio_anterior_texto": rótulo sin tachar antes del número (ej. "Precio normal aprox.")
+        rotulo = (spec.get("precio_anterior_texto") or "").strip()
+        wr = d.textlength(rotulo + "  ", font=f2) if rotulo else 0
+        x0 = cx - (wr + w2) / 2
+        if rotulo:
+            d.text((x0, y), rotulo, font=f2, fill=claro)
+        d.text((x0 + wr, y), anterior, font=f2, fill=claro)
         a, _ = f2.getmetrics()
-        d.line((cx - w2 / 2 - 4, y + a * 0.62, cx + w2 / 2 + 4, y + a * 0.62), fill=claro, width=3)
+        d.line((x0 + wr - (2 if rotulo else 4), y + a * 0.62, x0 + wr + w2 + 4, y + a * 0.62), fill=claro, width=3)
         y += alto_linea(f2, 1.05)
+    if actual and arriba:
+        fp = fuente(tam * 0.46, b"SemiBold")
+        txt(ImageDraw.Draw(img), cx, y, prefijo.upper(), fp, color_precio, esp=tam * 0.46 * 0.06)
+        y += alto_linea(fp, 1.0)
     if actual:
         f = fuente(tam, b"Bold")
-        txt(ImageDraw.Draw(img), cx, y, actual, f)
+        txt(ImageDraw.Draw(img), cx, y, actual, f, color_precio)
         y += alto_linea(f, 1.05)
     return y
 
@@ -401,6 +421,8 @@ def alto_precio(spec, tam):
     al = 0
     if spec.get("precio_anterior"):
         al += alto_linea(fuente(tam * 0.46, b"Medium"), 1.05)
+    if spec.get("precio") and spec.get("precio_prefijo") and spec.get("precio_prefijo_arriba"):
+        al += alto_linea(fuente(tam * 0.46, b"SemiBold"), 1.0)
     if spec.get("precio"):
         al += alto_linea(fuente(tam, b"Bold"), 1.05)
     return al
@@ -432,6 +454,8 @@ def armar(spec):
             or COLOR_CATEGORIA.get(spec.get("categoria", ""), COLOR_DEFECTO)
     # fondo SIEMPRE blanco (se ignora el color de la foto o de la categoría)
     oscuro = ACENTO
+    # "color_destacado": el botón va en ese color (el pie sigue en negro)
+    color_boton = hex_a_rgb(spec["color_destacado"]) if spec.get("color_destacado") else oscuro
 
     img = fondo(w, h, FONDO)
     d = ImageDraw.Draw(img)
@@ -448,7 +472,10 @@ def armar(spec):
     arriba += alto_linea(ft, 0.86) * len(lt)
     fs, ls = None, []
     if spec.get("subtitulo"):
-        fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), M["sub"], M["sub"] * 0.7, w - 180, 2, b"Medium", 0.04)
+        # "subtitulo_destacado": el subtítulo sale más grande, en negrita y en negro
+        tam_sub = M["sub"] * (1.7 if spec.get("subtitulo_destacado") else 1)
+        peso_sub = b"Bold" if spec.get("subtitulo_destacado") else b"Medium"
+        fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), int(tam_sub), tam_sub * 0.7, w - 180, 2, peso_sub, 0.04)
         arriba += alto_linea(fs, 1.15) * len(ls) + 6
 
     # --- bloque de abajo (medición) ---
@@ -501,7 +528,7 @@ def armar(spec):
     if ls:
         y += 6
         for l in ls:
-            txt(d, cx, y, l, fs, GRIS, esp=M["sub"] * 0.04)
+            txt(d, cx, y, l, fs, TEXTO if spec.get("subtitulo_destacado") else GRIS, esp=M["sub"] * 0.04)
             y += alto_linea(fs, 1.15)
 
     # --- bloque de abajo ---
@@ -511,7 +538,7 @@ def armar(spec):
         return img.convert("RGB")
     yb = precio(img, cx, abajo + M["pre"] * 0.25, spec, M["pre"])
     if spec.get("cta"):
-        boton(img, cx, yb + M["cta"] * 0.45, spec["cta"], M["cta"], oscuro)
+        boton(img, cx, yb + M["cta"] * 0.45, spec["cta"], M["cta"], color_boton)
     if M["pie_y"]:
         pie(img, pie_y, M["pie"], oscuro)
     return img.convert("RGB")
