@@ -52,9 +52,11 @@ def frasco(color, nivel=0.80):
     im = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA')
     im.putalpha(alfa_im)
     # logo larese impreso en el vidrio, centrado en el cuerpo
+    # vertical: se lee de abajo hacia arriba
     logo = Image.open(LOGO).convert('RGBA')
-    ancho = int((IX1 - IX0) * ESC * 0.78)
-    logo = logo.resize((ancho, round(logo.height * ancho / logo.width)), Image.LANCZOS)
+    largo = int((IY_FONDO - y_liq) * ESC * 0.74)
+    logo = logo.resize((largo, round(logo.height * largo / logo.width)), Image.LANCZOS).rotate(90, expand=True)
+    ancho = logo.width
     la = np.asarray(logo).astype(float)
     la[..., 3] *= 0.92
     logo = Image.fromarray(la.astype(np.uint8))
