@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}#escena{display:flex;align-items:flex-end;gap:70px;padding:40px 60px 70px}</style></head><body><div id="escena"></div>
+<script>
+const NS='http://www.w3.org/2000/svg';
+function vial(W,H,liq1,liq2,ml,id){
+ // proporciones del frasco tipo tubo
+ const capH=H*0.19, colH=H*0.055, bodyH=H-capH-colH, cx=W/2;
+ const bw=W*0.86, bx=(W-bw)/2, by=capH+colH;
+ const cw=W*0.80, cxp=(W-cw)/2;
+ let springs='';const sy=by+6, sh=bodyH*0.08;
+ for(let i=0;i<7;i++){const y=sy+i*sh/7;springs+=`<line x1="${cx-W*0.09}" y1="${y}" x2="${cx+W*0.09}" y2="${y+sh/14}" stroke="#9aa0a6" stroke-width="1.6"/>`;}
+ const lq=bodyH*0.80;
+ const s=`<svg xmlns="${NS}" width="${W}" height="${H+30}" viewBox="0 0 ${W} ${H+30}">
+ <defs>
+  <linearGradient id="g${id}" x1="0" x2="1"><stop offset="0" stop-color="#cfd4d9" stop-opacity=".85"/><stop offset=".12" stop-color="#fff" stop-opacity=".2"/><stop offset=".22" stop-color="#fff" stop-opacity=".95"/><stop offset=".32" stop-color="#fff" stop-opacity=".1"/><stop offset=".8" stop-color="#e3e6ea" stop-opacity=".25"/><stop offset=".92" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#b9bec4" stop-opacity=".9"/></linearGradient>
+  <linearGradient id="l${id}" x1="0" x2="1"><stop offset="0" stop-color="${liq2}"/><stop offset=".3" stop-color="${liq1}"/><stop offset=".7" stop-color="${liq1}"/><stop offset="1" stop-color="${liq2}"/></linearGradient>
+  <linearGradient id="c${id}" x1="0" x2="1"><stop offset="0" stop-color="#d7dbe0"/><stop offset=".2" stop-color="#fbfcfd"/><stop offset=".45" stop-color="#e9ecef"/><stop offset=".8" stop-color="#f6f7f8"/><stop offset="1" stop-color="#cdd2d7"/></linearGradient>
+  <filter id="b${id}"><feGaussianBlur stdDeviation="6"/></filter>
+ </defs>
+ <!-- tapa transparente -->
+ <rect x="${cxp}" y="2" width="${cw}" height="${capH}" rx="${W*0.10}" fill="url(#c${id})" stroke="#c3c8ce" stroke-width="2" opacity=".95"/>
+ <rect x="${cxp+cw*0.18}" y="${capH*0.22}" width="${cw*0.64}" height="${capH*0.78}" rx="6" fill="#fff" opacity=".55" stroke="#d5d9de"/>
+ <!-- cuello estriado -->
+ <rect x="${bx-2}" y="${capH}" width="${bw+4}" height="${colH}" rx="4" fill="url(#c${id})" stroke="#c3c8ce" stroke-width="2"/>
+ ${Array.from({length:9},(_,i)=>`<line x1="${bx+4+i*(bw-8)/8}" y1="${capH+3}" x2="${bx+4+i*(bw-8)/8}" y2="${capH+colH-3}" stroke="#c9cdd2" stroke-width="1.5"/>`).join('')}
+ <!-- liquido -->
+ <rect x="${bx+3}" y="${by+bodyH-lq}" width="${bw-6}" height="${lq-3}" rx="${W*0.12}" fill="url(#l${id})"/>
+ <!-- resorte y tubito -->
+ ${springs}
+ <path d="M ${cx} ${by+sh+8} L ${cx} ${by+bodyH*0.22} C ${cx+W*0.28} ${by+bodyH*0.45}, ${cx-W*0.25} ${by+bodyH*0.7}, ${cx+W*0.05} ${by+bodyH-8}" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="3"/>
+ <path d="M ${cx} ${by+sh+8} L ${cx} ${by+bodyH*0.22} C ${cx+W*0.28} ${by+bodyH*0.45}, ${cx-W*0.25} ${by+bodyH*0.7}, ${cx+W*0.05} ${by+bodyH-8}" fill="none" stroke="#a7adb3" stroke-opacity=".6" stroke-width="1.2"/>
+ <!-- vidrio -->
+ <rect x="${bx}" y="${by}" width="${bw}" height="${bodyH}" rx="${W*0.13}" fill="url(#g${id})" stroke="#bfc4ca" stroke-width="2"/>
+ <!-- logo impreso en vertical -->
+ <g transform="translate(${cx-bw*0.19} ${by+bodyH*0.76}) rotate(-90)"><image href="../../comercial-fragancias/public/marca/logo-negro.png" width="${bw*1.45}" height="${bw*1.45*322/1200}"/></g>
+ <text x="${cx}" y="${by+bodyH*0.93}" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="${bw*0.27}" fill="#161616" letter-spacing="0">${ml}</text>
+ </svg>`;
+ const d=document.createElement('div');d.innerHTML=s;document.getElementById('escena').appendChild(d.firstElementChild);
+}
+vial(130,600,'rgba(246,200,176,.9)','rgba(226,166,144,.95)','5 ML',1);
+vial(130,600,'rgba(242,216,152,.9)','rgba(214,178,104,.95)','5 ML',2);
+vial(130,600,'rgba(238,184,200,.9)','rgba(216,144,168,.95)','5 ML',3);
+</script></body></html>
