@@ -102,3 +102,4 @@ No se cargaron: el de Gs. 1.030.000 (tenía el Turathi Brown, que ya no existe) 
 - Reel de las notas: campaña NUEVA con objetivo ALCANCE ("ALCANCE · REEL NOTAS…"), mismo video, Gs. 20.000 por día, 18-50 años, Paraguay.
   La campaña vieja de seguidores sigue en pausa (a su anuncio se le agregaron etiquetas utm en la URL; no cambia nada visible).
 - Windsor (lectura de datos) pausado: el plan gratis permite 1 cuenta y hay 6 conectadas.
+- Trío en video (Gs. 180.000): campaña pausada el 12 de noviembre.
