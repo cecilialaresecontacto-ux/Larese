@@ -28,7 +28,7 @@
      "notas": "Jazmín y vainilla con un fondo amaderado, elegante y moderno."},
     {"nombre": "Libre", "marca": "Yves Saint Laurent", "tipo": "Eau de Parfum", "precio": 55000, "foto": "10-libre.png",
      "notas": "Lavanda francesa y azahar sobre un fondo de vainilla."},
-    {"nombre": "J'adore", "marca": "Dior", "tipo": "Eau de Parfum", "precio": 50000, "foto": "11-jadore.jpg",
+    {"nombre": "J'adore", "marca": "Dior", "tipo": "Eau de Parfum", "precio": 50000, "foto": "11-jadore.jpg", "recorte": false,
      "notas": "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado."},
     {"nombre": "La Vie Est Belle", "marca": "Lancôme", "tipo": "Eau de Parfum", "precio": 45000, "foto": "12-la-vie-est-belle.jpg",
      "notas": "Iris, praliné y vainilla: el dulce más elegante."},

@@ -35,7 +35,7 @@ import os
 import sys
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(AQUI, "..", "assets")
@@ -193,6 +193,22 @@ def pegar_producto(img, prod, caja, sombra_color=(40, 10, 15)):
     img.alpha_composite(p, (px, py))
 
 
+def fundir_foto(img, ruta, caja):
+    """Para fotos con fondo blanco y partes blancas (cajas): sin recortar, se funde con el fondo (multiplicar)."""
+    x0, y0, x1, y1 = caja
+    f = ImageOps.exif_transpose(Image.open(ruta)).convert("RGB")
+    a = np.array(f)
+    ys, xs = np.where(a.min(-1) < 245)
+    if len(xs):
+        f = f.crop((max(xs.min() - 10, 0), max(ys.min() - 10, 0),
+                    min(xs.max() + 10, f.width), min(ys.max() + 10, f.height)))
+    esc = min((x1 - x0) / f.width, (y1 - y0) / f.height)
+    f = f.resize((int(f.width * esc), int(f.height * esc)), Image.LANCZOS)
+    px, py = int((x0 + x1) / 2 - f.width / 2), int(y1 - f.height)
+    zona = img.crop((px, py, px + f.width, py + f.height)).convert("RGB")
+    img.paste(ImageChops.multiply(zona, f), (px, py))
+
+
 def tarjeta_foto(img, foto, caja, color_borde):
     """Para fotos que no se pueden recortar: tarjeta con borde fino."""
     x0, y0, x1, y1 = caja
@@ -280,9 +296,16 @@ def slide_producto(p, n, fotos_dir, oscuro):
     top_arco = y_marca + 100
     caja_arco = (W / 2 - 280, top_arco, W / 2 + 280, 1000)
     arco(img, caja_arco, fondo_arco)
-    prod, recortado = cargar_producto(os.path.join(fotos_dir, p["foto"]))
+    ruta_foto = os.path.join(fotos_dir, p["foto"])
     caja_prod = (caja_arco[0] + 65, top_arco + 120, caja_arco[2] - 65, 1000 - 30)
-    if recortado:
+    if p.get("recorte") is False:
+        fundir_foto(img, ruta_foto, caja_prod)
+        recortado = None
+    else:
+        prod, recortado = cargar_producto(ruta_foto)
+    if recortado is None:
+        pass
+    elif recortado:
         pegar_producto(img, prod, caja_prod)
     else:
         tarjeta_foto(img, prod, caja_prod, suave)
