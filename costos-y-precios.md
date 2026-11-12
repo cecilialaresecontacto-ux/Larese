@@ -96,3 +96,9 @@ La dueña pasó costo y precio sin decir de cuál es cada uno (139.200/200.000 �
 No se cargaron: el de Gs. 1.030.000 (tenía el Turathi Brown, que ya no existe) ni el de Gs. 999.000 (campaña vieja, en pausa).
 - COMBO 3 DECANTS A ELECCIÓN · 5 ML · Gs. 140.000 (lista de perfumes en la descripción; la clienta elige en la nota del pedido o por WhatsApp).
   El viejo "COMBO ARMÁ TU TRÍO" de Gs. 190.000 se archivó el 11 de noviembre (ya no aparece en la web).
+
+## Meta · 12 de noviembre
+- Combo 5 perfumes (1.350.000): campaña reactivada, Gs. 30.000 por día.
+- Reel de las notas: campaña NUEVA con objetivo ALCANCE ("ALCANCE · REEL NOTAS…"), mismo video, Gs. 20.000 por día, 18-50 años, Paraguay.
+  La campaña vieja de seguidores sigue en pausa (a su anuncio se le agregaron etiquetas utm en la URL; no cambia nada visible).
+- Windsor (lectura de datos) pausado: el plan gratis permite 1 cuenta y hay 6 conectadas.
