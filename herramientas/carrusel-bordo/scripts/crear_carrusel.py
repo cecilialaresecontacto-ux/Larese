@@ -255,7 +255,7 @@ def pie(img, y, color):
 
 # ---------------- slides ----------------
 
-def slide_producto(p, n, fotos_dir, oscuro):
+def slide_producto(p, n, fotos_dir, oscuro, fondo_producto="arco"):
     img = Image.new("RGBA", (W, H), CREMA + (255,))
     if oscuro:
         estampilla(img)
@@ -299,10 +299,22 @@ def slide_producto(p, n, fotos_dir, oscuro):
     y_marca = max(y_fin_tit, y_num + 150) + 4
     escribir(d, W - 100, y_marca, p["marca"], f_marca, suave, ancla="ra")
 
-    # producto en un arco
+    # fondo del producto: "arco" (relleno), "linea" (solo el contorno del arco),
+    # "circulo" o "ninguno" (el producto directo sobre el fondo, sin línea de piso)
     top_arco = y_marca + 100
     caja_arco = (W / 2 - 280, top_arco, W / 2 + 280, 1000)
-    arco(img, caja_arco, fondo_arco)
+    if fondo_producto == "arco":
+        arco(img, caja_arco, fondo_arco)
+    elif fondo_producto == "linea":
+        r = (caja_arco[2] - caja_arco[0]) / 2
+        dl = ImageDraw.Draw(img)
+        dl.arc((caja_arco[0], top_arco, caja_arco[2], top_arco + 2 * r), 180, 360, fill=suave, width=2)
+        dl.line((caja_arco[0], top_arco + r, caja_arco[0], 1000), fill=suave, width=2)
+        dl.line((caja_arco[2], top_arco + r, caja_arco[2], 1000), fill=suave, width=2)
+    elif fondo_producto == "circulo":
+        cy = (top_arco + 1000) / 2 + 20
+        rr = min(250, (1000 - top_arco) / 2)
+        ImageDraw.Draw(img).ellipse((W / 2 - rr, cy - rr, W / 2 + rr, cy + rr), fill=fondo_arco)
     ruta_foto = os.path.join(fotos_dir, p["foto"])
     caja_prod = (caja_arco[0] + 65, top_arco + 120, caja_arco[2] - 65, 1000 - 30)
     if p.get("recorte") is False:
@@ -317,7 +329,8 @@ def slide_producto(p, n, fotos_dir, oscuro):
     else:
         tarjeta_foto(img, prod, caja_prod, suave)
     d = ImageDraw.Draw(img)
-    d.line((caja_arco[0] - 40, 1000, caja_arco[2] + 40, 1000), fill=suave, width=2)
+    if fondo_producto != "ninguno":
+        d.line((caja_arco[0] - 40, 1000, caja_arco[2] + 40, 1000), fill=suave, width=2)
 
     # tipo + notas
     f_tipo = sans(19, "SemiBold")
@@ -457,7 +470,7 @@ def main():
 
     slides = [slide_portada(spec["portada"], fotos)]
     for i, p in enumerate(spec["productos"], 1):
-        slides.append(slide_producto(p, i, fotos, oscuro=(i % 2 == 0)))
+        slides.append(slide_producto(p, i, fotos, oscuro=(i % 2 == 0), fondo_producto=spec.get("fondo_producto", "arco")))
     # sin "cierre" en el spec no hay slide final (Instagram acepta hasta 20 slides)
     if spec.get("cierre"):
         slides.append(slide_cierre(spec["cierre"]))
