@@ -42,11 +42,18 @@ ASSETS = os.path.join(AQUI, "..", "assets")
 FUENTES = os.path.join(ASSETS, "fonts")
 
 W, H = 1080, 1350
-BORDO = (92, 18, 32)
-BORDO_SUAVE = (130, 62, 72)
-CREMA = (244, 238, 229)
-CREMA_OSC = (234, 223, 209)
-CREMA_SUAVE = (222, 196, 190)
+# Paleta de la marca (sacada de la referencia que eligió la dueña, ver CLAUDE.md)
+BORDO = (0x41, 0x03, 0x0B)        # #41030B bordó vino: fondos oscuros, píldoras, botones
+BORDO_CUERO = (0x2A, 0x0B, 0x0D)  # #2A0B0D bordó cuero: sombras
+TINTA = (0x32, 0x19, 0x18)        # #321918 tinta: títulos y textos sobre crema
+MALVA = (0x7B, 0x5B, 0x5B)        # #7B5B5B malva: textos secundarios sobre crema
+CREMA = (0xF8, 0xF4, 0xEB)        # #F8F4EB crema: fondo claro
+MARFIL = (0xFC, 0xE5, 0xDA)       # #FCE5DA rosa marfil: textos sobre bordó, arcos sobre crema
+DORADO = (0x99, 0x79, 0x57)       # #997957 dorado antiguo: acentos y textos secundarios sobre bordó
+
+BORDO_SUAVE = MALVA
+CREMA_OSC = MARFIL
+CREMA_SUAVE = DORADO
 WHATSAPP = "0972 736 002"
 
 
@@ -177,7 +184,7 @@ def arco(img, caja, color):
     d.rectangle((x0, y0 + r, x1, y1), fill=color)
 
 
-def pegar_producto(img, prod, caja, sombra_color=(40, 10, 15)):
+def pegar_producto(img, prod, caja, sombra_color=BORDO_CUERO):
     """Pega el producto dentro de la caja, apoyado abajo, con sombra suave."""
     x0, y0, x1, y1 = caja
     p = prod.copy()
@@ -253,7 +260,7 @@ def slide_producto(p, n, fotos_dir, oscuro):
     if oscuro:
         estampilla(img)
     d = ImageDraw.Draw(img)
-    principal = CREMA if oscuro else BORDO
+    principal = MARFIL if oscuro else TINTA
     suave = CREMA_SUAVE if oscuro else BORDO_SUAVE
     fondo_arco = CREMA if oscuro else CREMA_OSC
 
@@ -347,9 +354,9 @@ def slide_portada(s, fotos_dir):
     t = s["titulo"]
     wt = ancho(d, t, f_t)
     y_t = 190
-    escribir(d, W / 2, y_t, t, f_t, BORDO, ancla="ma")
-    escribir(d, W / 2 - wt / 2 - 40, y_t - 46, "(", f_par, BORDO, ancla="ra")
-    escribir(d, W / 2 + wt / 2 + 40, y_t - 46, ")", f_par, BORDO)
+    escribir(d, W / 2, y_t, t, f_t, TINTA, ancla="ma")
+    escribir(d, W / 2 - wt / 2 - 40, y_t - 46, "(", f_par, TINTA, ancla="ra")
+    escribir(d, W / 2 + wt / 2 + 40, y_t - 46, ")", f_par, TINTA)
     escribir(d, W / 2, y_t + 112, s["cursiva"], cursiva(120), BORDO_SUAVE, ancla="ma")
 
     # arco bordó con productos
@@ -376,9 +383,9 @@ def slide_portada(s, fotos_dir):
         capa = Image.new("RGBA", img.size, (0, 0, 0, 0))
         dc = ImageDraw.Draw(capa)
         dc.rounded_rectangle(caja, radius=46, fill=CREMA if i == 0 else BORDO,
-                             outline=BORDO if i == 0 else CREMA, width=3)
+                             outline=BORDO if i == 0 else MARFIL, width=3)
         bb = f.getbbox(txt)
-        dc.text((cx - tw / 2, cy - (bb[1] + bb[3]) / 2), txt, font=f, fill=BORDO if i == 0 else CREMA)
+        dc.text((cx - tw / 2, cy - (bb[1] + bb[3]) / 2), txt, font=f, fill=BORDO if i == 0 else MARFIL)
         img.alpha_composite(capa)
     d = ImageDraw.Draw(img)
 
@@ -398,12 +405,12 @@ def slide_cierre(s):
     img = Image.new("RGBA", (W, H), CREMA + (255,))
     estampilla(img)
     d = ImageDraw.Draw(img)
-    logo(img, W / 2, 110, 300, CREMA)
+    logo(img, W / 2, 110, 300, MARFIL)
 
     f_t = serif(92, 450)
     y = 330
     for l in envolver(d, s["titulo"], f_t, 820):
-        escribir(d, W / 2, y, l, f_t, CREMA, ancla="ma")
+        escribir(d, W / 2, y, l, f_t, MARFIL, ancla="ma")
         y += 108
     escribir(d, W / 2, y + 6, s["cursiva"], cursiva(78), CREMA_SUAVE, ancla="ma")
 
@@ -412,7 +419,7 @@ def slide_cierre(s):
     y += 44
     f_x = sans(30)
     for l in envolver(d, s["texto"], f_x, 720):
-        escribir(d, W / 2, y, l, f_x, CREMA, ancla="ma")
+        escribir(d, W / 2, y, l, f_x, MARFIL, ancla="ma")
         y += 48
 
     y += 40
@@ -426,7 +433,7 @@ def slide_cierre(s):
     tb = s["boton"]
     tw = ancho(d, tb, f_b)
     cy = max(y + 90, 1090)
-    d.rounded_rectangle((W / 2 - tw / 2 - 48, cy - 42, W / 2 + tw / 2 + 48, cy + 42), radius=42, fill=CREMA)
+    d.rounded_rectangle((W / 2 - tw / 2 - 48, cy - 42, W / 2 + tw / 2 + 48, cy + 42), radius=42, fill=MARFIL)
     bb = f_b.getbbox(tb)
     d.text((W / 2 - tw / 2, cy - (bb[1] + bb[3]) / 2), tb, font=f_b, fill=BORDO)
     escribir(d, W / 2, cy + 78, s.get("debajo_boton", "o en el link de la bio"), serif_it(30), CREMA_SUAVE, ancla="ma")

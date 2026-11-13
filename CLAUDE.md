@@ -17,9 +17,19 @@ Las piezas para redes (posts, historias, carruseles, portadas) usan **solo uno d
 
 ### 2. Bordó y crema (estilo editorial, aprobado en noviembre de 2026)
 
-La dueña eligió esta paleta a partir de una referencia de carrusel editorial.
+La dueña eligió esta paleta a partir de una referencia de carrusel editorial. Los colores se sacaron de esa referencia y son la **paleta oficial de la marca**. La muestra está en `marca/paleta.png`.
 
-- Colores: bordó `#5C1220` y crema `#F4EEE5`, con crema más oscuro `#EADFD1` para detalles. Las slides alternan fondo crema y fondo bordó con borde de estampilla.
+| Color | Hex | Uso |
+|---|---|---|
+| Bordó vino | `#41030B` | Fondos oscuros, píldoras, botones |
+| Bordó cuero | `#2A0B0D` | Sombras y fondos profundos |
+| Tinta | `#321918` | Títulos y textos sobre crema |
+| Malva | `#7B5B5B` | Textos secundarios sobre crema |
+| Crema | `#F8F4EB` | Fondo claro principal |
+| Rosa marfil | `#FCE5DA` | Textos sobre bordó, arcos sobre crema |
+| Dorado antiguo | `#997957` | Acentos, líneas finas y textos secundarios sobre bordó |
+
+- Usá solo estos colores. Las slides alternan fondo crema y fondo bordó vino con borde de estampilla.
 - Tipografías: títulos en Playfair Display, acentos en cursiva Pinyon Script y textos chicos en Poppins. Están en `herramientas/carrusel-bordo/assets/fonts/`.
 - Para carruseles de productos:
 
