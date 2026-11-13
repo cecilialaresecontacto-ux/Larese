@@ -355,8 +355,9 @@ def slide_portada(s, fotos_dir):
     wt = ancho(d, t, f_t)
     y_t = 190
     escribir(d, W / 2, y_t, t, f_t, TINTA, ancla="ma")
-    escribir(d, W / 2 - wt / 2 - 40, y_t - 46, "(", f_par, TINTA, ancla="ra")
-    escribir(d, W / 2 + wt / 2 + 40, y_t - 46, ")", f_par, TINTA)
+    if s.get("parentesis", True):
+        escribir(d, W / 2 - wt / 2 - 40, y_t - 46, "(", f_par, TINTA, ancla="ra")
+        escribir(d, W / 2 + wt / 2 + 40, y_t - 46, ")", f_par, TINTA)
     escribir(d, W / 2, y_t + 112, s["cursiva"], cursiva(120), BORDO_SUAVE, ancla="ma")
 
     # arco bordó con productos

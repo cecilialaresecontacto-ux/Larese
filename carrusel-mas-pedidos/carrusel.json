@@ -3,6 +3,7 @@
   "portada": {
     "titulo": "Los más pedidos",
     "cursiva": "del 2026",
+    "parentesis": false,
     "etiquetas": ["14 favoritos", "de nuestras clientas"],
     "fotos": ["12-la-vie-est-belle.jpg", "05-miss-dior.jpg", "13-scandal.jpg"],
     "pie": "Deslizá y encontrá el tuyo"
