@@ -1,0 +1,8 @@
+{
+  "carrusel": "../carrusel-mas-pedidos/carrusel.json",
+  "apertura": {"titulo": "Los 18 más pedidos", "cursiva": "del 2026", "bajada": "Mirá hasta el final"},
+  "cierre": {"titulo": "¿Cuál es el tuyo?", "cursiva": "contanos en comentarios"},
+  "seg_apertura": 2.6,
+  "seg_producto": 0.9,
+  "seg_cierre": 3.0
+}

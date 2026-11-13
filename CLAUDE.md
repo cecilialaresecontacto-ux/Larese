@@ -42,6 +42,7 @@ No uses los scripts de las skills `larese-anuncios` ni `larese-reels` tal cual: 
 | Post, cuadrado, historia, portada de reel o carrusel simple | `python3 herramientas/pieza-marca/scripts/crear_pieza.py spec.json salida.png` (mismo spec que `larese-anuncios`; `color` y `categoria` se ignoran) |
 | Carrusel de productos estilo editorial (slides crema y bordó con estampilla) | `python3 herramientas/carrusel-bordo/scripts/crear_carrusel.py carrusel.json carpeta/` (ejemplo: `carrusel-mas-pedidos/carrusel.json`) |
 | Reel con los videos de la dueña hablando a cámara | `python3 herramientas/reels-marca/scripts/armar_reel.py plan.json` (mismo plan que `larese-reels`; seguí las instrucciones de esa skill para armarlo) |
+| Reel animado con fotos de productos (sin video de ella) | `python3 herramientas/reel-productos/crear_reel.py reel.json salida.mp4` (ejemplo: `reel-mas-pedidos/reel.json`; sale sin música, la dueña le pone un audio en tendencia desde Instagram) |
 | Fondo blanco, solo si lo pide | `python3 herramientas/pieza-fondo-blanco/scripts/crear_pieza.py spec.json salida.png` |
 
 Si armás una pieza a mano o con otra herramienta, respetá la paleta y la tipografía de arriba.
