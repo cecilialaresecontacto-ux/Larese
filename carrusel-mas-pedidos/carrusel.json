@@ -4,46 +4,171 @@
     "titulo": "Los más pedidos",
     "cursiva": "del 2026",
     "parentesis": false,
-    "etiquetas": ["14 favoritos", "de nuestras clientas"],
-    "fotos": ["12-la-vie-est-belle.jpg", "05-miss-dior.jpg", "13-scandal.jpg"],
+    "etiquetas": [
+      "19 favoritos",
+      "de nuestras clientas"
+    ],
+    "fotos": [
+      "12-la-vie-est-belle.jpg",
+      "05-miss-dior.jpg",
+      "13-scandal.jpg"
+    ],
     "pie": "Deslizá y encontrá el tuyo"
   },
   "productos": [
-    {"nombre": "Paradoxe", "marca": "Prada", "tipo": "Eau de Parfum", "precio": 85000, "foto": "01-paradoxe.png",
-     "notas": "Pera y cítricos que se abren a un corazón de neroli, cálido y ambarado."},
-    {"nombre": "Good Girl", "marca": "Carolina Herrera", "tipo": "Eau de Parfum", "precio": 45000, "foto": "02-good-girl.jpg",
-     "notas": "Jazmín y nardo con el lado oscuro del cacao y el haba tonka."},
-    {"nombre": "Power of You", "marca": "Emporio Armani", "tipo": "Eau de Parfum", "precio": 50000, "foto": "03-power-of-you.jpg",
-     "notas": "Maracuyá jugoso y un corazón cremoso de frangipani."},
-    {"nombre": "Very Good Girl", "marca": "Carolina Herrera", "tipo": "Eau de Parfum", "precio": 45000, "foto": "04-very-good-girl.jpg",
-     "notas": "Rosa seductora con un fondo de vainilla y vetiver."},
-    {"nombre": "Miss Dior", "marca": "Dior", "tipo": "Eau de Parfum", "precio": 85000, "foto": "05-miss-dior.jpg",
-     "notas": "El floral más romántico de Dior, en su nueva versión."},
-    {"nombre": "Coco Mademoiselle Intense", "marca": "Chanel", "tipo": "Eau de Parfum Intense", "precio": 95000, "foto": "06-coco-mademoiselle.jpg",
-     "notas": "La versión más profunda y sensual del clásico de Chanel."},
-    {"nombre": "La Bomba", "marca": "Carolina Herrera", "tipo": "Eau de Parfum", "precio": 45000, "foto": "07-la-bomba.jpg",
-     "notas": "Vibrante y explosiva, con una frescura exótica que seduce."},
-    {"nombre": "Irresistible", "marca": "Givenchy", "tipo": "Eau de Parfum", "precio": 55000, "foto": "08-irresistible.jpg",
-     "notas": "Rosa luminosa con toques frutales y amaderados. Para todos los días."},
-    {"nombre": "Born in Roma Donna", "marca": "Valentino", "tipo": "Eau de Parfum", "precio": 50000, "foto": "09-born-in-roma.png",
-     "notas": "Jazmín y vainilla con un fondo amaderado, elegante y moderno."},
-    {"nombre": "Libre", "marca": "Yves Saint Laurent", "tipo": "Eau de Parfum", "precio": 55000, "foto": "10-libre.png",
-     "notas": "Lavanda francesa y azahar sobre un fondo de vainilla."},
-    {"nombre": "J'adore", "marca": "Dior", "tipo": "Eau de Parfum", "precio": 50000, "foto": "11-jadore.jpg", "recorte": false,
-     "notas": "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado."},
-    {"nombre": "La Vie Est Belle", "marca": "Lancôme", "tipo": "Eau de Parfum", "precio": 45000, "foto": "12-la-vie-est-belle.jpg",
-     "notas": "Iris, praliné y vainilla: el dulce más elegante."},
-    {"nombre": "Scandal", "marca": "Jean Paul Gaultier", "tipo": "Eau de Parfum", "precio": 45000, "foto": "13-scandal.jpg",
-     "notas": "Miel y gardenia: femenino, empolvado e irresistible."},
-    {"nombre": "Light Blue", "marca": "Dolce & Gabbana", "tipo": "Eau de Toilette", "precio": 45000, "foto": "14-light-blue.jpg",
-     "notas": "Limón siciliano y manzana, fresco como un verano en el Mediterráneo."}
-  ],
-  "cierre": {
-    "titulo": "¿Cuál es tu favorito?",
-    "cursiva": "contanos en comentarios",
-    "texto": "Todos están en decants para que los pruebes, y muchos también en frasco entero.",
-    "extras": ["100% originales", "Envíos a todo Paraguay"],
-    "boton": "WhatsApp 0972 736 002",
-    "debajo_boton": "o en el link de la bio"
-  }
+    {
+      "nombre": "Paradoxe",
+      "marca": "Prada",
+      "tipo": "Eau de Parfum",
+      "precio": 85000,
+      "foto": "01-paradoxe.png",
+      "notas": "Pera y cítricos que se abren a un corazón de neroli, cálido y ambarado."
+    },
+    {
+      "nombre": "Good Girl",
+      "marca": "Carolina Herrera",
+      "tipo": "Eau de Parfum",
+      "precio": 45000,
+      "foto": "02-good-girl.jpg",
+      "notas": "Jazmín y nardo con el lado oscuro del cacao y el haba tonka."
+    },
+    {
+      "nombre": "Power of You",
+      "marca": "Emporio Armani",
+      "tipo": "Eau de Parfum",
+      "precio": 50000,
+      "foto": "03-power-of-you.jpg",
+      "notas": "Maracuyá jugoso y un corazón cremoso de frangipani."
+    },
+    {
+      "nombre": "Very Good Girl",
+      "marca": "Carolina Herrera",
+      "tipo": "Eau de Parfum",
+      "precio": 45000,
+      "foto": "04-very-good-girl.jpg",
+      "notas": "Rosa seductora con un fondo de vainilla y vetiver."
+    },
+    {
+      "nombre": "Miss Dior",
+      "marca": "Dior",
+      "tipo": "Eau de Parfum",
+      "precio": 85000,
+      "foto": "05-miss-dior.jpg",
+      "notas": "El floral más romántico de Dior, en su nueva versión."
+    },
+    {
+      "nombre": "Coco Mademoiselle Intense",
+      "marca": "Chanel",
+      "tipo": "Eau de Parfum Intense",
+      "precio": 95000,
+      "foto": "06-coco-mademoiselle.jpg",
+      "notas": "La versión más profunda y sensual del clásico de Chanel."
+    },
+    {
+      "nombre": "La Bomba",
+      "marca": "Carolina Herrera",
+      "tipo": "Eau de Parfum",
+      "precio": 45000,
+      "foto": "07-la-bomba.jpg",
+      "notas": "Vibrante y explosiva, con una frescura exótica que seduce."
+    },
+    {
+      "nombre": "Irresistible",
+      "marca": "Givenchy",
+      "tipo": "Eau de Parfum",
+      "precio": 55000,
+      "foto": "08-irresistible.jpg",
+      "notas": "Rosa luminosa con toques frutales y amaderados. Para todos los días."
+    },
+    {
+      "nombre": "Born in Roma Donna",
+      "marca": "Valentino",
+      "tipo": "Eau de Parfum",
+      "precio": 50000,
+      "foto": "09-born-in-roma.png",
+      "notas": "Jazmín y vainilla con un fondo amaderado, elegante y moderno."
+    },
+    {
+      "nombre": "Libre",
+      "marca": "Yves Saint Laurent",
+      "tipo": "Eau de Parfum",
+      "precio": 55000,
+      "foto": "10-libre.png",
+      "notas": "Lavanda francesa y azahar sobre un fondo de vainilla."
+    },
+    {
+      "nombre": "J'adore",
+      "marca": "Dior",
+      "tipo": "Eau de Parfum",
+      "precio": 50000,
+      "foto": "11-jadore.jpg",
+      "recorte": false,
+      "notas": "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado."
+    },
+    {
+      "nombre": "La Vie Est Belle",
+      "marca": "Lancôme",
+      "tipo": "Eau de Parfum",
+      "precio": 45000,
+      "foto": "12-la-vie-est-belle.jpg",
+      "notas": "Iris, praliné y vainilla: el dulce más elegante."
+    },
+    {
+      "nombre": "Scandal",
+      "marca": "Jean Paul Gaultier",
+      "tipo": "Eau de Parfum",
+      "precio": 45000,
+      "foto": "13-scandal.jpg",
+      "notas": "Miel y gardenia: femenino, empolvado e irresistible."
+    },
+    {
+      "nombre": "Light Blue",
+      "marca": "Dolce & Gabbana",
+      "tipo": "Eau de Toilette",
+      "precio": 45000,
+      "foto": "14-light-blue.jpg",
+      "notas": "Limón siciliano y manzana, fresco como un verano en el Mediterráneo."
+    },
+    {
+      "nombre": "Divine Couture",
+      "marca": "Jean Paul Gaultier",
+      "tipo": "Eau de Parfum",
+      "precio": 50000,
+      "foto": "15-divine-couture.webp",
+      "notas": "Notas marinas, flores blancas y un toque dulce de merengue."
+    },
+    {
+      "nombre": "L'Interdit",
+      "marca": "Givenchy",
+      "tipo": "Eau de Toilette",
+      "precio": 40000,
+      "foto": "16-linterdit.jpg",
+      "notas": "Flores blancas con un toque cítrico y un fondo amaderado."
+    },
+    {
+      "nombre": "Addict Rosy Glow",
+      "marca": "Dior",
+      "tipo": "Eau de Parfum",
+      "precio": 50000,
+      "foto": "17-rosy-glow.jpg",
+      "notas": "Lichi, rosa y un fondo cremoso de vainilla."
+    },
+    {
+      "nombre": "Black Opium",
+      "marca": "Yves Saint Laurent",
+      "tipo": "Eau de Parfum",
+      "precio": 70000,
+      "foto": "18-black-opium.png",
+      "notas": "Café negro, jazmín y vainilla: intenso y adictivo."
+    },
+    {
+      "nombre": "La Vie Est Belle L'Elixir",
+      "marca": "Lancôme",
+      "tipo": "Eau de Parfum · 100 ml",
+      "precio": 799000,
+      "prefijo": "",
+      "foto": "19-la-vie-elixir.jpg",
+      "notas": "La versión más intensa: violeta, rosa y un fondo goloso."
+    }
+  ]
 }

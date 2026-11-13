@@ -330,14 +330,19 @@ def slide_producto(p, n, fotos_dir, oscuro):
         y += 40
 
     # precio
+    # "prefijo": "desde" por defecto; "" para un precio único (por ejemplo, solo frasco entero)
+    prefijo = p.get("prefijo", "desde")
     f_desde = cursiva(52)
     f_precio = serif(50, 520)
     t_precio = guaranies(p["precio"])
-    w_total = ancho(d, "desde", f_desde) + 22 + ancho(d, t_precio, f_precio)
+    sep = 22 if prefijo else 0
+    w_pre = ancho(d, prefijo, f_desde) if prefijo else 0
+    w_total = w_pre + sep + ancho(d, t_precio, f_precio)
     x = W / 2 - w_total / 2
     y_p = 1158
-    escribir(d, x, y_p - 2, "desde", f_desde, suave)
-    escribir(d, x + ancho(d, "desde", f_desde) + 22, y_p, t_precio, f_precio, principal)
+    if prefijo:
+        escribir(d, x, y_p - 2, prefijo, f_desde, suave)
+    escribir(d, x + w_pre + sep, y_p, t_precio, f_precio, principal)
 
     pie(img, 1272, suave)
     return img
@@ -453,7 +458,9 @@ def main():
     slides = [slide_portada(spec["portada"], fotos)]
     for i, p in enumerate(spec["productos"], 1):
         slides.append(slide_producto(p, i, fotos, oscuro=(i % 2 == 0)))
-    slides.append(slide_cierre(spec["cierre"]))
+    # sin "cierre" en el spec no hay slide final (Instagram acepta hasta 20 slides)
+    if spec.get("cierre"):
+        slides.append(slide_cierre(spec["cierre"]))
 
     for i, s in enumerate(slides, 1):
         ruta = os.path.join(salida, f"{i:02d}.png")
