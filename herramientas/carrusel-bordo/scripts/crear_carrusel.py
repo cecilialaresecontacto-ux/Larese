@@ -264,7 +264,7 @@ def slide_producto(p, n, fotos_dir, oscuro):
     suave = CREMA_SUAVE if oscuro else BORDO_SUAVE
     fondo_arco = CREMA if oscuro else CREMA_OSC
 
-    logo(img, W / 2, 70, 118, suave)
+    logo(img, W / 2, 70, 118, MARFIL if oscuro else BORDO)  # logo oficial: opción 2
 
     # [ 01 ]  Título
     izq = 110
@@ -346,7 +346,7 @@ def slide_producto(p, n, fotos_dir, oscuro):
 def slide_portada(s, fotos_dir):
     img = Image.new("RGBA", (W, H), CREMA + (255,))
     d = ImageDraw.Draw(img)
-    logo(img, W / 2, 70, 118, BORDO_SUAVE)
+    logo(img, W / 2, 70, 118, BORDO)
 
     # ( Los más pedidos )
     f_t = serif(96, 450)

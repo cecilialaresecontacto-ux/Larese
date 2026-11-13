@@ -39,6 +39,15 @@ La dueña eligió esta paleta a partir de una referencia de carrusel editorial. 
 
   Ejemplo de spec: `carrusel-mas-pedidos/carrusel.json`.
 
+### Logo oficial: opción 2 (rosa marfil sobre bordó vino)
+
+La dueña eligió la opción 2 del tablero `marca/opciones-logo/tablero-fondo-bordo-vino.png`.
+
+- Versión principal: logo **rosa marfil** `#FCE5DA` sobre fondo **bordó vino** `#41030B`. Archivos con fondo transparente: `marca/logos/logo-rosa-marfil.png` y `marca/logos/isotipo-rosa-marfil.png`.
+- Sobre fondos claros (crema, rosa marfil o blanco) el rosa marfil no se lee: usá la versión bordó vino, `marca/logos/logo-bordo-vino.png` y `marca/logos/isotipo-bordo-vino.png`.
+- Foto de perfil de Instagram: `marca/perfil/perfil-instagram.png` (isotipo "la"). Alternativa con el logo completo: `marca/perfil/perfil-instagram-logo-completo.png`.
+- Para regenerar los logos en todos los colores: `python3 marca/crear_opciones_logo.py`.
+
 ### En los dos estilos
 
 - Si armás una pieza a mano o con otra herramienta, usá uno de los dos estilos: fondo blanco con textos oscuros, o bordó y crema.
