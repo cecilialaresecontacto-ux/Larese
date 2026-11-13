@@ -5,7 +5,7 @@
     "cursiva": "del 2026",
     "parentesis": false,
     "etiquetas": [
-      "19 favoritos",
+      "18 favoritos",
       "de nuestras clientas"
     ],
     "fotos": [
@@ -138,14 +138,6 @@
       "notas": "Notas marinas, flores blancas y un toque dulce de merengue."
     },
     {
-      "nombre": "L'Interdit",
-      "marca": "Givenchy",
-      "tipo": "Eau de Toilette",
-      "precio": 40000,
-      "foto": "16-linterdit.jpg",
-      "notas": "Flores blancas con un toque cítrico y un fondo amaderado."
-    },
-    {
       "nombre": "Addict Rosy Glow",
       "marca": "Dior",
       "tipo": "Eau de Parfum",
@@ -170,5 +162,16 @@
       "foto": "19-la-vie-elixir.jpg",
       "notas": "La versión más intensa: violeta, rosa y un fondo goloso."
     }
-  ]
+  ],
+  "cierre": {
+    "titulo": "¿Cuál es tu favorito?",
+    "cursiva": "contanos en comentarios",
+    "texto": "Pedí tu decant para probarlo, o consultá por el frasco entero.",
+    "extras": [
+      "100% originales",
+      "Envíos a todo Paraguay"
+    ],
+    "boton": "WhatsApp 0972 736 002",
+    "debajo_boton": "o en el link de la bio"
+  }
 }
