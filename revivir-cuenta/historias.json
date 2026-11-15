@@ -125,13 +125,33 @@
   "fondo": "bordo",
   "etiqueta": "Comunidad Larese",
   "titulo": "Sumate a nuestra comunidad",
-  "subtitulo": "Sé la primera en enterarte de las novedades, lanzamientos y promos",
+  "subtitulo": "Sé la primera en enterarte de todo",
   "productos": [
    {
     "imagen": "fuente/trio.png"
    }
   ],
   "sticker": "Tocá el link para unirte",
-  "alto_sticker": 260
+  "alto_sticker": 260,
+  "chips": [
+   {
+    "texto": "Promociones",
+    "x": 0.13,
+    "y": 0.02,
+    "giro": -8
+   },
+   {
+    "texto": "Descuentos",
+    "x": 0.88,
+    "y": 0.12,
+    "giro": 7
+   },
+   {
+    "texto": "Nuevos ingresos",
+    "x": 0.5,
+    "y": 0.97,
+    "giro": -3
+   }
+  ]
  }
 ]

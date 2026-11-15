@@ -21,6 +21,8 @@ historias.json es una lista de specs:
   ],
   "sticker": "Votá acá abajo",               # texto chico sobre el espacio del sticker
   "alto_sticker": 300,                       # alto del espacio libre
+  "chips": [{"texto": "Promociones", "x": 0.1, "y": 0.1, "giro": -6}],  # etiquetas tipo sticker;
+                                             # x, y relativos a la caja del producto
   "cta": "..."                               # sin sticker: botón y pie
 }
 """
@@ -28,7 +30,7 @@ import json
 import os
 import sys
 
-from PIL import ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "..", "herramientas", "pieza-marca", "scripts"))
@@ -36,6 +38,34 @@ import crear_pieza as pm  # noqa: E402
 
 W, H = 1080, 1920
 CX = W / 2
+
+
+def chip(img, cx, cy, texto, giro, tema, tam=30):
+    """Etiqueta tipo sticker: píldora con texto en Poppins espaciada, un poco girada y con sombra.
+    Sobre bordó va rosa marfil con texto bordó; sobre blanco, bordó con texto rosa marfil. Filete dorado."""
+    fondo_c, texto_c = (pm.MARFIL, pm.BORDO) if tema == "bordo" else (pm.BORDO, pm.MARFIL)
+    f = pm.poppins(tam, "Medium")
+    t = texto.upper()
+    esp = tam * 0.16
+    d0 = ImageDraw.Draw(img)
+    tw = pm.ancho_txt(d0, t, f, esp)
+    th = pm.alto_linea(f)
+    px, py = tam * 1.0, tam * 0.55
+    w, h = int(tw + 2 * px), int(th + 2 * py)
+    k = 3  # se dibuja grande y se achica, para bordes suaves al girar
+    capa = Image.new("RGBA", (w * k + 40, h * k + 40), (0, 0, 0, 0))
+    dc = ImageDraw.Draw(capa)
+    dc.rounded_rectangle((20, 20, 20 + w * k, 20 + h * k), radius=h * k / 2, fill=fondo_c,
+                         outline=pm.TEMAS[tema]["acento"], width=2 * k)
+    fk = pm.poppins(tam * k, "Medium")
+    pm.txt(dc, 20 + w * k / 2, 20 + py * k - tam * k * 0.06, t, fk, texto_c, esp=esp * k)
+    capa = capa.rotate(giro, expand=True, resample=Image.BICUBIC)
+    capa = capa.resize((capa.width // k, capa.height // k), Image.LANCZOS)
+    x, y = int(cx - capa.width / 2), int(cy - capa.height / 2)
+    sombra = Image.new("L", img.size, 0)
+    sombra.paste(capa.getchannel("A"), (x, y + 8))
+    img.alpha_composite(pm.capa_color(sombra.filter(ImageFilter.GaussianBlur(10)), pm.CUERO, 0.55))
+    img.alpha_composite(capa, (x, y))
 
 
 def armar(spec, base):
@@ -96,7 +126,13 @@ def armar(spec, base):
             if p.get("nombre"):
                 pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"].upper(), fn, T["titulo"], esp=tam * 0.06)
     else:
-        pm.poner_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
+        ac = pm.poner_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
+
+    # --- etiquetas tipo sticker sobre el producto ("Promociones", "Descuentos"...) ---
+    for c in spec.get("chips") or []:
+        cx_c = ac[0] + (ac[2] - ac[0]) * c.get("x", 0.5)
+        cy_c = ac[1] + (ac[3] - ac[1]) * c.get("y", 0.5)
+        chip(img, cx_c, cy_c, c["texto"], c.get("giro", 0), tema, c.get("tam", 30))
 
     d = ImageDraw.Draw(img)
     if con_sticker:
