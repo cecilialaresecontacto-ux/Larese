@@ -26,6 +26,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
 {
   "formato": "post" | "cuadrado" | "historia" | "portada" | "carrusel",
   "fondo": "blanco" | "bordo",            # opcional, blanco por defecto
+  "titulos": "playfair" | "cormorant",    # opcional: cormorant = títulos en mayúsculas espaciadas
   "etiqueta": "Decant original",          # Poppins chica en dorado, arriba
   "titulo": "Good Girl Blush",            # Playfair grande (no se pasa a mayúsculas)
   "marca": "Carolina Herrera",            # Pinyon Script, debajo del título
@@ -87,6 +88,17 @@ def playfair(tam, peso=500, italic=False):
     f = ImageFont.truetype(os.path.join(FUENTES, "PlayfairDisplay-Italic.ttf" if italic else "PlayfairDisplay.ttf"), int(tam))
     f.set_variation_by_axes([peso])
     return f
+
+
+def cormorant(tam, peso=500):
+    f = ImageFont.truetype(os.path.join(FUENTES, "CormorantGaramond.ttf"), int(tam))
+    f.set_variation_by_axes([peso])
+    return f
+
+
+def serif_titulo(estilo, tam, peso=500):
+    """Fuente de títulos y precios según el estilo: Playfair (clásico) o Cormorant (como el carrusel de Navidad)."""
+    return cormorant(tam, peso + 100) if estilo == "cormorant" else playfair(tam, peso)
 
 
 def script(tam):
@@ -313,16 +325,16 @@ def filete(d, cx, y, largo, tema):
     d.line((cx - largo / 2, y, cx + largo / 2, y), fill=TEMAS[tema]["acento"], width=2)
 
 
-def medir_precio(spec, tam):
+def medir_precio(spec, tam, estilo="playfair"):
     al = 0
     if spec.get("precio_anterior"):
         al += alto_linea(poppins(tam * 0.36), 1.1)
     if spec.get("precio"):
-        al += alto_linea(playfair(tam, 500), 1.0)
+        al += alto_linea(serif_titulo(estilo, tam), 1.0)
     return al
 
 
-def precio(img, cx, y, spec, tam, tema):
+def precio(img, cx, y, spec, tam, tema, estilo="playfair"):
     T = TEMAS[tema]
     d = ImageDraw.Draw(img)
     anterior = guaranies(spec.get("precio_anterior"))
@@ -335,7 +347,7 @@ def precio(img, cx, y, spec, tam, tema):
         y += alto_linea(f2, 1.1)
     actual = guaranies(spec.get("precio"))
     if actual:
-        f = playfair(tam, 500)
+        f = serif_titulo(estilo, tam)
         pref = spec.get("precio_prefijo")
         fp = script(tam * 0.85)
         wp = d.textlength(pref + " ", font=fp) if pref else 0
@@ -367,6 +379,9 @@ def armar(spec):
     if tema not in TEMAS:  # "crema" u otro valor viejo -> blanco
         tema = "blanco"
     T = TEMAS[tema]
+    # "titulos": "cormorant" -> títulos en Cormorant Garamond, mayúsculas y espaciados (estilo carrusel de Navidad)
+    estilo = "cormorant" if spec.get("titulos") == "cormorant" else "playfair"
+    corm = estilo == "cormorant"
     w, h = TAMANOS[formato]
     M = MEDIDAS[formato]
     cx = w / 2
@@ -377,12 +392,15 @@ def armar(spec):
 
     # --- bloque de arriba (medición) ---
     titulo = spec.get("gancho") if (formato == "portada" and spec.get("gancho")) else spec.get("titulo", "")
-    ft, lt, _ = ajustar(d, titulo, M["tit"][0], M["tit"][1], w - 140, M["lineas"], lambda t: playfair(t, 500))
+    if corm:
+        titulo = titulo.upper()
+    ft, lt, esp_t = ajustar(d, titulo, M["tit"][0], M["tit"][1], w - 140, M["lineas"],
+                            lambda t: serif_titulo(estilo, t), 0.04 if corm else 0.0)
     logo_m = logo_mascara("texto", M["logo_w"])
     y = M["logo_y"] + logo_m.height + M["eti"] * 1.4
     bloques = []  # (tipo, alto)
     if spec.get("etiqueta"):
-        fe = poppins(M["eti"], "Medium")
+        fe = poppins(M["eti"], "Regular" if corm else "Medium")
         bloques.append(("eti", fe, [spec["etiqueta"].upper()], alto_linea(fe, 1.2)))
     bloques.append(("tit", ft, lt, alto_linea(ft, 1.0)))
     if spec.get("marca"):
@@ -393,7 +411,11 @@ def armar(spec):
                             lambda t: poppins(t, "Medium"), 0.12)
         bloques.append(("sub", fs, ls, alto_linea(fs, 1.25)))
     if spec.get("nota"):
-        fn, ln, _ = ajustar(d, spec["nota"], M["nota"], M["nota"] * 0.75, w - 200, 2, lambda t: playfair(t, 400, True))
+        if corm:  # frase en Poppins espaciada, como "PRECIOS AL CONTADO Y EN 2 CUOTAS"
+            fn, ln, _ = ajustar(d, spec["nota"].upper(), M["nota"] * 0.7, M["nota"] * 0.5, w - 180, 2,
+                                lambda t: poppins(t, "Regular"), 0.18)
+        else:
+            fn, ln, _ = ajustar(d, spec["nota"], M["nota"], M["nota"] * 0.75, w - 200, 2, lambda t: playfair(t, 400, True))
         bloques.append(("nota", fn, ln, alto_linea(fn, 1.15)))
     arriba = y + sum(al * len(ls) for _, _, ls, al in bloques) + (16 if spec.get("subtitulo") else 0)
 
@@ -402,7 +424,7 @@ def armar(spec):
     abajo = pie_y - M["pie"] * 1.3
     if spec.get("cta") and formato != "portada":
         abajo -= alto_linea(poppins(M["cta"], "Medium")) + M["cta"] * 1.6
-    abajo -= medir_precio(spec, M["pre"]) + M["pre"] * 0.3
+    abajo -= medir_precio(spec, M["pre"], estilo) + M["pre"] * 0.3
 
     if formato == "portada":
         caja = (w * 0.12, arriba + 60, w * 0.88, h - 400)
@@ -423,23 +445,23 @@ def armar(spec):
             y += 16
         for l in ls:
             if tipo == "eti":
-                txt(d, cx, y, l, f, T["acento"], esp=M["eti"] * 0.22)
+                txt(d, cx, y, l, f, T["acento"], esp=M["eti"] * (0.32 if corm else 0.22))
             elif tipo == "tit":
-                txt(d, cx, y, l, f, T["titulo"])
+                txt(d, cx, y, l, f, T["titulo"], esp=esp_t)
             elif tipo == "marca":
                 txt(d, cx, y - al * 0.12, l, f, T["acento"])
             elif tipo == "sub":
                 txt(d, cx, y, l, f, T["sec"], esp=M["sub"] * 0.12)
             else:
-                txt(d, cx, y, l, f, T["sec"])
+                txt(d, cx, y, l, f, T["sec"], esp=f.size * 0.18 if corm else 0)
             y += al
 
     # --- bloque de abajo ---
     if formato == "portada":
         if spec.get("precio"):
-            precio(img, cx, h - 360, spec, M["pre"] * 0.8, tema)
+            precio(img, cx, h - 360, spec, M["pre"] * 0.8, tema, estilo)
         return img.convert("RGB")
-    yb = precio(img, cx, abajo + M["pre"] * 0.3, spec, M["pre"], tema)
+    yb = precio(img, cx, abajo + M["pre"] * 0.3, spec, M["pre"], tema, estilo)
     if spec.get("cta"):
         boton(img, cx, yb + M["cta"] * 0.5, spec["cta"], M["cta"], tema)
     if M["pie_y"]:
