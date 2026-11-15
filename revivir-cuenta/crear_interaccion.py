@@ -25,7 +25,8 @@ historias.json es una lista de specs:
   "borde_blanco": true,                      # opcional: contorno blanco alrededor de cada perfume
   "chips": [{"texto": "Promociones", "x": 0.1, "y": 0.1, "giro": -6}],  # etiquetas tipo sticker;
                                              # x, y relativos a la caja del producto
-  "cta": "..."                               # sin sticker: botón y pie
+  "cta": "...",                              # sin sticker: botón y pie
+  "cta_fondo": "#FFFFFF", "cta_color": "#000000"   # opcional: colores del botón
 }
 """
 import json
@@ -153,7 +154,9 @@ def armar(spec, base):
         pm.filete(d, CX, y_sticker + 34, 90, tema)
     else:
         if spec.get("cta"):
-            pm.boton(img, CX, H - M["cta_y"], spec["cta"], M["cta"], tema)
+            hexrgb = lambda h: tuple(int(h.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)) if h else None
+            pm.boton(img, CX, H - M["cta_y"], spec["cta"], M["cta"], tema,
+                     hexrgb(spec.get("cta_fondo")), hexrgb(spec.get("cta_color")))
         pm.pie(img, H - M["pie_y"] - M["pie"] * 2.0, M["pie"], tema)
     return img.convert("RGB")
 

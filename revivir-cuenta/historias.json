@@ -188,6 +188,8 @@
     "giro": -3
    }
   ],
-  "cta": "Link en la bio para unirte"
+  "cta": "Link en la bio para unirte",
+  "cta_fondo": "#FFFFFF",
+  "cta_color": "#000000"
  }
 ]

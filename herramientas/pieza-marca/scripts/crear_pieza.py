@@ -290,7 +290,8 @@ def sello(img, cx, cy, texto, r, tema):
         y += alto_linea(f)
 
 
-def boton(img, cx, y, texto, tam, tema):
+def boton(img, cx, y, texto, tam, tema, fondo=None, color=None):
+    """Botón píldora. fondo/color (RGB) cambian los colores del tema, por ejemplo blanco con letra negra."""
     T = TEMAS[tema]
     f = poppins(tam, "Medium")
     d = ImageDraw.Draw(img)
@@ -298,8 +299,8 @@ def boton(img, cx, y, texto, tam, tema):
     h = alto_linea(f)
     px, py = tam * 1.2, tam * 0.5
     caja = (cx - w / 2 - px, y, cx + w / 2 + px, y + h + 2 * py)
-    d.rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=T["boton"])
-    txt(d, cx, y + py - tam * 0.05, texto, f, T["boton_txt"])
+    d.rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=fondo or T["boton"])
+    txt(d, cx, y + py - tam * 0.05, texto, f, color or T["boton_txt"])
     return caja[3]
 
 
