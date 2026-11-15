@@ -31,6 +31,7 @@ PIEZAS = [
     ("h08-mejores-amigos.png", "h08 · Mejores Amigos"),
     ("h09-comunidad.png", "h09 · Comunidad"),
     ("post-comenta-perfume.png", "Post · Comentá"),
+    ("post-comunidad.png", "Post · Comunidad"),
     ("portada-reel-3-perfumes.png", "Portada del reel 1"),
 ]
 

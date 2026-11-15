@@ -26,7 +26,7 @@ Las piezas están en `piezas/`. Perfumes: YSL Libre, Coco Mademoiselle, Miss Dio
 | **Jue 19** | `h04-quiz-lavanda` (sticker **Quiz**, ver respuesta abajo) · al otro día subí la respuesta | — |
 | **Vie 20** | `h06-preguntas` (sticker **Preguntas**) | Reel 2 |
 | **Sáb 21** | Respondé las preguntas de ayer, una por historia (compartí la pregunta y contestá con foto del perfume) | — |
-| **Dom 22** | Armá la lista de **Mejores Amigos** (ver abajo) y subí `h08-mejores-amigos` **solo a esa lista** · `h09-comunidad` **para todos** (sticker **Enlace** con el link de la comunidad) | — |
+| **Dom 22** | Armá la lista de **Mejores Amigos** (ver abajo) y subí `h08-mejores-amigos` **solo a esa lista** · `h09-comunidad` **para todos** (sticker **Enlace** con el link de la comunidad) | Post `post-comunidad` (antes, poné el link de la comunidad en la bio) |
 
 ## Semana 2: mantener el ritmo y llegar a Black Friday
 
@@ -89,6 +89,25 @@ WhatsApp 0972 736 002 o link en la bio.
 ```
 
 Importante: **contestá a cada comentario** ("¡Te escribimos! 🤍") y mandá el DM. Los comentarios con respuesta suben el alcance del post.
+
+---
+
+## Caption del post `post-comunidad`
+
+```
+Sumate a la comunidad Larese 🤍
+
+Sé la primera en enterarte de las promociones, los descuentos y los nuevos ingresos, antes que nadie.
+
+Tocá el link de la bio para unirte ✨
+
+✨ 100% original · 📦 Envíos a todo Paraguay
+WhatsApp 0972 736 002
+
+#LareseStore #perfumesoriginales #perfumesparaguay #decants #paraguay #asuncion #py #comunidad
+```
+
+Antes de publicarlo, poné el link de la comunidad en tu bio (Editar perfil → Enlaces). En los posts el link no se puede tocar, por eso va en la bio.
 
 ---
 

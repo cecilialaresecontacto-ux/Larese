@@ -154,5 +154,40 @@
    }
   ],
   "borde_blanco": true
+ },
+ {
+  "archivo": "post-comunidad.png",
+  "formato": "post",
+  "fondo": "bordo",
+  "etiqueta": "Comunidad Larese",
+  "titulo": "Sumate a nuestra comunidad",
+  "subtitulo": "Sé la primera en enterarte de todo",
+  "productos": [
+   {
+    "imagen": "fuente/trio.png"
+   }
+  ],
+  "borde_blanco": true,
+  "chips": [
+   {
+    "texto": "Promociones",
+    "x": 0.13,
+    "y": 0.03,
+    "giro": -8
+   },
+   {
+    "texto": "Descuentos",
+    "x": 0.88,
+    "y": 0.13,
+    "giro": 7
+   },
+   {
+    "texto": "Nuevos ingresos",
+    "x": 0.5,
+    "y": 0.9,
+    "giro": -3
+   }
+  ],
+  "cta": "Link en la bio para unirte"
  }
 ]
