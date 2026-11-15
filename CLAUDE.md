@@ -18,12 +18,13 @@ Todas las piezas para redes (posts, historias, carruseles, portadas) van con la 
 
 ### Tipografía
 
+La dueña eligió el estilo del carrusel de Navidad para los títulos (reemplaza a Playfair Display).
+
 | Fuente | Uso |
 |---|---|
-| Playfair Display | Títulos, nombres de perfume, precios |
-| Playfair Display Italic | Notas y frases cortas |
+| Cormorant Garamond | Títulos, nombres de perfume y precios, en MAYÚSCULAS con las letras espaciadas |
+| Poppins (Regular) | Etiquetas, frases cortas y textos chicos en MAYÚSCULAS bien espaciadas; botones y pie |
 | Pinyon Script | Acentos: marcas, "Desde", frases |
-| Poppins | Textos chicos, etiquetas, botones |
 
 ### Cómo generar las piezas
 
@@ -37,8 +38,8 @@ Todas las piezas para redes (posts, historias, carruseles, portadas) van con la 
   El spec es el mismo que el de la skill, con estos cambios:
   - `"fondo": "blanco"` (por defecto) o `"bordo"` (bordó vino) para la versión oscura. **Nunca crema:** la dueña pidió blanco puro en lugar de crema.
   - `"marca"`: la marca del perfume, va en Pinyon Script (por ejemplo "Carolina Herrera").
-  - `"nota"`: frase corta en Playfair italic (por ejemplo "Dulce y seductor").
-  - El título no se pasa a mayúsculas: escribilo como querés que se lea.
+  - `"nota"`: frase corta, sale en Poppins espaciada en mayúsculas (por ejemplo "Dulce y seductor").
+  - El título se pasa solo a mayúsculas en Cormorant Garamond. `"titulos": "playfair"` vuelve al estilo viejo, pero no lo uses salvo que la dueña lo pida.
   - `color` y `categoria` se ignoran.
 - **Nada de arcos, franjas ni marcos detrás del producto** (ni rellenos de rosa ni de línea dorada): a la dueña no le gustan. El producto va directo sobre el fondo (blanco o bordó), con una sombra suave. Las fotos que no se pueden recortar van como tarjeta con esquinas redondeadas.
 - Para historias con sticker de Instagram (encuesta, quiz, slider, preguntas) usá `revivir-cuenta/crear_interaccion.py`, que tiene el mismo estilo.

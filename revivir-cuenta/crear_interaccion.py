@@ -13,8 +13,8 @@ historias.json es una lista de specs:
   "archivo": "01-dulce-o-fresco.png",
   "fondo": "blanco" | "bordo",               # opcional, blanco por defecto
   "etiqueta": "Encuesta",                    # Poppins chica en dorado
-  "titulo": "¿Dulce o fresco?",              # Playfair grande
-  "subtitulo": "Votá y te recomiendo uno",   # opcional, Playfair italic
+  "titulo": "¿Dulce o fresco?",              # Cormorant grande, en mayúsculas
+  "subtitulo": "Votá y te recomiendo uno",   # opcional, Poppins espaciada en mayúsculas
   "productos": [                              # 0 a 3 productos
      {"imagen": "fuente/scandal.png", "nombre": "Dulce"},
      {"imagen": "fuente/lightblue.jpg", "nombre": "Fresco"}
@@ -52,19 +52,19 @@ def armar(spec, base):
     img.alpha_composite(pm.capa_color(logo, T["titulo"]), (int(CX - logo.width / 2), y))
     y += logo.height + 44
     if spec.get("etiqueta"):
-        fe = pm.poppins(30, "Medium")
-        pm.txt(d, CX, y, spec["etiqueta"].upper(), fe, T["acento"], esp=30 * 0.22)
+        fe = pm.poppins(30, "Regular")
+        pm.txt(d, CX, y, spec["etiqueta"].upper(), fe, T["acento"], esp=30 * 0.32)
         y += pm.alto_linea(fe, 1.3)
-    ft, lt, _ = pm.ajustar(d, spec["titulo"], 116, 66, W - 140, 3, lambda t: pm.playfair(t, 500))
+    ft, lt, esp_t = pm.ajustar(d, spec["titulo"].upper(), 112, 64, W - 140, 3, lambda t: pm.cormorant(t, 600), 0.04)
     for l in lt:
-        pm.txt(d, CX, y, l, ft, T["titulo"])
+        pm.txt(d, CX, y, l, ft, T["titulo"], esp=esp_t)
         y += pm.alto_linea(ft, 1.0)
     if spec.get("subtitulo"):
-        y += 6
-        fs, ls, _ = pm.ajustar(d, spec["subtitulo"], 44, 32, W - 200, 2, lambda t: pm.playfair(t, 400, True))
+        y += 14
+        fs, ls, esp_s = pm.ajustar(d, spec["subtitulo"].upper(), 28, 22, W - 180, 2, lambda t: pm.poppins(t, "Regular"), 0.18)
         for l in ls:
-            pm.txt(d, CX, y, l, fs, T["sec"])
-            y += pm.alto_linea(fs, 1.15)
+            pm.txt(d, CX, y, l, fs, T["sec"], esp=esp_s)
+            y += pm.alto_linea(fs, 1.35)
 
     # --- zona de abajo: sticker, o botón + pie ---
     con_sticker = bool(spec.get("sticker"))
@@ -83,9 +83,9 @@ def armar(spec, base):
     hueco = 50 if n > 1 else 0
     ancho = (W - 2 * margen - hueco * (n - 1)) / n
     tam = 44  # el mismo tamaño para todos los nombres, el que entre en la columna
-    while tam > 26 and any(d.textlength(p.get("nombre", ""), font=pm.playfair(tam, 500)) > ancho + hueco * 0.6 for p in prods):
+    while tam > 26 and any(pm.ancho_txt(d, p.get("nombre", "").upper(), pm.cormorant(tam, 600), tam * 0.06) > ancho + hueco * 0.6 for p in prods):
         tam -= 2
-    fn = pm.playfair(tam, 500)
+    fn = pm.cormorant(tam, 600)
     caja_y1 = limite - (pm.alto_linea(fn, 1.3) if hay_nombres else 0)
     if prods:
         for i, p in enumerate(prods):
@@ -94,14 +94,14 @@ def armar(spec, base):
             x0 = margen + i * (ancho + hueco)
             ac = pm.poner_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema)
             if p.get("nombre"):
-                pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"], fn, T["titulo"])
+                pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"].upper(), fn, T["titulo"], esp=tam * 0.06)
     else:
         pm.poner_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
 
     d = ImageDraw.Draw(img)
     if con_sticker:
-        fsk = pm.playfair(34, 400, True)
-        pm.txt(d, CX, y_sticker - 22, spec["sticker"], fsk, T["sec"])
+        fsk = pm.poppins(24, "Regular")
+        pm.txt(d, CX, y_sticker - 16, spec["sticker"].upper(), fsk, T["sec"], esp=24 * 0.3)
         pm.filete(d, CX, y_sticker + 34, 90, tema)
     else:
         if spec.get("cta"):

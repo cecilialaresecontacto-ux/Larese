@@ -12,10 +12,10 @@ Paleta:
     Dorado       #997957  acentos y detalles finos
 
 Tipografía:
-    Playfair Display         títulos, nombres de perfume, precios
-    Playfair Display Italic  notas y frases cortas
+    Cormorant Garamond       títulos, nombres de perfume y precios, en MAYÚSCULAS espaciadas
     Pinyon Script            acentos: marcas, "Desde", frases
-    Poppins                  textos chicos, etiquetas, botones
+    Poppins                  textos chicos, etiquetas y frases en MAYÚSCULAS espaciadas, botones
+    (Playfair Display queda como alternativa con "titulos": "playfair")
 
 Uso:
     python3 crear_pieza.py spec.json salida.png
@@ -26,7 +26,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
 {
   "formato": "post" | "cuadrado" | "historia" | "portada" | "carrusel",
   "fondo": "blanco" | "bordo",            # opcional, blanco por defecto
-  "titulos": "playfair" | "cormorant",    # opcional: cormorant = títulos en mayúsculas espaciadas
+  "titulos": "cormorant" | "playfair",    # opcional, cormorant por defecto
   "etiqueta": "Decant original",          # Poppins chica en dorado, arriba
   "titulo": "Good Girl Blush",            # Playfair grande (no se pasa a mayúsculas)
   "marca": "Carolina Herrera",            # Pinyon Script, debajo del título
@@ -266,7 +266,7 @@ def sello(img, cx, cy, texto, r, tema):
     img.alpha_composite(capa_color(s.filter(ImageFilter.GaussianBlur(14)), CUERO, 0.45))
     d = ImageDraw.Draw(img)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=fondo_s, outline=T["acento"], width=3)
-    f, ls, _ = ajustar(d, texto, int(r * 0.7), 20, r * 1.5, 2, lambda t: playfair(t, 600))
+    f, ls, _ = ajustar(d, texto, int(r * 0.7), 20, r * 1.5, 2, lambda t: cormorant(t, 600))
     y = cy - alto_linea(f) * len(ls) / 2 - r * 0.05
     for l in ls:
         txt(d, cx, y, l, f, txt_s)
@@ -379,8 +379,9 @@ def armar(spec):
     if tema not in TEMAS:  # "crema" u otro valor viejo -> blanco
         tema = "blanco"
     T = TEMAS[tema]
-    # "titulos": "cormorant" -> títulos en Cormorant Garamond, mayúsculas y espaciados (estilo carrusel de Navidad)
-    estilo = "cormorant" if spec.get("titulos") == "cormorant" else "playfair"
+    # Por defecto: títulos en Cormorant Garamond, mayúsculas y espaciados (la dueña lo eligió).
+    # "titulos": "playfair" vuelve al estilo anterior.
+    estilo = "playfair" if spec.get("titulos") == "playfair" else "cormorant"
     corm = estilo == "cormorant"
     w, h = TAMANOS[formato]
     M = MEDIDAS[formato]
