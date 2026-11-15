@@ -1,123 +1,30 @@
 [
- {
-  "archivo": "h01-dulce-o-fresco.png",
-  "etiqueta": "Encuesta",
-  "titulo": "¿Dulce o fresco?",
-  "subtitulo": "Votá y te recomiendo un perfume para vos",
-  "productos": [
-   {
-    "imagen": "fuente/scandal.png",
-    "nombre": "Dulce"
-   },
-   {
-    "imagen": "fuente/lightblue-web.jpg",
-    "nombre": "Fresco"
-   }
-  ],
-  "sticker": "Votá acá abajo"
- },
- {
-  "archivo": "h02-scandal-o-la-vie.png",
-  "etiqueta": "Encuesta",
-  "titulo": "¿Cuál te llevás?",
-  "productos": [
-   {
-    "imagen": "fuente/scandal.png",
-    "nombre": "Scandal"
-   },
-   {
-    "imagen": "fuente/lavie.jpg",
-    "nombre": "La Vie Est Belle"
-   }
-  ],
-  "sticker": "Elegí tu favorito"
- },
- {
-  "archivo": "h03-light-blue-o-bright-crystal.png",
-  "etiqueta": "Encuesta de verano",
-  "titulo": "¿Cuál usarías en diciembre?",
-  "productos": [
-   {
-    "imagen": "fuente/lightblue-web.jpg",
-    "nombre": "Light Blue"
-   },
-   {
-    "imagen": "fuente/versace-web.jpg",
-    "nombre": "Bright Crystal"
-   }
-  ],
-  "sticker": "Votá acá abajo",
-  "fondo": "bordo"
- },
- {
-  "archivo": "h04-quiz-praline.png",
-  "etiqueta": "Quiz",
-  "titulo": "¿Cuál tiene notas de praliné y vainilla?",
-  "productos": [
-   {
-    "imagen": "fuente/lightblue-web.jpg",
-    "nombre": "Light Blue"
-   },
-   {
-    "imagen": "fuente/lavie.jpg",
-    "nombre": "La Vie Est Belle"
-   },
-   {
-    "imagen": "fuente/versace-web.jpg",
-    "nombre": "Bright Crystal"
-   }
-  ],
-  "sticker": "¿Sabés la respuesta?"
- },
- {
-  "archivo": "h05-slider-dulces.png",
-  "etiqueta": "Contanos",
-  "titulo": "¿Cuánto te gustan los perfumes dulces?",
-  "productos": [
-   {
-    "imagen": "fuente/dupla-dulces.png"
-   }
-  ],
-  "sticker": "Deslizá acá abajo",
-  "alto_sticker": 260,
-  "fondo": "bordo"
- },
- {
-  "archivo": "h06-preguntas.png",
-  "etiqueta": "Asesoría gratis",
-  "titulo": "¿Qué perfume va con vos?",
+ {"archivo": "h01-libre-o-coco.png", "etiqueta": "Encuesta", "titulo": "¿Cuál es más vos?",
+  "subtitulo": "Votá y te cuento cuál va con tu estilo",
+  "productos": [{"imagen": "fuente/libre.png", "nombre": "Libre"}, {"imagen": "fuente/coco-mademoiselle.jpg", "nombre": "Coco Mademoiselle"}],
+  "sticker": "Votá acá abajo"},
+ {"archivo": "h02-miss-dior-o-libre.png", "etiqueta": "Encuesta", "titulo": "¿Cuál te llevás?",
+  "productos": [{"imagen": "fuente/miss-dior.webp", "nombre": "Miss Dior"}, {"imagen": "fuente/libre.png", "nombre": "Libre"}],
+  "sticker": "Elegí tu favorito"},
+ {"archivo": "h03-coco-o-miss-dior.png", "fondo": "bordo", "etiqueta": "Encuesta de verano", "titulo": "¿Cuál usarías en diciembre?",
+  "productos": [{"imagen": "fuente/coco-mademoiselle.jpg", "nombre": "Coco Mademoiselle"}, {"imagen": "fuente/miss-dior.webp", "nombre": "Miss Dior"}],
+  "sticker": "Votá acá abajo"},
+ {"archivo": "h04-quiz-lavanda.png", "etiqueta": "Quiz", "titulo": "¿Cuál tiene lavanda francesa?",
+  "productos": [{"imagen": "fuente/coco-mademoiselle.jpg", "nombre": "Coco Mademoiselle"}, {"imagen": "fuente/libre.png", "nombre": "Libre"}, {"imagen": "fuente/miss-dior.webp", "nombre": "Miss Dior"}],
+  "sticker": "¿Sabés la respuesta?"},
+ {"archivo": "h05-slider-florales.png", "fondo": "bordo", "etiqueta": "Contanos", "titulo": "¿Cuánto te gustan los perfumes florales?",
+  "productos": [{"imagen": "fuente/trio.png"}],
+  "sticker": "Deslizá acá abajo", "alto_sticker": 260},
+ {"archivo": "h06-preguntas.png", "etiqueta": "Asesoría gratis", "titulo": "¿Qué perfume va con vos?",
   "subtitulo": "Contame tu estilo y te recomiendo uno",
-  "productos": [
-   {
-    "imagen": "fuente/lavie.jpg"
-   }
-  ],
-  "sticker": "Escribí acá abajo",
-  "alto_sticker": 420
- },
- {
-  "archivo": "h07-notificaciones.png",
-  "etiqueta": "Para no perderte nada",
-  "titulo": "Activá las notificaciones",
+  "productos": [{"imagen": "fuente/miss-dior.webp"}],
+  "sticker": "Escribí acá abajo", "alto_sticker": 420},
+ {"archivo": "h07-notificaciones.png", "etiqueta": "Para no perderte nada", "titulo": "Activá las notificaciones",
   "subtitulo": "Así te enterás primero de lo nuevo",
-  "productos": [
-   {
-    "imagen": "fuente/dupla-dulces.png"
-   }
-  ],
-  "cta": "Tocá la campanita del perfil"
- },
- {
-  "archivo": "h08-mejores-amigos.png",
-  "etiqueta": "Solo para Mejores Amigos",
-  "titulo": "Estás en la lista VIP",
+  "productos": [{"imagen": "fuente/trio.png"}],
+  "cta": "Tocá la campanita del perfil"},
+ {"archivo": "h08-mejores-amigos.png", "fondo": "bordo", "etiqueta": "Solo para Mejores Amigos", "titulo": "Estás en la lista VIP",
   "subtitulo": "Sumate a nuestra comunidad para ser la primera en enterarte de las novedades",
-  "productos": [
-   {
-    "imagen": "fuente/dupla-frescos.png"
-   }
-  ],
-  "cta": "¡Respondé esta historia!",
-  "fondo": "bordo"
- }
+  "productos": [{"imagen": "fuente/trio.png"}],
+  "cta": "¡Respondé esta historia!"}
 ]

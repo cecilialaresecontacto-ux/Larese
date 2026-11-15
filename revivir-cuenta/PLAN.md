@@ -20,10 +20,10 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 
 | Día | Historias (además de las de producto que ya subís) | Feed / Reel |
 |---|---|---|
-| **Lun 16** | `h07-notificaciones` · `h01-dulce-o-fresco` (sticker **Encuesta**: "Dulce 🍯" / "Fresco 🍋") | Reel 1 con `portada-reel-3-perfumes` |
-| **Mar 17** | Resultado de ayer ("Ganó dulce 🤍") + recomendación de un perfume de esa familia · `h05-slider-dulces` (sticker **Slider** con 🍯) | — |
-| **Mié 18** | `h02-scandal-o-la-vie` (sticker **Encuesta**: "Scandal" / "La Vie Est Belle") | Post `post-comenta-perfume` |
-| **Jue 19** | `h04-quiz-praline` (sticker **Quiz**, ver respuesta abajo) · al otro día subí la respuesta | — |
+| **Lun 16** | `h07-notificaciones` · `h01-libre-o-coco` (sticker **Encuesta**: "Libre" / "Coco Mademoiselle") | Reel 1 con `portada-reel-3-perfumes` |
+| **Mar 17** | Resultado de ayer ("Ganó Libre 🤍") + cómo huele el ganador · `h05-slider-florales` (sticker **Slider** con 🌸) | — |
+| **Mié 18** | `h02-miss-dior-o-libre` (sticker **Encuesta**: "Miss Dior" / "Libre") | Post `post-comenta-perfume` |
+| **Jue 19** | `h04-quiz-lavanda` (sticker **Quiz**, ver respuesta abajo) · al otro día subí la respuesta | — |
 | **Vie 20** | `h06-preguntas` (sticker **Preguntas**) | Reel 2 |
 | **Sáb 21** | Respondé las preguntas de ayer, una por historia (compartí la pregunta y contestá con foto del perfume) | — |
 | **Dom 22** | Armá la lista de **Mejores Amigos** (ver abajo) y subí `h08-mejores-amigos` **solo a esa lista** | — |
@@ -32,7 +32,7 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 
 | Día | Historias | Feed / Reel |
 |---|---|---|
-| **Lun 23** | `h03-light-blue-o-bright-crystal` (sticker **Encuesta**) | Reel 3 |
+| **Lun 23** | `h03-coco-o-miss-dior` (sticker **Encuesta**: "Coco Mademoiselle" / "Miss Dior") | Reel 3 |
 | **Mar 24** | Detrás de escena: armando pedidos, el paquete, el envío. Sticker **Encuesta**: "¿Ya pediste alguna vez? Sí / Todavía no" | — |
 | **Mié 25** | Repetí el quiz con otra pregunta o volvé a subir `h01` | Post de un producto (con la skill de anuncios) |
 | **Jue 26** | Sticker **Cuenta regresiva** "Black Friday" *(solo si vas a hacer promo)* | Reel 4 |
@@ -46,10 +46,10 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 
 ## Stickers y textos listos
 
-**Quiz (`h04`):** opciones "Light Blue", "La Vie Est Belle", "Bright Crystal". Correcta: **La Vie Est Belle**.
-Historia del día siguiente: *"La respuesta era La Vie Est Belle ✨ Tiene notas de praliné, vainilla e iris: dulce y elegante. ¿Querés probarla? Escribinos."*
+**Quiz (`h04`):** opciones "Coco Mademoiselle", "Libre", "Miss Dior". Correcta: **Libre**.
+Historia del día siguiente: *"La respuesta era Libre de YSL ✨ Lavanda francesa con flor de azahar y un fondo de vainilla: floral, elegante y con carácter. ¿Querés probarlo? Escribinos."*
 
-**Slider (`h05`):** emoji 🍯. A quien lo deslice al máximo, mandale por DM una recomendación dulce.
+**Slider (`h05`):** emoji 🌸. A quien lo deslice al máximo, mandale por DM una recomendación floral (Miss Dior o Libre).
 
 **Preguntas (`h06`):** texto del sticker: *"Contame tu estilo o qué perfumes te gustan"*.
 
@@ -60,7 +60,7 @@ Historia del día siguiente: *"La respuesta era La Vie Est Belle ✨ Tiene notas
 ## Mensajes por DM
 
 **A quien votó una encuesta:**
-> Hola! Vi que votaste por los perfumes dulces 🤍 Si te gusta ese estilo, te recomiendo [perfume]. Tenemos decant para que lo pruebes. ¿Querés que te pase los precios?
+> Hola! Vi que votaste por [perfume] 🤍 Tenemos decant para que lo pruebes antes de comprar el frasco. ¿Querés que te pase los precios?
 
 **A quien respondió una historia o la caja de preguntas:**
 > Hola! Gracias por responder ✨ Por lo que me contaste, te iría muy bien [perfume]: [1 línea de cómo huele]. ¿Te paso los tamaños?
@@ -94,10 +94,10 @@ Importante: **contestá a cada comentario** ("¡Te escribimos! 🤍") y mandá e
 
 | Reel | Qué se ve | Texto en pantalla |
 |---|---|---|
-| **1. 3 perfumes que todas te van a preguntar** (portada `portada-reel-3-perfumes`) | Scandal, La Vie Est Belle y Light Blue, uno por uno, 3 segundos cada uno, con una mano que los levanta | Nombre + "dulce", "elegante", "fresco" |
+| **1. 3 perfumes que todas te van a preguntar** (portada `portada-reel-3-perfumes`) | Libre, Coco Mademoiselle y Miss Dior, uno por uno, 3 segundos cada uno, con una mano que los levanta | Nombre + "floral con lavanda", "elegante", "romántico" |
 | **2. Decant vs. frasco** | El frasco grande y al lado el decant. Rociás los dos | "Mismo perfume original. Probalo antes de comprar el frasco" |
 | **3. Armando un pedido** | Manos envolviendo el paquete, el sticker de la tienda, la bolsa cerrada | "Así llega tu pedido 📦 Envíos a todo Paraguay" |
-| **4. ¿Qué perfume sos según tu plan del finde?** | Cortes rápidos: "salida de noche" → Scandal, "brunch" → La Vie Est Belle, "pileta" → Light Blue | El plan y el perfume |
+| **4. ¿Qué perfume sos según tu plan del finde?** | Cortes rápidos: "oficina" → Libre, "brunch" → Miss Dior, "salida de noche" → Coco Mademoiselle Intense | El plan y el perfume |
 
 Audio: uno que esté en tendencia, lento y elegante. Si me mandás los videos, te los edito con subtítulos, zooms y títulos.
 
