@@ -42,7 +42,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
 }
 
 Los campos "color" y "categoria" de la skill se ignoran. El pie (WhatsApp y envíos) se agrega solo.
-El producto va dentro de un arco rosa marfil con un filete dorado.
+El producto va dentro de un arco de filete dorado, sin relleno (las fotos con fondo llenan el arco).
 """
 import json
 import os
@@ -224,7 +224,7 @@ def mascara_arco(w, h):
 
 
 def arco_con_producto(img, caja, prod, recortado, tema, filete=True):
-    """Arco rosa marfil dentro de caja, con filete dorado, y el producto encima.
+    """Arco de filete dorado dentro de caja, sin relleno, y el producto adentro.
     Si la foto no se puede recortar, la foto misma llena el arco. Devuelve la caja del arco."""
     T = TEMAS[tema]
     x0, y0, x1, y1 = (int(v) for v in caja)
@@ -241,17 +241,16 @@ def arco_con_producto(img, caja, prod, recortado, tema, filete=True):
         ah = int(min(bh, max(aw * 0.95, p.height + aw * 0.40 + bh * 0.05)))
     ax = x0 + (bw - aw) // 2
     ay = y0 + (bh - ah)  # apoyado abajo, así los arcos de una fila quedan parejos
-    # sombra suave del arco
-    sombra = Image.new("L", img.size, 0)
-    sombra.paste(mascara_arco(aw, ah), (ax, ay + 14))
-    img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.18 if tema == "crema" else 0.5))
     m = mascara_arco(aw, ah)
     if prod is not None and not recortado:
+        # foto con fondo: la foto llena el arco, con una sombra suave
+        sombra = Image.new("L", img.size, 0)
+        sombra.paste(m, (ax, ay + 14))
+        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.18 if tema == "crema" else 0.5))
         foto = ImageOps.fit(prod.convert("RGB"), (aw, ah), Image.LANCZOS).convert("RGBA")
         foto.putalpha(m)
         img.alpha_composite(foto, (ax, ay))
-    else:
-        img.alpha_composite(capa_color(m, T["arco"]), (ax, ay))
+    # producto recortado: sin relleno, solo el filete dorado sobre el fondo (la dueña no quiere la franja rosada)
     if filete:  # filete dorado por fuera del arco
         sep = max(10, int(aw * 0.03))
         fw, fh = aw + 2 * sep, ah + 2 * sep

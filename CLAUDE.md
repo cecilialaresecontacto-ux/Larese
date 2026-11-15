@@ -40,5 +40,6 @@ Todas las piezas para redes (posts, historias, carruseles, portadas) van con la 
   - `"nota"`: frase corta en Playfair italic (por ejemplo "Dulce y seductor").
   - El título no se pasa a mayúsculas: escribilo como querés que se lea.
   - `color` y `categoria` se ignoran.
+- **Nada de franjas ni arcos rellenos de rosa detrás del producto:** a la dueña no le gustan. El producto va sobre el fondo, enmarcado solo por un arco de línea dorada fina.
 - Para historias con sticker de Instagram (encuesta, quiz, slider, preguntas) usá `revivir-cuenta/crear_interaccion.py`, que tiene el mismo estilo.
 - Si armás una pieza a mano o con otra herramienta (Remotion, HTML, etc.), también va con esta paleta y estas fuentes. Están en `herramientas/pieza-marca/assets/fonts`.
