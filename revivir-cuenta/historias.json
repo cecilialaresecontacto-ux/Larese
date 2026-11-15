@@ -10,7 +10,7 @@
     "nombre": "Dulce"
    },
    {
-    "imagen": "fuente/lightblue.jpg",
+    "imagen": "fuente/lightblue-web.jpg",
     "nombre": "Fresco"
    }
   ],
@@ -38,11 +38,11 @@
   "titulo": "¿Cuál usarías en diciembre?",
   "productos": [
    {
-    "imagen": "fuente/lightblue.jpg",
+    "imagen": "fuente/lightblue-web.jpg",
     "nombre": "Light Blue"
    },
    {
-    "imagen": "fuente/versace.jpg",
+    "imagen": "fuente/versace-web.jpg",
     "nombre": "Bright Crystal"
    }
   ],
@@ -55,7 +55,7 @@
   "titulo": "¿Cuál tiene notas de praliné y vainilla?",
   "productos": [
    {
-    "imagen": "fuente/lightblue.jpg",
+    "imagen": "fuente/lightblue-web.jpg",
     "nombre": "Light Blue"
    },
    {
@@ -63,7 +63,7 @@
     "nombre": "La Vie Est Belle"
    },
    {
-    "imagen": "fuente/versace.jpg",
+    "imagen": "fuente/versace-web.jpg",
     "nombre": "Bright Crystal"
    }
   ],
