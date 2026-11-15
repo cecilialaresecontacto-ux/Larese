@@ -11,6 +11,19 @@ Piezas: `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historia
 
 > **Ojo con Meta:** en un anuncio anterior Meta rechazó la palabra "originales". En las piezas y en los textos del anuncio **no la usamos**. Si igual lo rechaza, usá la versión de texto sin nombres de marcas (la opción A).
 
+## Si Meta lo rechaza
+
+Meta revisa con mucho cuidado los anuncios con marcas de lujo, por si son falsificaciones. Hay dos versiones del anuncio:
+
+1. **Con fotos de los perfumes:** `anuncio-post.png` y `anuncio-historia.png`. Probá esta primero, porque es la que más vende.
+2. **Sin marcas:** `anuncio-post-sin-marcas.png` y `anuncio-historia-sin-marcas.png`, con frasquitos de decant dibujados. Usala si rechazan la primera. Los frasquitos se dibujan con `fuente/dibujar_decants.py`.
+
+Si te lo rechazan:
+- **Pedí revisión** desde el aviso de rechazo ("Solicitar revisión"). Muchas veces el primer rechazo es automático y lo aprueban cuando lo revisa una persona.
+- **No uses** en los textos: "original", "originales", "réplica", "1:1", "inspirado en", "100%".
+- Usá el texto **A** (sin nombres de marcas) junto con la versión sin marcas.
+- Tené la página de Facebook e Instagram completa (dirección, teléfono, descripción). Una cuenta con información clara pasa más fácil.
+
 ## Textos del anuncio
 
 **Texto principal (elegí uno, o cargá los 3 y que Meta pruebe):**
