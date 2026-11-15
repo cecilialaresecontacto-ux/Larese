@@ -224,10 +224,25 @@ def logo_mascara(nombre, ancho):
     return m.resize((int(ancho), int(m.height * ancho / m.width)), Image.LANCZOS)
 
 
-def poner_producto(img, caja, prod, recortado, tema, abajo=True):
+def contorno_blanco(p, borde):
+    """Silueta blanca del producto, engordada `borde` px, para poner debajo (efecto sticker).
+    Devuelve una imagen RGBA con 2*borde px de margen por lado."""
+    m = 2 * borde
+    a = Image.new("L", (p.width + 2 * m, p.height + 2 * m), 0)
+    a.paste(p.getchannel("A").point(lambda v: 255 if v > 60 else 0), (m, m))
+    # engordar: desenfoque + umbral da un borde parejo y redondeado
+    a = a.filter(ImageFilter.GaussianBlur(borde * 0.6)).point(lambda v: 255 if v > 6 else 0)
+    a = a.filter(ImageFilter.GaussianBlur(1.2))
+    capa = Image.new("RGBA", a.size, (255, 255, 255, 0))
+    capa.putalpha(a)
+    return capa
+
+
+def poner_producto(img, caja, prod, recortado, tema, abajo=True, borde=0):
     """Pone el producto lo más grande posible dentro de caja (apoyado abajo o centrado), directo sobre el fondo
     y con una sombra suave. Sin arcos ni franjas detrás (la dueña no los quiere).
-    Si la foto no se puede recortar, va como tarjeta con esquinas redondeadas. Devuelve su caja."""
+    Si la foto no se puede recortar, va como tarjeta con esquinas redondeadas.
+    borde > 0: contorno blanco de ese grosor (en px) alrededor del producto, como un sticker. Devuelve su caja."""
     T = TEMAS[tema]
     x0, y0, x1, y1 = (int(v) for v in caja)
     bw, bh = x1 - x0, y1 - y0
@@ -245,6 +260,8 @@ def poner_producto(img, caja, prod, recortado, tema, abajo=True):
         sw = p.width * 0.8
         sd.ellipse((px + (p.width - sw) / 2, py + p.height - 18, px + (p.width + sw) / 2, py + p.height + 18), fill=140)
         img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(18)), CUERO, 0.5))
+        if borde:
+            img.alpha_composite(contorno_blanco(p, borde), (px - borde * 2, py - borde * 2))
     else:
         cw = int(min(bw, bh * 0.8))
         p = ImageOps.fit(prod.convert("RGB"), (cw, bh), Image.LANCZOS).convert("RGBA")

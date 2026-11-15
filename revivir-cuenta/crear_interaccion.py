@@ -21,6 +21,7 @@ historias.json es una lista de specs:
   ],
   "sticker": "Votá acá abajo",               # texto chico sobre el espacio del sticker
   "alto_sticker": 300,                       # alto del espacio libre
+  "borde_blanco": true,                      # opcional: contorno blanco alrededor de cada perfume
   "chips": [{"texto": "Promociones", "x": 0.1, "y": 0.1, "giro": -6}],  # etiquetas tipo sticker;
                                              # x, y relativos a la caja del producto
   "cta": "..."                               # sin sticker: botón y pie
@@ -122,7 +123,8 @@ def armar(spec, base):
             ruta = p["imagen"] if os.path.isabs(p["imagen"]) else os.path.join(base, p["imagen"])
             im, recortado = pm.cargar_producto(ruta)
             x0 = margen + i * (ancho + hueco)
-            ac = pm.poner_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema)
+            ac = pm.poner_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema,
+                                   borde=12 if spec.get("borde_blanco") else 0)
             if p.get("nombre"):
                 pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"].upper(), fn, T["titulo"], esp=tam * 0.06)
     else:
