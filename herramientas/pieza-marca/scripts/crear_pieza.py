@@ -37,6 +37,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "precio_anterior": 50000,               # tachado
   "descuento": "-20%",                    # sello bordó
   "imagen": "producto.png",               # foto (fondo liso o PNG recortado)
+  "borde_blanco": true,                   # opcional: contorno blanco tipo sticker alrededor del producto
   "cta": "¡Pedí el tuyo!",                # botón píldora bordó
   "gancho": "...",                        # solo portada: frase grande en lugar del título
   "slides": [ {...}, {...} ]              # solo carrusel: un spec por slide
@@ -451,7 +452,7 @@ def armar(spec):
         caja = (w * 0.1, arriba + h * 0.03, w * 0.9, abajo - h * 0.015)
 
     # --- producto ---
-    acaja = poner_producto(img, caja, prod, recortado, tema, abajo=False)
+    acaja = poner_producto(img, caja, prod, recortado, tema, abajo=False, borde=12 if spec.get("borde_blanco") else 0)
     if spec.get("descuento"):
         r = w * 0.095
         sello(img, min(w - r - 40, acaja[2] - r * 0.2), acaja[1] + r * 1.3, spec["descuento"], r, tema)
