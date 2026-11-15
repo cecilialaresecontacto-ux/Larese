@@ -26,6 +26,12 @@ La dueña eligió el estilo del carrusel de Navidad para los títulos (reemplaza
 | Poppins (Regular) | Etiquetas, frases cortas y textos chicos en MAYÚSCULAS bien espaciadas; botones y pie |
 | Pinyon Script | Acentos: marcas, "Desde", frases |
 
+### Lo que más le gusta a la dueña (usalo siempre que se pueda)
+
+- **La marca del perfume en cursiva dorada** (Pinyon Script) debajo del nombre, seguida del detalle en Poppins espaciada: `"marca": "Versace"` + `"nota": "Decant EDT · 5 y 10 ml"`.
+- **El precio con "Desde" en cursiva dorada** delante: `"precio_prefijo": "Desde"` cuando hay varios tamaños.
+- Ejemplo de referencia: historia de Bright Crystal en fondo bordó, con etiqueta "Fresco y floral", título "Bright Crystal", marca "Versace", nota "Decant EDT · 5 y 10 ml" y "Desde Gs. 45.000".
+
 ### Cómo generar las piezas
 
 - No uses el script de la skill `larese-anuncios` tal cual (fondo del color del producto y texto blanco), ni el viejo `herramientas/pieza-fondo-blanco`.
