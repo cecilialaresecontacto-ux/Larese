@@ -7,7 +7,7 @@ Producto en Shopify (borrador): **COMBO 6 PERFUMES · 3 DE DISEÑADOR + 3 ÁRABE
 
 > **Margen con los nicho:** un decant de 5 ml de Xerjoff te cuesta más que uno de diseñador (Erba Pura y Naxos se venden sueltos a Gs. 115.000 y 135.000). Si alguien elige los 3 de nicho, el combo te deja bastante menos ganancia. Conviene la regla "máximo 1 de nicho por combo".
 
-Piezas: `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historias y reels, 1080×1920).
+Piezas (fondo blanco, gancho "¿No sabés qué perfume comprar? · probá 6 sin gastar de más"): `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historias y reels, 1080×1920), más la versión sin marcas.
 
 > **Ojo con Meta:** en un anuncio anterior Meta rechazó la palabra "originales". En las piezas y en los textos del anuncio **no la usamos**. Si igual lo rechaza, usá la versión de texto sin nombres de marcas (la opción A).
 
@@ -21,14 +21,15 @@ Meta revisa con mucho cuidado los anuncios con marcas de lujo, por si son falsif
 Si te lo rechazan:
 - **Pedí revisión** desde el aviso de rechazo ("Solicitar revisión"). Muchas veces el primer rechazo es automático y lo aprueban cuando lo revisa una persona.
 - **No uses** en los textos: "original", "originales", "réplica", "1:1", "inspirado en", "100%".
-- Usá el texto **A** (sin nombres de marcas) junto con la versión sin marcas.
+- Usá el texto **D** o el **A** (ninguno nombra marcas) junto con la versión sin marcas.
 - Tené la página de Facebook e Instagram completa (dirección, teléfono, descripción). Una cuenta con información clara pasa más fácil.
 
 ## Textos del anuncio
 
 **Texto principal (elegí uno, o cargá los 3 y que Meta pruebe):**
 
-- **A (recomendado):** 6 perfumes de lujo por Gs. 200.000 🤍 Elegí 3 de diseñador y 3 árabes en decants de 5 ml. Envíos a todo Paraguay.
+- **D (recomendado, con la idea de la dueña):** ¿Querés comprar un perfume pero no sabés cuál? 🤍 Con este combo probás 6 a tu elección sin gastar de más: Gs. 200.000, decants de 5 ml. Envíos a todo Paraguay.
+- **A (sin marcas):** 6 perfumes de lujo por Gs. 200.000 🤍 Elegí 3 de diseñador y 3 árabes en decants de 5 ml. Envíos a todo Paraguay.
 - **B:** ¿No sabés qué perfume elegir? Probá 6 por Gs. 200.000: Libre, Coco Mademoiselle, Miss Dior y más ✨
 - **C:** Sale a menos de Gs. 34.000 cada perfume. Armá tu combo de 6 decants y recibilo en tu casa 📦
 
