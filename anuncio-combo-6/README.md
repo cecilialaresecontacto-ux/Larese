@@ -16,7 +16,7 @@ Piezas: `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historia
 Meta revisa con mucho cuidado los anuncios con marcas de lujo, por si son falsificaciones. Hay dos versiones del anuncio:
 
 1. **Con fotos de los perfumes:** `anuncio-post.png` y `anuncio-historia.png`. Probá esta primero, porque es la que más vende.
-2. **Sin marcas:** `anuncio-post-sin-marcas.png` y `anuncio-historia-sin-marcas.png`, con frasquitos de decant dibujados. Usala si rechazan la primera. Los frasquitos se dibujan con `fuente/dibujar_decants.py`.
+2. **Sin marcas:** `anuncio-post-sin-marcas.png` y `anuncio-historia-sin-marcas.png`, en fondo blanco, con 6 decants llenos de perfume de distintos colores (hechos con la foto del frasquito vacío que mandó la dueña, `fuente/decant-vacio.webp`, y el script `fuente/armar_decants_foto.py`). Usala si rechazan la primera. Va en blanco porque sobre bordó el vidrio se ve oscuro.
 
 Si te lo rechazan:
 - **Pedí revisión** desde el aviso de rechazo ("Solicitar revisión"). Muchas veces el primer rechazo es automático y lo aprueban cuando lo revisa una persona.
