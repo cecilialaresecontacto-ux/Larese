@@ -3,7 +3,7 @@
 Historias de interacción de LARESE STORE con la paleta y tipografía de marca, y con espacio
 libre para el sticker de Instagram: encuesta, quiz, slider o caja de preguntas.
 
-Usa las fuentes, el logo, los colores y el arco de herramientas/pieza-marca.
+Usa las fuentes, el logo, los colores y el armado de producto de herramientas/pieza-marca.
 
 Uso:
     python3 crear_interaccion.py historias.json carpeta_salida/
@@ -15,7 +15,7 @@ historias.json es una lista de specs:
   "etiqueta": "Encuesta",                    # Poppins chica en dorado
   "titulo": "¿Dulce o fresco?",              # Playfair grande
   "subtitulo": "Votá y te recomiendo uno",   # opcional, Playfair italic
-  "productos": [                              # 0 a 3 productos, cada uno en su arco
+  "productos": [                              # 0 a 3 productos
      {"imagen": "fuente/scandal.png", "nombre": "Dulce"},
      {"imagen": "fuente/lightblue.jpg", "nombre": "Fresco"}
   ],
@@ -72,7 +72,7 @@ def armar(spec, base):
     else:
         limite = H - 520
 
-    # --- productos, cada uno en su arco ---
+    # --- productos ---
     prods = spec.get("productos") or []
     caja_y0 = y + 60
     hay_nombres = any(p.get("nombre") for p in prods)
@@ -90,11 +90,11 @@ def armar(spec, base):
             ruta = p["imagen"] if os.path.isabs(p["imagen"]) else os.path.join(base, p["imagen"])
             im, recortado = pm.cargar_producto(ruta)
             x0 = margen + i * (ancho + hueco)
-            ac = pm.arco_con_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema)
+            ac = pm.poner_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema)
             if p.get("nombre"):
                 pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"], fn, T["titulo"])
     else:
-        pm.arco_con_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
+        pm.poner_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
 
     d = ImageDraw.Draw(img)
     if con_sticker:

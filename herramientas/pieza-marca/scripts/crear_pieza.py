@@ -42,7 +42,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
 }
 
 Los campos "color" y "categoria" de la skill se ignoran. El pie (WhatsApp y envíos) se agrega solo.
-El producto va dentro de un arco de filete dorado, sin relleno (las fotos con fondo llenan el arco).
+El producto va directo sobre el fondo, sin arcos ni franjas (las fotos con fondo van como tarjeta redondeada).
 """
 import json
 import os
@@ -67,9 +67,9 @@ MARFIL = (252, 229, 218)
 DORADO = (153, 121, 87)
 
 TEMAS = {
-    # fondo, título, secundario, acento, arco, botón, texto del botón
-    "crema": dict(fondo=CREMA, titulo=TINTA, sec=MALVA, acento=DORADO, arco=MARFIL, boton=BORDO, boton_txt=MARFIL),
-    "bordo": dict(fondo=BORDO, titulo=MARFIL, sec=(222, 196, 186), acento=(196, 163, 122), arco=MARFIL,
+    # fondo, título, secundario, acento, botón, texto del botón
+    "crema": dict(fondo=CREMA, titulo=TINTA, sec=MALVA, acento=DORADO, boton=BORDO, boton_txt=MARFIL),
+    "bordo": dict(fondo=BORDO, titulo=MARFIL, sec=(222, 196, 186), acento=(196, 163, 122),
                   boton=MARFIL, boton_txt=BORDO),
 }
 
@@ -212,66 +212,38 @@ def logo_mascara(nombre, ancho):
     return m.resize((int(ancho), int(m.height * ancho / m.width)), Image.LANCZOS)
 
 
-def mascara_arco(w, h):
-    """Arco: rectángulo con el techo en medio círculo (x4 para bordes suaves)."""
-    k = 4
-    m = Image.new("L", (w * k, h * k), 0)
-    d = ImageDraw.Draw(m)
-    r = w * k / 2
-    d.ellipse((0, 0, w * k, 2 * r), fill=255)
-    d.rectangle((0, r, w * k, h * k), fill=255)
-    return m.resize((w, h), Image.LANCZOS)
-
-
-def arco_con_producto(img, caja, prod, recortado, tema, filete=True):
-    """Arco de filete dorado dentro de caja, sin relleno, y el producto adentro.
-    Si la foto no se puede recortar, la foto misma llena el arco. Devuelve la caja del arco."""
+def poner_producto(img, caja, prod, recortado, tema, abajo=True):
+    """Pone el producto lo más grande posible dentro de caja (apoyado abajo o centrado), directo sobre el fondo
+    y con una sombra suave. Sin arcos ni franjas detrás (la dueña no los quiere).
+    Si la foto no se puede recortar, va como tarjeta con esquinas redondeadas. Devuelve su caja."""
     T = TEMAS[tema]
     x0, y0, x1, y1 = (int(v) for v in caja)
     bw, bh = x1 - x0, y1 - y0
-    aw = int(min(bw, bh * 0.86))
-    ah = bh
-    p = None
-    if prod is not None and recortado:
-        # productos anchos (duplas, sets): arco más ancho y más bajo, que abrace al producto
-        if prod.width > prod.height:
-            aw = int(bw)
-        esc = min(aw * 0.80 / prod.width, bh * 0.80 / prod.height)
+    if prod is None:
+        mono = logo_mascara("monograma", min(bw, bh) * 0.6)
+        mx, my = int(x0 + (bw - mono.width) / 2), int(y0 + (bh - mono.height) / 2)
+        img.alpha_composite(capa_color(mono, T["acento"], 0.35), (mx, my))
+        return (mx, my, mx + mono.width, my + mono.height)
+    sombra = Image.new("L", img.size, 0)
+    sd = ImageDraw.Draw(sombra)
+    if recortado:
+        esc = min(bw * 0.94 / prod.width, bh * 0.96 / prod.height)
         p = prod.resize((max(1, int(prod.width * esc)), max(1, int(prod.height * esc))), Image.LANCZOS)
-        ah = int(min(bh, max(aw * 0.95, p.height + aw * 0.40 + bh * 0.05)))
-    ax = x0 + (bw - aw) // 2
-    ay = y0 + (bh - ah)  # apoyado abajo, así los arcos de una fila quedan parejos
-    m = mascara_arco(aw, ah)
-    if prod is not None and not recortado:
-        # foto con fondo: la foto llena el arco, con una sombra suave
-        sombra = Image.new("L", img.size, 0)
-        sombra.paste(m, (ax, ay + 14))
-        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.18 if tema == "crema" else 0.5))
-        foto = ImageOps.fit(prod.convert("RGB"), (aw, ah), Image.LANCZOS).convert("RGBA")
-        foto.putalpha(m)
-        img.alpha_composite(foto, (ax, ay))
-    # producto recortado: sin relleno, solo el filete dorado sobre el fondo (la dueña no quiere la franja rosada)
-    if filete:  # filete dorado por fuera del arco
-        sep = max(10, int(aw * 0.03))
-        fw, fh = aw + 2 * sep, ah + 2 * sep
-        ext = mascara_arco(fw, fh)
-        inn = Image.new("L", (fw, fh), 0)
-        inn.paste(mascara_arco(fw - 4, fh - 4), (2, 2))
-        linea = Image.fromarray(np.clip(np.array(ext, int) - np.array(inn, int), 0, 255).astype("uint8"))
-        img.alpha_composite(capa_color(linea, T["acento"], 0.9), (ax - sep, ay - sep))
-    if p is not None:
-        px = int(ax + (aw - p.width) / 2)
-        py = int(ay + ah - bh * 0.05 - p.height)
-        s = Image.new("L", img.size, 0)
+        px, py = int(x0 + (bw - p.width) / 2), (int(y1 - p.height) if abajo else int(y0 + (bh - p.height) / 2))
         sw = p.width * 0.8
-        ImageDraw.Draw(s).ellipse((px + (p.width - sw) / 2, py + p.height - 18, px + (p.width + sw) / 2, py + p.height + 18), fill=140)
-        img.alpha_composite(capa_color(s.filter(ImageFilter.GaussianBlur(16)), CUERO, 0.5))
-        img.alpha_composite(p, (px, py))
-    elif prod is None:
-        mono = logo_mascara("monograma", aw * 0.55)
-        img.alpha_composite(capa_color(mono, T["acento"], 0.35),
-                            (int(ax + (aw - mono.width) / 2), int(ay + ah * 0.55 - mono.height / 2)))
-    return (ax, ay, ax + aw, ay + ah)
+        sd.ellipse((px + (p.width - sw) / 2, py + p.height - 18, px + (p.width + sw) / 2, py + p.height + 18), fill=140)
+        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(18)), CUERO, 0.5))
+    else:
+        cw = int(min(bw, bh * 0.8))
+        p = ImageOps.fit(prod.convert("RGB"), (cw, bh), Image.LANCZOS).convert("RGBA")
+        m = Image.new("L", p.size, 0)
+        ImageDraw.Draw(m).rounded_rectangle((0, 0, p.width, p.height), radius=int(cw * 0.08), fill=255)
+        p.putalpha(m)
+        px, py = int(x0 + (bw - p.width) / 2), (int(y1 - p.height) if abajo else int(y0 + (bh - p.height) / 2))
+        sd.rounded_rectangle((px + 8, py + 18, px + p.width - 8, py + p.height + 18), radius=int(cw * 0.08), fill=120)
+        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.35 if tema == "crema" else 0.6))
+    img.alpha_composite(p, (px, py))
+    return (px, py, px + p.width, py + p.height)
 
 
 def sello(img, cx, cy, texto, r, tema):
@@ -437,8 +409,8 @@ def armar(spec):
     else:
         caja = (w * 0.1, arriba + h * 0.03, w * 0.9, abajo - h * 0.015)
 
-    # --- producto en el arco ---
-    acaja = arco_con_producto(img, caja, prod, recortado, tema)
+    # --- producto ---
+    acaja = poner_producto(img, caja, prod, recortado, tema, abajo=False)
     if spec.get("descuento"):
         r = w * 0.095
         sello(img, min(w - r - 40, acaja[2] - r * 0.2), acaja[1] + r * 1.3, spec["descuento"], r, tema)
