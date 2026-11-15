@@ -2,7 +2,7 @@
 
 **Del lunes 16 al domingo 29 de noviembre.** Termina justo con Black Friday (viernes 27), cuando la cuenta ya va a estar "despierta" y llegando a más gente.
 
-Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tienen un **espacio libre abajo para el sticker**: subí la imagen, agregá el sticker desde Instagram y ponelo en ese espacio.
+Las piezas están en `piezas/`. Perfumes: YSL Libre, Coco Mademoiselle, Miss Dior, Devotion Intense, Born in Roma y Divine. Las historias con encuesta, quiz o preguntas tienen un **espacio libre abajo para el sticker**: subí la imagen, agregá el sticker desde Instagram y ponelo en ese espacio.
 
 ---
 
@@ -21,8 +21,8 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 | Día | Historias (además de las de producto que ya subís) | Feed / Reel |
 |---|---|---|
 | **Lun 16** | `h07-notificaciones` · `h01-libre-o-coco` (sticker **Encuesta**: "Libre" / "Coco Mademoiselle") | Reel 1 con `portada-reel-3-perfumes` |
-| **Mar 17** | Resultado de ayer ("Ganó Libre 🤍") + cómo huele el ganador · `h05-slider-florales` (sticker **Slider** con 🌸) | — |
-| **Mié 18** | `h02-miss-dior-o-libre` (sticker **Encuesta**: "Miss Dior" / "Libre") | Post `post-comenta-perfume` |
+| **Mar 17** | Resultado de ayer ("Ganó Libre 🤍") + cómo huele el ganador · `h05-slider-dulces` (sticker **Slider** con 🍯) | — |
+| **Mié 18** | `h02-miss-dior-o-born-in-roma` (sticker **Encuesta**: "Miss Dior" / "Born in Roma") | Post `post-comenta-perfume` |
 | **Jue 19** | `h04-quiz-lavanda` (sticker **Quiz**, ver respuesta abajo) · al otro día subí la respuesta | — |
 | **Vie 20** | `h06-preguntas` (sticker **Preguntas**) | Reel 2 |
 | **Sáb 21** | Respondé las preguntas de ayer, una por historia (compartí la pregunta y contestá con foto del perfume) | — |
@@ -32,7 +32,7 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 
 | Día | Historias | Feed / Reel |
 |---|---|---|
-| **Lun 23** | `h03-coco-o-miss-dior` (sticker **Encuesta**: "Coco Mademoiselle" / "Miss Dior") | Reel 3 |
+| **Lun 23** | `h03-devotion-o-divine` (sticker **Encuesta**: "Devotion Intense" / "Divine") | Reel 3 |
 | **Mar 24** | Detrás de escena: armando pedidos, el paquete, el envío. Sticker **Encuesta**: "¿Ya pediste alguna vez? Sí / Todavía no" | — |
 | **Mié 25** | Repetí el quiz con otra pregunta o volvé a subir `h01` | Post de un producto (con la skill de anuncios) |
 | **Jue 26** | Sticker **Cuenta regresiva** "Black Friday" *(solo si vas a hacer promo)* | Reel 4 |
@@ -46,10 +46,10 @@ Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tie
 
 ## Stickers y textos listos
 
-**Quiz (`h04`):** opciones "Coco Mademoiselle", "Libre", "Miss Dior". Correcta: **Libre**.
+**Quiz (`h04`):** opciones "Devotion Intense", "Libre", "Born in Roma". Correcta: **Libre**.
 Historia del día siguiente: *"La respuesta era Libre de YSL ✨ Lavanda francesa con flor de azahar y un fondo de vainilla: floral, elegante y con carácter. ¿Querés probarlo? Escribinos."*
 
-**Slider (`h05`):** emoji 🌸. A quien lo deslice al máximo, mandale por DM una recomendación floral (Miss Dior o Libre).
+**Slider (`h05`):** emoji 🍯. A quien lo deslice al máximo, mandale por DM una recomendación dulce (Devotion Intense, Born in Roma o Divine).
 
 **Preguntas (`h06`):** texto del sticker: *"Contame tu estilo o qué perfumes te gustan"*.
 
@@ -97,7 +97,7 @@ Importante: **contestá a cada comentario** ("¡Te escribimos! 🤍") y mandá e
 | **1. 3 perfumes que todas te van a preguntar** (portada `portada-reel-3-perfumes`) | Libre, Coco Mademoiselle y Miss Dior, uno por uno, 3 segundos cada uno, con una mano que los levanta | Nombre + "floral con lavanda", "elegante", "romántico" |
 | **2. Decant vs. frasco** | El frasco grande y al lado el decant. Rociás los dos | "Mismo perfume original. Probalo antes de comprar el frasco" |
 | **3. Armando un pedido** | Manos envolviendo el paquete, el sticker de la tienda, la bolsa cerrada | "Así llega tu pedido 📦 Envíos a todo Paraguay" |
-| **4. ¿Qué perfume sos según tu plan del finde?** | Cortes rápidos: "oficina" → Libre, "brunch" → Miss Dior, "salida de noche" → Coco Mademoiselle Intense | El plan y el perfume |
+| **4. ¿Qué perfume sos según tu plan del finde?** | Cortes rápidos: "oficina" → Libre, "brunch" → Miss Dior, "cena" → Born in Roma, "salida de noche" → Devotion Intense o Divine | El plan y el perfume |
 
 Audio: uno que esté en tendencia, lento y elegante. Si me mandás los videos, te los edito con subtítulos, zooms y títulos.
 
