@@ -2,7 +2,7 @@
 
 Producto en Shopify (borrador): **COMBO 6 PERFUMES · 3 DE DISEÑADOR + 3 ÁRABES · 5 ML CADA UNO**, Gs. 200.000.
 
-- 3 de diseñador a elección: YSL Libre EDP · Chanel Coco Mademoiselle Intense · Miss Dior (2026) · D&G Devotion Intense · Valentino Born in Roma Donna · JPG Divine Couture
+- 3 de diseñador a elección (15 opciones): Miss Dior (2026) · J'adore EDP · Dior Addict Rosy Glow · Dior Addict Peachy Glow · Dior Addict Purple Glow · Chanel Coco Mademoiselle Intense · YSL Libre EDP · D&G Devotion Intense · D&G Light Blue EDT · Valentino Born in Roma Donna · JPG Divine Couture · JPG Scandal Le Parfum · Givenchy L'Interdit EDT · Armani Sì Passione · Versace Bright Crystal EDT
 - 3 árabes: Lattafa Qimmah · Al Wataniah Shagaf Al Ward · Al Wataniah Durrat Al Aroos
 
 Piezas: `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historias y reels, 1080×1920).
@@ -55,7 +55,15 @@ Cuenta hecha con un costo de frasco de diseñador de Gs. 500.000 a 600.000 por 1
 El combo trae 6 decants de 5 ml por Gs. 200.000 (sale a menos de Gs. 34.000 cada perfume):
 
 ✨ Elegí 3 de diseñador:
-Libre (YSL) · Coco Mademoiselle Intense (Chanel) · Miss Dior · Devotion Intense (D&G) · Born in Roma (Valentino) · Divine (JPG)
+• Dior: Miss Dior · J'adore · Addict Rosy Glow · Addict Peachy Glow · Addict Purple Glow
+• Chanel: Coco Mademoiselle Intense
+• YSL: Libre
+• Dolce & Gabbana: Devotion Intense · Light Blue
+• Valentino: Born in Roma
+• Jean Paul Gaultier: Divine Couture · Scandal Le Parfum
+• Givenchy: L'Interdit
+• Armani: Sì Passione
+• Versace: Bright Crystal
 
 ✨ Y 3 árabes:
 Qimmah (Lattafa) · Shagaf Al Ward · Durrat Al Aroos
