@@ -11,7 +11,7 @@ Uso:
 historias.json es una lista de specs:
 {
   "archivo": "01-dulce-o-fresco.png",
-  "fondo": "crema" | "bordo",                # opcional, crema por defecto
+  "fondo": "blanco" | "bordo",               # opcional, blanco por defecto
   "etiqueta": "Encuesta",                    # Poppins chica en dorado
   "titulo": "¿Dulce o fresco?",              # Playfair grande
   "subtitulo": "Votá y te recomiendo uno",   # opcional, Playfair italic
@@ -39,7 +39,9 @@ CX = W / 2
 
 
 def armar(spec, base):
-    tema = spec.get("fondo", "crema")
+    tema = spec.get("fondo", "blanco")
+    if tema not in pm.TEMAS:
+        tema = "blanco"
     T = pm.TEMAS[tema]
     img = pm.lienzo(W, H, tema)
     d = ImageDraw.Draw(img)

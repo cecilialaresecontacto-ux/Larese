@@ -3,11 +3,11 @@
 Piezas para redes de LARESE STORE con la paleta y la tipografía de marca.
 
 Paleta:
-    Crema        #F8F4EB  fondo claro principal
+    Blanco       #FFFFFF  fondo claro principal (la dueña lo prefiere a la crema #F8F4EB)
     Bordó vino   #41030B  fondo oscuro, píldoras, botones
     Bordó cuero  #2A0B0D  sombras y fondos profundos
-    Tinta        #321918  títulos y textos sobre crema
-    Malva        #7B5B5B  textos secundarios sobre crema
+    Tinta        #321918  títulos y textos sobre blanco
+    Malva        #7B5B5B  textos secundarios sobre blanco
     Rosa marfil  #FCE5DA  textos sobre bordó, arcos
     Dorado       #997957  acentos y detalles finos
 
@@ -25,7 +25,7 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
 
 {
   "formato": "post" | "cuadrado" | "historia" | "portada" | "carrusel",
-  "fondo": "crema" | "bordo",             # opcional, crema por defecto
+  "fondo": "blanco" | "bordo",            # opcional, blanco por defecto
   "etiqueta": "Decant original",          # Poppins chica en dorado, arriba
   "titulo": "Good Girl Blush",            # Playfair grande (no se pasa a mayúsculas)
   "marca": "Carolina Herrera",            # Pinyon Script, debajo del título
@@ -58,7 +58,7 @@ FUENTES = os.path.join(ASSETS, "fonts")
 WHATSAPP = "0972 736 002"
 ENVIOS = "Envíos a todo Paraguay"
 
-CREMA = (248, 244, 235)
+BLANCO = (255, 255, 255)
 BORDO = (65, 3, 11)
 CUERO = (42, 11, 13)
 TINTA = (50, 25, 24)
@@ -68,7 +68,7 @@ DORADO = (153, 121, 87)
 
 TEMAS = {
     # fondo, título, secundario, acento, botón, texto del botón
-    "crema": dict(fondo=CREMA, titulo=TINTA, sec=MALVA, acento=DORADO, boton=BORDO, boton_txt=MARFIL),
+    "blanco": dict(fondo=BLANCO, titulo=TINTA, sec=MALVA, acento=DORADO, boton=BORDO, boton_txt=MARFIL),
     "bordo": dict(fondo=BORDO, titulo=MARFIL, sec=(222, 196, 186), acento=(196, 163, 122),
                   boton=MARFIL, boton_txt=BORDO),
 }
@@ -192,7 +192,7 @@ def cargar_producto(ruta):
 
 def lienzo(w, h, tema):
     T = TEMAS[tema]
-    if tema == "crema":
+    if tema == "blanco":
         return Image.new("RGBA", (w, h), T["fondo"] + (255,))
     # bordó con una luz suave al centro que cae a bordó cuero en los bordes
     yy, xx = np.mgrid[0:h, 0:w]
@@ -241,14 +241,14 @@ def poner_producto(img, caja, prod, recortado, tema, abajo=True):
         p.putalpha(m)
         px, py = int(x0 + (bw - p.width) / 2), (int(y1 - p.height) if abajo else int(y0 + (bh - p.height) / 2))
         sd.rounded_rectangle((px + 8, py + 18, px + p.width - 8, py + p.height + 18), radius=int(cw * 0.08), fill=120)
-        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.35 if tema == "crema" else 0.6))
+        img.alpha_composite(capa_color(sombra.filter(ImageFilter.GaussianBlur(26)), CUERO, 0.35 if tema == "blanco" else 0.6))
     img.alpha_composite(p, (px, py))
     return (px, py, px + p.width, py + p.height)
 
 
 def sello(img, cx, cy, texto, r, tema):
     T = TEMAS[tema]
-    fondo_s, txt_s = (BORDO, MARFIL) if tema == "crema" else (MARFIL, BORDO)
+    fondo_s, txt_s = (BORDO, MARFIL) if tema == "blanco" else (MARFIL, BORDO)
     s = Image.new("L", img.size, 0)
     ImageDraw.Draw(s).ellipse((cx - r, cy - r + 8, cx + r, cy + r + 8), fill=120)
     img.alpha_composite(capa_color(s.filter(ImageFilter.GaussianBlur(14)), CUERO, 0.45))
@@ -301,7 +301,7 @@ def pie(img, y, tam, tema):
     anchos = [2 * r + tam * 0.55 + d.textlength(t, font=f) for _, t in items]
     x = w / 2 - (sum(anchos) + sep) / 2
     cy = y + r
-    c_circ, c_ico = (BORDO, MARFIL) if tema == "crema" else (MARFIL, BORDO)
+    c_circ, c_ico = (BORDO, MARFIL) if tema == "blanco" else (MARFIL, BORDO)
     for (ic, t), aw in zip(items, anchos):
         d.ellipse((x, cy - r, x + 2 * r, cy + r), fill=c_circ)
         (icono_chat if ic == "chat" else icono_camion)(d, x + r, cy, r * 0.82, c_ico)
@@ -363,9 +363,9 @@ def armar(spec):
     formato = spec.get("formato", "post")
     if formato not in TAMANOS:
         raise SystemExit(f"Formato desconocido: {formato}. Usá: {', '.join(list(TAMANOS) + ['carrusel'])}")
-    tema = spec.get("fondo", "crema")
-    if tema not in TEMAS:
-        tema = "crema"
+    tema = spec.get("fondo", "blanco")
+    if tema not in TEMAS:  # "crema" u otro valor viejo -> blanco
+        tema = "blanco"
     T = TEMAS[tema]
     w, h = TAMANOS[formato]
     M = MEDIDAS[formato]
