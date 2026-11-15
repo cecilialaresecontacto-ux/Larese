@@ -26,7 +26,7 @@ Las piezas están en `piezas/`. Perfumes: YSL Libre, Coco Mademoiselle, Miss Dio
 | **Jue 19** | `h04-quiz-lavanda` (sticker **Quiz**, ver respuesta abajo) · al otro día subí la respuesta | — |
 | **Vie 20** | `h06-preguntas` (sticker **Preguntas**) | Reel 2 |
 | **Sáb 21** | Respondé las preguntas de ayer, una por historia (compartí la pregunta y contestá con foto del perfume) | — |
-| **Dom 22** | Armá la lista de **Mejores Amigos** (ver abajo) y subí `h08-mejores-amigos` **solo a esa lista** | — |
+| **Dom 22** | Armá la lista de **Mejores Amigos** (ver abajo) y subí `h08-mejores-amigos` **solo a esa lista** · `h09-comunidad` **para todos** (sticker **Enlace** con el link de la comunidad) | — |
 
 ## Semana 2: mantener el ritmo y llegar a Black Friday
 
@@ -35,7 +35,7 @@ Las piezas están en `piezas/`. Perfumes: YSL Libre, Coco Mademoiselle, Miss Dio
 | **Lun 23** | `h03-devotion-o-divine` (sticker **Encuesta**: "Devotion Intense" / "Divine") | Reel 3 |
 | **Mar 24** | Detrás de escena: armando pedidos, el paquete, el envío. Sticker **Encuesta**: "¿Ya pediste alguna vez? Sí / Todavía no" | — |
 | **Mié 25** | Repetí el quiz con otra pregunta o volvé a subir `h01` | Post de un producto (con la skill de anuncios) |
-| **Jue 26** | Sticker **Cuenta regresiva** "Black Friday" *(solo si vas a hacer promo)* | Reel 4 |
+| **Jue 26** | Sticker **Cuenta regresiva** "Black Friday" *(solo si vas a hacer promo)* · volvé a subir `h09-comunidad` | Reel 4 |
 | **Vie 27** | **Black Friday:** promos primero en Mejores Amigos, después para todos | Post de la promo |
 | **Sáb 28** | Recordatorio de la promo + capturas de pedidos (sin datos de las clientas) | — |
 | **Dom 29** | Agradecé y preguntá: "¿Qué perfume querés que traigamos?" (sticker **Preguntas**) | — |
@@ -52,6 +52,8 @@ Historia del día siguiente: *"La respuesta era Libre de YSL ✨ Lavanda frances
 **Slider (`h05`):** emoji 🍯. A quien lo deslice al máximo, mandale por DM una recomendación dulce (Devotion Intense, Born in Roma o Divine).
 
 **Preguntas (`h06`):** texto del sticker: *"Contame tu estilo o qué perfumes te gustan"*.
+
+**Comunidad (`h09`):** agregá el sticker **Enlace** en el espacio de abajo, pegá el link de tu comunidad y escribí en el sticker *"Unirme"*. Guardala en una historia destacada ("Comunidad") para que quede siempre a mano.
 
 **Mejores Amigos:** sumá a clientas que te compraron y a quienes votaron o respondieron en estas semanas. Usala para mostrar lo nuevo primero y, si querés, para dar algo exclusivo (un precio especial, un decant de regalo, lo que decidas).
 

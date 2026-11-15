@@ -29,6 +29,7 @@ PIEZAS = [
     ("h06-preguntas.png", "h06 · Preguntas"),
     ("h07-notificaciones.png", "h07 · Notificaciones"),
     ("h08-mejores-amigos.png", "h08 · Mejores Amigos"),
+    ("h09-comunidad.png", "h09 · Comunidad"),
     ("post-comenta-perfume.png", "Post · Comentá"),
     ("portada-reel-3-perfumes.png", "Portada del reel 1"),
 ]
@@ -87,7 +88,7 @@ blockquote {{ margin:2mm 0 4mm; padding:2mm 4mm; border-left:2px solid var(--dor
 ol, ul {{ padding-left:6mm; }}
 li {{ margin:1mm 0; }}
 .piezas {{ break-before:page; }}
-.grid {{ display:grid; grid-template-columns:repeat(5,1fr); gap:4mm; }}
+.grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:4mm; }}
 figure {{ margin:0; text-align:center; break-inside:avoid; }}
 figure img {{ width:100%; border:1px solid #eadfd6; }}
 figcaption {{ font-size:7.5pt; color:var(--malva); margin-top:1mm; letter-spacing:.05em; }}

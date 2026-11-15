@@ -119,5 +119,19 @@
    }
   ],
   "cta": "¡Respondé esta historia!"
+ },
+ {
+  "archivo": "h09-comunidad.png",
+  "fondo": "bordo",
+  "etiqueta": "Comunidad Larese",
+  "titulo": "Sumate a nuestra comunidad",
+  "subtitulo": "Sé la primera en enterarte de las novedades, lanzamientos y promos",
+  "productos": [
+   {
+    "imagen": "fuente/trio.png"
+   }
+  ],
+  "sticker": "Tocá el link para unirte",
+  "alto_sticker": 260
  }
 ]
