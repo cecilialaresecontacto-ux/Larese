@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Historias de interacción de LARESE STORE (fondo blanco) con espacio libre para el sticker
-de Instagram: encuesta, quiz, slider o caja de preguntas.
+Historias de interacción de LARESE STORE con la paleta y tipografía de marca, y con espacio
+libre para el sticker de Instagram: encuesta, quiz, slider o caja de preguntas.
 
-Usa las fuentes, el logo y el recorte de producto de herramientas/pieza-fondo-blanco.
+Usa las fuentes, el logo, los colores y el arco de herramientas/pieza-marca.
 
 Uso:
     python3 crear_interaccion.py historias.json carpeta_salida/
@@ -11,102 +11,100 @@ Uso:
 historias.json es una lista de specs:
 {
   "archivo": "01-dulce-o-fresco.png",
-  "etiqueta": "Encuesta",                    # línea chica arriba
-  "titulo": "¿Dulce o fresco?",              # pregunta grande
-  "subtitulo": "Votá y te recomiendo uno",   # opcional
-  "productos": [                              # 0 a 3 productos, cada uno con nombre opcional
+  "fondo": "crema" | "bordo",                # opcional, crema por defecto
+  "etiqueta": "Encuesta",                    # Poppins chica en dorado
+  "titulo": "¿Dulce o fresco?",              # Playfair grande
+  "subtitulo": "Votá y te recomiendo uno",   # opcional, Playfair italic
+  "productos": [                              # 0 a 3 productos, cada uno en su arco
      {"imagen": "fuente/scandal.png", "nombre": "Dulce"},
      {"imagen": "fuente/lightblue.jpg", "nombre": "Fresco"}
   ],
-  "sticker": "Votá acá abajo",               # texto chico gris sobre el espacio del sticker
-  "cta": "...", "pie": true                  # opcional: botón y pie (para historias sin sticker)
+  "sticker": "Votá acá abajo",               # texto chico sobre el espacio del sticker
+  "alto_sticker": 300,                       # alto del espacio libre
+  "cta": "..."                               # sin sticker: botón y pie
 }
 """
 import json
 import os
 import sys
 
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(AQUI, "..", "herramientas", "pieza-fondo-blanco", "scripts"))
-import crear_pieza as cp  # noqa: E402
+sys.path.insert(0, os.path.join(AQUI, "..", "herramientas", "pieza-marca", "scripts"))
+import crear_pieza as pm  # noqa: E402
 
 W, H = 1080, 1920
 CX = W / 2
 
 
 def armar(spec, base):
-    img = Image.new("RGBA", (W, H), cp.FONDO + (255,))
+    tema = spec.get("fondo", "crema")
+    T = pm.TEMAS[tema]
+    img = pm.lienzo(W, H, tema)
     d = ImageDraw.Draw(img)
 
     # --- logo y textos de arriba ---
-    logo = cp.logo_mascara("texto", 250)
+    logo = pm.logo_mascara("texto", 230)
     y = 170
-    img.alpha_composite(cp.capa_color(logo, cp.TEXTO), (int(CX - logo.width / 2), y))
+    img.alpha_composite(pm.capa_color(logo, T["titulo"]), (int(CX - logo.width / 2), y))
     y += logo.height + 44
     if spec.get("etiqueta"):
-        fe = cp.fuente(34, b"SemiBold")
-        cp.txt(d, CX, y, spec["etiqueta"].upper(), fe, cp.GRIS, esp=2)
-        y += cp.alto_linea(fe, 1.1)
-    ft, lt, _ = cp.ajustar(d, spec["titulo"].upper(), 112, 64, W - 130, 3, b"Bold")
+        fe = pm.poppins(30, "Medium")
+        pm.txt(d, CX, y, spec["etiqueta"].upper(), fe, T["acento"], esp=30 * 0.22)
+        y += pm.alto_linea(fe, 1.3)
+    ft, lt, _ = pm.ajustar(d, spec["titulo"], 116, 66, W - 140, 3, lambda t: pm.playfair(t, 500))
     for l in lt:
-        cp.txt(d, CX, y, l, ft, cp.TEXTO)
-        y += cp.alto_linea(ft, 0.86)
+        pm.txt(d, CX, y, l, ft, T["titulo"])
+        y += pm.alto_linea(ft, 1.0)
     if spec.get("subtitulo"):
-        y += 14
-        fs, ls, _ = cp.ajustar(d, spec["subtitulo"], 40, 30, W - 200, 2, b"Medium")
+        y += 6
+        fs, ls, _ = pm.ajustar(d, spec["subtitulo"], 44, 32, W - 200, 2, lambda t: pm.playfair(t, 400, True))
         for l in ls:
-            cp.txt(d, CX, y, l, fs, cp.GRIS)
-            y += cp.alto_linea(fs, 1.15)
+            pm.txt(d, CX, y, l, fs, T["sec"])
+            y += pm.alto_linea(fs, 1.15)
 
     # --- zona de abajo: sticker, o botón + pie ---
     con_sticker = bool(spec.get("sticker"))
     if con_sticker:
-        alto_sticker = spec.get("alto_sticker", 300)
-        fondo_zona = H - 220                      # lo de abajo lo tapa la barra de respuesta
-        y_sticker = fondo_zona - alto_sticker     # espacio blanco libre para el sticker
-        limite = y_sticker - 60
+        y_sticker = H - 220 - spec.get("alto_sticker", 300)   # espacio libre para el sticker
+        limite = y_sticker - 70
     else:
         limite = H - 520
 
-    # --- productos ---
+    # --- productos, cada uno en su arco ---
     prods = spec.get("productos") or []
-    caja_y0 = y + 50
-    nombre_f = cp.fuente(36, b"SemiBold")
-    alto_nombre = cp.alto_linea(nombre_f, 1.2) if any(p.get("nombre") for p in prods) else 0
-    caja_y1 = limite - alto_nombre
+    caja_y0 = y + 60
+    hay_nombres = any(p.get("nombre") for p in prods)
+    n = max(1, len(prods))
+    margen = 90 if n > 1 else 150
+    hueco = 50 if n > 1 else 0
+    ancho = (W - 2 * margen - hueco * (n - 1)) / n
+    tam = 44  # el mismo tamaño para todos los nombres, el que entre en la columna
+    while tam > 26 and any(d.textlength(p.get("nombre", ""), font=pm.playfair(tam, 500)) > ancho + hueco * 0.6 for p in prods):
+        tam -= 2
+    fn = pm.playfair(tam, 500)
+    caja_y1 = limite - (pm.alto_linea(fn, 1.3) if hay_nombres else 0)
     if prods:
-        n = len(prods)
-        margen = 80
-        hueco = 40 if n > 1 else 0
-        ancho = (W - 2 * margen - hueco * (n - 1)) / n
-        tam = 36  # el mismo tamaño para todos los nombres, el que entre en la columna
-        while tam > 22 and any(d.textlength(p.get("nombre", "").upper(), font=cp.fuente(tam, b"SemiBold")) + 2 * len(p.get("nombre", "")) > ancho for p in prods):
-            tam -= 2
-        nombre_f = cp.fuente(tam, b"SemiBold")
         for i, p in enumerate(prods):
             ruta = p["imagen"] if os.path.isabs(p["imagen"]) else os.path.join(base, p["imagen"])
-            im, recortado = cp.cargar_producto(ruta)
+            im, recortado = pm.cargar_producto(ruta)
             x0 = margen + i * (ancho + hueco)
-            caja = (x0, caja_y0, x0 + ancho, caja_y1)
-            pc = cp.pegar_producto(img, im, recortado, caja)
+            ac = pm.arco_con_producto(img, (x0, caja_y0, x0 + ancho, caja_y1), im, recortado, tema)
             if p.get("nombre"):
-                d = ImageDraw.Draw(img)
-                cp.txt(d, (pc[0] + pc[2]) / 2, caja_y1 + 18, p["nombre"].upper(), nombre_f, cp.TEXTO, esp=2)
+                pm.txt(ImageDraw.Draw(img), (ac[0] + ac[2]) / 2, caja_y1 + 22, p["nombre"], fn, T["titulo"])
     else:
-        cp.monograma_grande(img, (120, caja_y0, W - 120, caja_y1))
+        pm.arco_con_producto(img, (margen, caja_y0, W - margen, caja_y1), None, False, tema)
 
     d = ImageDraw.Draw(img)
     if con_sticker:
-        fsk = cp.fuente(30, b"Medium")
-        cp.txt(d, CX, y_sticker - 10, spec["sticker"], fsk, (150, 150, 150))
+        fsk = pm.playfair(34, 400, True)
+        pm.txt(d, CX, y_sticker - 22, spec["sticker"], fsk, T["sec"])
+        pm.filete(d, CX, y_sticker + 34, 90, tema)
     else:
-        yb = H - 470
         if spec.get("cta"):
-            cp.boton(img, CX, yb, spec["cta"], 40, cp.ACENTO)
-        if spec.get("pie", True):
-            cp.pie(img, H - 190 - 30 * 2.1, 30, cp.ACENTO)
+            pm.boton(img, CX, H - 470, spec["cta"], 36, tema)
+        pm.pie(img, H - 190 - 28 * 2.0, 28, tema)
     return img.convert("RGB")
 
 

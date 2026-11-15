@@ -2,7 +2,7 @@
 
 **Del lunes 16 al domingo 29 de noviembre.** Termina justo con Black Friday (viernes 27), cuando la cuenta ya va a estar "despierta" y llegando a más gente.
 
-Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tienen un **espacio blanco abajo para el sticker**: subí la imagen, agregá el sticker desde Instagram y ponelo en ese espacio.
+Las piezas están en `piezas/`. Las historias con encuesta, quiz o preguntas tienen un **espacio libre abajo para el sticker**: subí la imagen, agregá el sticker desde Instagram y ponelo en ese espacio.
 
 ---
 
@@ -120,6 +120,6 @@ Los primeros 3 o 4 días pueden dar poco. Es normal: el cambio fuerte suele vers
 ```bash
 cd revivir-cuenta
 python3 crear_interaccion.py historias.json piezas/
-python3 ../herramientas/pieza-fondo-blanco/scripts/crear_pieza.py post-comenta.json piezas/post-comenta-perfume.png
-python3 ../herramientas/pieza-fondo-blanco/scripts/crear_pieza.py portada-reel.json piezas/portada-reel-3-perfumes.png
+python3 ../herramientas/pieza-marca/scripts/crear_pieza.py post-comenta.json piezas/post-comenta-perfume.png
+python3 ../herramientas/pieza-marca/scripts/crear_pieza.py portada-reel.json piezas/portada-reel-3-perfumes.png
 ```

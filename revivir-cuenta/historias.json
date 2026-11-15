@@ -46,7 +46,8 @@
     "nombre": "Bright Crystal"
    }
   ],
-  "sticker": "Votá acá abajo"
+  "sticker": "Votá acá abajo",
+  "fondo": "bordo"
  },
  {
   "archivo": "h04-quiz-praline.png",
@@ -78,7 +79,8 @@
    }
   ],
   "sticker": "Deslizá acá abajo",
-  "alto_sticker": 260
+  "alto_sticker": 260,
+  "fondo": "bordo"
  },
  {
   "archivo": "h06-preguntas.png",
@@ -115,6 +117,7 @@
     "imagen": "fuente/dupla-frescos.png"
    }
   ],
-  "cta": "¡Respondé esta historia!"
+  "cta": "¡Respondé esta historia!",
+  "fondo": "bordo"
  }
 ]
