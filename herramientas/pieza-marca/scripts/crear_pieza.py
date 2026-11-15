@@ -424,8 +424,9 @@ def armar(spec):
         bloques.append(("eti", fe, [spec["etiqueta"].upper()], alto_linea(fe, 1.2)))
     bloques.append(("tit", ft, lt, alto_linea(ft, 1.0)))
     if spec.get("marca"):
-        fm = script(M["marca"])
-        bloques.append(("marca", fm, [spec["marca"]], alto_linea(fm, 0.95)))
+        # la cursiva se achica si la frase es larga, para que no se salga de los bordes
+        fm, lm, _ = ajustar(d, spec["marca"], M["marca"], M["marca"] * 0.55, w - 160, 1, script)
+        bloques.append(("marca", fm, lm, alto_linea(fm, 0.95)))
     if spec.get("subtitulo"):
         fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), M["sub"], M["sub"] * 0.75, w - 200, 2,
                             lambda t: poppins(t, "Medium"), 0.12)

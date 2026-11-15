@@ -7,7 +7,7 @@ Producto en Shopify (borrador): **COMBO 6 PERFUMES · 3 DE DISEÑADOR + 3 ÁRABE
 
 > **Margen con los nicho:** un decant de 5 ml de Xerjoff te cuesta más que uno de diseñador (Erba Pura y Naxos se venden sueltos a Gs. 115.000 y 135.000). Si alguien elige los 3 de nicho, el combo te deja bastante menos ganancia. Conviene la regla "máximo 1 de nicho por combo".
 
-Piezas (fondo blanco, gancho "¿No sabés qué perfume comprar? · probá 6 sin gastar de más"): `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historias y reels, 1080×1920), más la versión sin marcas.
+Piezas (fondo blanco, gancho "¿No sabés qué perfume comprar? · probá 6 a elección sin gastar de más"): `anuncio-post.png` (feed, 1080×1350) y `anuncio-historia.png` (historias y reels, 1080×1920), más la versión sin marcas.
 
 > **Ojo con Meta:** en un anuncio anterior Meta rechazó la palabra "originales". En las piezas y en los textos del anuncio **no la usamos**. Si igual lo rechaza, usá la versión de texto sin nombres de marcas (la opción A).
 
