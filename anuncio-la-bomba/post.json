@@ -5,5 +5,6 @@
   "precio": 660000,
   "imagen": "foto-x4.png",
   "cta": "¡Pedí el tuyo!",
-  "formato": "post"
+  "formato": "post",
+  "fondo": "blanco"
 }
