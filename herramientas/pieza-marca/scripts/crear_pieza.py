@@ -159,8 +159,12 @@ def txt(d, cx, y, t, f, color=TEXTO, esp=0):
 
 def envolver(d, t, f, maxw, esp=0):
     lineas, act = [], ""
-    for p in t.split():
-        prueba = (act + " " + p).strip()
+    # se corta solo en espacios comunes: el espacio duro (U+00A0) mantiene juntas
+    # las palabras de un nombre ("9\u00a0PM\u00a0Rebel")
+    for p in t.split(" "):
+        if not p:
+            continue
+        prueba = (act + " " + p).strip(" ")
         if ancho_txt(d, prueba, f, esp) <= maxw:
             act = prueba
         else:
@@ -298,6 +302,14 @@ def esquinas_desenfocadas(img, fuentes_img, zona_libre):
         img.alpha_composite(copia, (x, y))
 
 
+def nitido(p, esc):
+    """Si la foto se agrandó (foto chica), le devuelve el filo que pierde al estirarse."""
+    if esc <= 1.05:
+        return p
+    fuerza = min(220, int(90 + 70 * (esc - 1)))
+    return p.filter(ImageFilter.UnsharpMask(radius=max(1.5, 1.2 * esc), percent=fuerza, threshold=2))
+
+
 def pegar_producto(img, prod, recortado, caja):
     """Pone el producto lo más grande posible dentro de caja, con sombra suave."""
     x0, y0, x1, y1 = (int(v) for v in caja)
@@ -305,9 +317,11 @@ def pegar_producto(img, prod, recortado, caja):
     if recortado:
         esc = min(bw / prod.width, bh / prod.height)
         p = prod.resize((max(1, int(prod.width * esc)), max(1, int(prod.height * esc))), Image.LANCZOS)
+        p = nitido(p, esc)
     else:
         # foto con fondo: va como tarjeta redondeada
-        p = ImageOps.fit(prod.convert("RGB"), (int(bw * 0.78), int(bh * 0.94)), Image.LANCZOS).convert("RGBA")
+        p = ImageOps.fit(prod.convert("RGB"), (int(bw * 0.78), int(bh * 0.94)), Image.LANCZOS)
+        p = nitido(p, max(p.width / prod.width, p.height / prod.height)).convert("RGBA")
         m = Image.new("L", p.size, 0)
         ImageDraw.Draw(m).rounded_rectangle((0, 0, p.width, p.height), radius=48, fill=255)
         p.putalpha(m)
@@ -356,10 +370,9 @@ def boton(img, cx, y, texto, tam, color_fondo):
     h = alto_linea(f)
     px, py = tam * 1.1, tam * 0.45
     caja = (cx - w / 2 - px, y, cx + w / 2 + px, y + h + 2 * py)
-    capa = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(capa).rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=color_fondo + (215,))
-    img.alpha_composite(capa)
-    txt(ImageDraw.Draw(img), cx, y + py - tam * 0.05, texto, f, BLANCO)
+    # bordó vino sólido, como pide la paleta (antes iba semitransparente)
+    d.rounded_rectangle(caja, radius=(h + 2 * py) / 2, fill=color_fondo)
+    txt(d, cx, y + py - tam * 0.05, texto, f, BLANCO)
     return caja[3]
 
 
@@ -405,7 +418,7 @@ def precio(img, cx, y, spec, tam):
     if anterior:
         f2 = fuente(tam * 0.46, b"Medium")
         w2 = d.textlength(anterior, font=f2)
-        claro = (120, 120, 120, 255)
+        claro = MALVA  # precio tachado en malva (antes, un gris fuera de la paleta)
         d.text((cx - w2 / 2, y), anterior, font=f2, fill=claro)
         a, _ = f2.getmetrics()
         d.line((cx - w2 / 2 - 4, y + a * 0.62, cx + w2 / 2 + 4, y + a * 0.62), fill=claro, width=3)
@@ -466,7 +479,7 @@ def armar(spec):
     arriba = y_texto
     if spec.get("etiqueta"):
         arriba += alto_linea(cursiva(M["eti"] * 1.7), 0.95)
-    arriba += alto_linea(ft, 0.86) * len(lt)
+    arriba += alto_linea(ft, 0.98) * len(lt)  # 0.98: las colas del título no tocan el subtítulo
     fs, ls = None, []
     if spec.get("subtitulo"):
         fs, ls, _ = ajustar(d, spec["subtitulo"].upper(), M["sub"], M["sub"] * 0.7, w - 180, 2, b"Medium", 0.04)
@@ -519,7 +532,7 @@ def armar(spec):
         y += alto_linea(fe, 0.95)
     for l in lt:
         txt(d, cx, y, l, ft, TEXTO, esp=esp_t)
-        y += alto_linea(ft, 0.86)
+        y += alto_linea(ft, 0.98)
     if ls:
         y += 6
         for l in ls:

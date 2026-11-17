@@ -2,7 +2,7 @@
 
 ## Paleta y tipografía de marca en TODO
 
-Todas las piezas de la tienda usan la **paleta y la tipografía de marca**: posts, historias, carruseles, portadas, reels y videos. La dueña lo pidió así en noviembre de 2026. Las láminas están en `marca/paleta.png` y `marca/tipografia.png`.
+Todas las piezas de la tienda usan la **paleta y la tipografía de marca**: posts, historias, carruseles, portadas, reels, videos y anuncios de Meta. La dueña lo pidió así en noviembre de 2026 y lo confirmó el 17 de noviembre: "usá siempre eso". Las láminas están en `marca/paleta.png` y `marca/tipografia.png`.
 
 El fondo blanco puro (estilo anterior) se usa **solo si la dueña lo pide** para una pieza puntual. Nunca uses el fondo con el color del producto ni colores fuera de la paleta.
 
@@ -44,8 +44,15 @@ No uses los scripts de las skills `larese-anuncios` ni `larese-reels` tal cual: 
 | Reel con los videos de la dueña hablando a cámara | `python3 herramientas/reels-marca/scripts/armar_reel.py plan.json` (mismo plan que `larese-reels`; seguí las instrucciones de esa skill para armarlo) |
 | Reel animado con fotos de productos (sin video de ella) | `python3 herramientas/reel-productos/crear_reel.py reel.json salida.mp4` (ejemplo: `reel-mas-pedidos/reel.json`; sale sin música, la dueña le pone un audio en tendencia desde Instagram) |
 | Fondo blanco, solo si lo pide | `python3 herramientas/pieza-fondo-blanco/scripts/crear_pieza.py spec.json salida.png` |
+| Foto de producto chica o borrosa (menos de ~1000 px) | `python3 herramientas/agrandar-foto/agrandar.py foto.jpg foto-x4.png` antes de armar la pieza, y usá `foto-x4.png` en el spec (ejemplo: `anuncio-odyssey-aqua/`) |
 
 Si armás una pieza a mano o con otra herramienta, respetá la paleta y la tipografía de arriba.
+
+### Que se vea nítido
+
+- La dueña pide que las piezas se vean nítidas. Las fotos que manda suelen ser chicas (500 a 600 px): agrandalas con `agrandar-foto` antes de usarlas. `pieza-marca` igual le da un toque de nitidez a cualquier foto que tenga que estirar.
+- En `pieza-marca`, el botón va en bordó vino sólido, el precio tachado en malva y los títulos de dos renglones llevan aire para que no toquen el subtítulo.
+- Para que un nombre no se corte en dos renglones, uní sus palabras con espacio duro (U+00A0) en el spec: `"9 PM Rebel"`.
 
 ## Datos
 
