@@ -52,6 +52,7 @@ Si armás una pieza a mano o con otra herramienta, respetá la paleta y la tipog
 
 - La dueña pide que las piezas se vean nítidas. Las fotos que manda suelen ser chicas (500 a 600 px): agrandalas con `agrandar-foto` antes de usarlas. `pieza-marca` igual le da un toque de nitidez a cualquier foto que tenga que estirar.
 - En `pieza-marca`, el botón va en bordó vino sólido, el precio tachado en malva y los títulos de dos renglones llevan aire para que no toquen el subtítulo.
+- Fondo blanco con la paleta: si la dueña pide "fondo blanco y letra vino", usá `pieza-marca` con `"fondo": "blanco"` y `"letra": "vino"` en el spec (ejemplo: `anuncio-212-sexy/`). Mantiene la tipografía de marca, el logo y los botones bordó.
 - Para que un nombre no se corte en dos renglones, uní sus palabras con espacio duro (U+00A0) en el spec: `"9 PM Rebel"`.
 
 ## Datos

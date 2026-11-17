@@ -29,7 +29,9 @@ Spec (JSON). Solo "formato" y "titulo" son obligatorios:
   "categoria": "perfume",                 # perfume | joya | maquillaje | cosmetico | electronica
   "cta": "¡Pedí el tuyo!",                # texto del botón
   "gancho": "...",                        # solo portada: frase grande en lugar del título
-  "slides": [ {...}, {...} ]              # solo carrusel: un spec de post por slide
+  "slides": [ {...}, {...} ],             # solo carrusel: un spec de post por slide
+  "fondo": "blanco",                      # opcional, solo si la dueña lo pide (por defecto, crema)
+  "letra": "vino"                         # opcional: todos los textos en bordó vino
 }
 
 El pie (WhatsApp y envíos) se agrega solo. Si no hay "color", sale de la foto del producto;
@@ -425,7 +427,7 @@ def precio(img, cx, y, spec, tam):
         y += alto_linea(f2, 1.05)
     if actual:
         f = fuente(tam, b"Bold")
-        txt(ImageDraw.Draw(img), cx, y, actual, f)
+        txt(ImageDraw.Draw(img), cx, y, actual, f, TEXTO)
         y += alto_linea(f, 1.05)
     return y
 
@@ -450,7 +452,26 @@ MEDIDAS = {
 }
 
 
+BLANCO_PURO = (255, 255, 255)
+
+
 def armar(spec):
+    """Arma la pieza. Opcionales en el spec, para cuando la dueña los pide:
+    "fondo": "blanco" (por defecto, crema) y "letra": "vino" (todos los textos en
+    bordó vino; por defecto, tinta y malva)."""
+    global FONDO, TEXTO, GRIS
+    previo = (FONDO, TEXTO, GRIS)
+    if spec.get("fondo") == "blanco":
+        FONDO = BLANCO_PURO
+    if spec.get("letra") == "vino":
+        TEXTO = GRIS = BORDO
+    try:
+        return _armar(spec)
+    finally:
+        FONDO, TEXTO, GRIS = previo
+
+
+def _armar(spec):
     formato = spec.get("formato", "post")
     if formato not in TAMANOS:
         raise SystemExit(f"Formato desconocido: {formato}. Usá: {', '.join(list(TAMANOS) + ['carrusel'])}")
@@ -571,7 +592,7 @@ def main():
     if spec.get("formato") == "carrusel":
         os.makedirs(salida, exist_ok=True)
         # el color se comparte entre slides para que el carrusel se vea parejo
-        comunes = {k: spec[k] for k in ("color", "categoria", "elementos") if k in spec}
+        comunes = {k: spec[k] for k in ("color", "categoria", "elementos", "fondo", "letra") if k in spec}
         for i, s in enumerate(spec.get("slides", []), 1):
             s = resolver({**comunes, **s})
             s.setdefault("formato", "post")

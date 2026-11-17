@@ -5,5 +5,7 @@
   "precio": 440000,
   "imagen": "foto-x4.png",
   "cta": "¡Pedí el tuyo!",
-  "formato": "historia"
+  "formato": "historia",
+  "fondo": "blanco",
+  "letra": "vino"
 }
