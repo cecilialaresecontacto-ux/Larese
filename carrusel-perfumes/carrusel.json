@@ -1,0 +1,93 @@
+{
+  "formato": "carrusel",
+  "fondo": "blanco",
+  "slides": [
+    {
+      "formato": "post",
+      "etiqueta": "Para ella y para él",
+      "titulo": "Elegí tu perfume",
+      "subtitulo": "Carolina Herrera · Dior · Armani · Valentino · Armaf · French Avenue",
+      "imagen": "portada-grupo.png",
+      "cta": "Deslizá y elegí"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "212 Sexy",
+      "subtitulo": "Carolina Herrera · EDP 100 ml",
+      "precio": 440000,
+      "imagen": "../anuncio-212-sexy/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "Good Girl",
+      "subtitulo": "Carolina Herrera · EDP 50 ml",
+      "precio": 540000,
+      "imagen": "../anuncio-good-girl/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "La Bomba",
+      "subtitulo": "Carolina Herrera · EDP 80 ml",
+      "precio": 660000,
+      "imagen": "../anuncio-la-bomba/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "Power of You",
+      "subtitulo": "Emporio Armani · EDP 90 ml",
+      "precio": 815000,
+      "imagen": "../anuncio-power-of-you/foto.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "Miss Dior",
+      "subtitulo": "Dior · Eau de Parfum",
+      "precio": 830000,
+      "imagen": "../anuncio-miss-dior/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para ella",
+      "titulo": "Born in Roma Intense",
+      "subtitulo": "Valentino Donna · EDP Intense 50 ml",
+      "precio": 860000,
+      "imagen": "../anuncio-born-in-roma-intense/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para él",
+      "titulo": "Odyssey Aqua",
+      "subtitulo": "Armaf · Eau de Parfum",
+      "precio": 190000,
+      "imagen": "../anuncio-odyssey-aqua/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Para él",
+      "titulo": "Liquid Brun",
+      "subtitulo": "French Avenue · Eau de Parfum",
+      "precio": 219000,
+      "imagen": "../anuncio-liquid-brun/foto-x4.png",
+      "cta": "¡Pedí el tuyo!"
+    },
+    {
+      "formato": "post",
+      "etiqueta": "Escribinos por WhatsApp",
+      "titulo": "¿Cuál es el tuyo?",
+      "subtitulo": "Envíos a todo Paraguay",
+      "cta": "0972 736 002"
+    }
+  ]
+}
