@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Flyer Black Friday de decants (19 al 21 de noviembre), fondo vino: 6 frascos con el
-nombre de cada perfume al lado y el precio único (5 ml Gs. 45.000 · 10 ml Gs. 90.000).
+"""Flyer Black Friday de decants (19 al 21 de noviembre), fondo blanco (lo pidió la dueña):
+6 frascos con el nombre de cada perfume al lado y el precio único
+(5 ml Gs. 45.000 · 10 ml Gs. 90.000).
 
-Paleta y tipografía de marca (CLAUDE.md): fondo bordó vino, logo crema, títulos y
-nombres en Playfair Display (rosa marfil), marcas en Pinyon Script dorado, textos chicos
-en Poppins. Los frascos salen de la foto real del decant (decants_vino.py).
+Paleta y tipografía de marca (CLAUDE.md), versión "fondo blanco y letra vino": logo,
+títulos, nombres y precios en bordó vino (Playfair Display), marcas en Pinyon Script
+dorado, textos chicos en Poppins. Los frascos salen de la foto real del decant (decants_vino.py).
 Reutiliza las piezas de herramientas/pieza-marca/scripts/crear_pieza.py.
 
 Uso: python3 flyer-black-friday-decants/fuente/armar_flyer.py
@@ -22,6 +23,7 @@ from decants_vino import frasco  # noqa: E402
 
 DORADO = (0x99, 0x79, 0x57)
 MARFIL = (0xFC, 0xE5, 0xDA)
+BLANCO = (255, 255, 255)
 
 # Cada frasco de la foto (de izquierda a derecha) con un perfume de color parecido.
 # "\n" marca dónde corta el nombre.
@@ -43,7 +45,7 @@ CTA = "¡Pedí los tuyos!"
 
 
 def frascos():
-    return [frasco(color, 10) for _, _, color in PERFUMES]
+    return [frasco(color, 10, claro=True) for _, _, color in PERFUMES]
 
 
 def celda(img, frasco, nombre, marca, caja, M):
@@ -57,7 +59,7 @@ def celda(img, frasco, nombre, marca, caja, M):
     sw = f.width * 0.9
     ImageDraw.Draw(sombra).ellipse((fx + (f.width - sw) / 2, fy + f.height - 10,
                                     fx + (f.width + sw) / 2, fy + f.height + 14), fill=150)
-    img.alpha_composite(cp.capa_color(sombra.filter(ImageFilter.GaussianBlur(12)), (0, 0, 0), 0.45))
+    img.alpha_composite(cp.capa_color(sombra.filter(ImageFilter.GaussianBlur(12)), (0, 0, 0), 0.22))
     img.alpha_composite(f, (fx, fy))
 
     # nombre (Playfair) y marca (Pinyon Script dorado) al lado del frasco
@@ -77,7 +79,7 @@ def celda(img, frasco, nombre, marca, caja, M):
     total = alto_nom * len(ln) + cp.alto_linea(fm, 0.9)
     y = fy + f.height * 0.56 - total / 2
     for l in ln:
-        d.text((tx, y), l, font=fn, fill=MARFIL)
+        d.text((tx, y), l, font=fn, fill=cp.BORDO)
         y += alto_nom
     d.text((tx, y - tm * 0.05), marca, font=fm, fill=DORADO)
 
@@ -92,8 +94,8 @@ def bloque_precios(img, cx, y, M):
     alto = cp.alto_linea(fl, 1.1) + cp.alto_linea(fp, 1.0)
     for i, (ml, p) in enumerate(PRECIOS):
         px = cx + (i - 0.5) * (ancho + sep)
-        cp.txt(d, px, y, ml.upper(), fl, DORADO, esp=M["ml"] * 0.18)
-        cp.txt(d, px, y + cp.alto_linea(fl, 1.1), cp.guaranies(p), fp, MARFIL)
+        cp.txt(d, px, y, ml.upper(), fl, cp.MALVA, esp=M["ml"] * 0.18)
+        cp.txt(d, px, y + cp.alto_linea(fl, 1.1), cp.guaranies(p), fp, cp.BORDO)
     d.line((cx, y + alto * 0.12, cx, y + alto * 0.92), fill=DORADO, width=2)
     return y + alto
 
@@ -109,19 +111,19 @@ MEDIDAS = {
 def armar(formato):
     M = MEDIDAS[formato]
     w, h = M["tam"]
-    img = Image.new("RGBA", (w, h), cp.BORDO + (255,))
+    img = Image.new("RGBA", (w, h), BLANCO + (255,))
     d = ImageDraw.Draw(img)
     cx = w / 2
 
     # arriba: logo bordó, etiqueta en cursiva, título Playfair, subtítulo Poppins
     logo = cp.logo_mascara("texto", M["logo_w"])
-    img.alpha_composite(cp.capa_color(logo, cp.CREMA), (int(cx - logo.width / 2), M["logo_y"]))
+    img.alpha_composite(cp.capa_color(logo, cp.BORDO), (int(cx - logo.width / 2), M["logo_y"]))
     y = M["logo_y"] + logo.height + M["eti"] * 0.45
     fe = cp.cursiva(M["eti"])
     cp.txt(d, cx, y, ETIQUETA, fe, DORADO)
     y += cp.alto_linea(fe, 0.85)
     ft = cp.fuente(M["tit"], b"Bold")
-    cp.txt(d, cx, y, TITULO, ft, MARFIL)
+    cp.txt(d, cx, y, TITULO, ft, cp.BORDO)
     y += cp.alto_linea(ft, 0.98)
     fs = cp.fuente(M["sub"], b"Medium")
     t = SUBTITULO.upper()
@@ -150,12 +152,12 @@ def armar(formato):
         celda(img, fr, nombre, marca, (x0 + 6, y0, x0 + ancho_col - 8, y0 + alto_fila), M)
 
     bloque_precios(img, cx, y_pre, M)
-    # sobre vino: botón y círculos del pie en rosa marfil, con letras e íconos bordó
+    # botón y círculos del pie en bordó vino, con letras e íconos crema
     previo = (cp.BLANCO, cp.TEXTO)
-    cp.BLANCO, cp.TEXTO = cp.BORDO, MARFIL
+    cp.BLANCO, cp.TEXTO = cp.CREMA, cp.BORDO
     try:
-        cp.boton(img, cx, y_cta, CTA, M["cta"], MARFIL)
-        cp.pie(img, pie_y, M["pie"], MARFIL)
+        cp.boton(img, cx, y_cta, CTA, M["cta"], cp.BORDO)
+        cp.pie(img, pie_y, M["pie"], cp.BORDO)
     finally:
         cp.BLANCO, cp.TEXTO = previo
     return img.convert("RGB")

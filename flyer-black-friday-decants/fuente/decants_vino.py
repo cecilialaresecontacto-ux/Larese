@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Decants de 5 y 10 ml para fondo bordó, a partir de la foto real del frasquito vacío
+"""Decants de 5 y 10 ml para fondo bordó o blanco, a partir de la foto real del frasquito vacío
 (fuente/decant-vacio.webp, la que mandó la dueña).
 
 - Les pinta el perfume adentro con el color de cada fragancia.
 - El de 5 ml es el mismo frasco con el cuerpo más corto (misma tapa y mismo ancho).
 - Sobre bordó el vidrio transparente se vería oscuro: el vidrio queda como un velo claro
   semitransparente y el perfume casi opaco, así se lee bien sobre el vino.
+- Con claro=True (fondo blanco) el vidrio queda transparente de verdad: sobre blanco
+  se ve igual que en la foto original.
 """
 import os
 
@@ -36,7 +38,7 @@ def _silueta(im):
     return m.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.8))
 
 
-def frasco(color, ml=10):
+def frasco(color, ml=10, claro=False):
     im = _base()
     a = np.array(im).astype(float)
     liq = Image.new("L", im.size, 0)
@@ -47,11 +49,17 @@ def frasco(color, ml=10):
     # color: perfume teñido (multiplicar, se siguen viendo el tubito y los reflejos)
     tinte = a * (np.array(color) / 255.0)
     rgb = a * (1 - liq[..., None] * 0.92) + tinte * (liq[..., None] * 0.92)
-    # alfa: lo oscuro (tapa, bordes) opaco; el vidrio, un velo claro; el perfume casi opaco
-    oscuridad = np.clip((255 - a.min(axis=2)) / 255 * 1.6, 0, 1)
-    alfa = np.maximum(oscuridad, 0.30) * sil
-    alfa = np.maximum(alfa, liq * 0.94 * sil)
-    alfa[:FIN_TAPA] = sil[:FIN_TAPA]
+    if claro:
+        # sobre blanco: el blanco de la foto se vuelve transparente (y se recupera el color real)
+        alfa = np.clip((255 - rgb.min(axis=2)) / 255 * 1.15, 0, 1) * sil
+        rgb = np.where(alfa[..., None] > 0.01,
+                       (rgb - (1 - alfa[..., None]) * 255) / np.maximum(alfa[..., None], 0.01), 0)
+    else:
+        # alfa: lo oscuro (tapa, bordes) opaco; el vidrio, un velo claro; el perfume casi opaco
+        oscuridad = np.clip((255 - a.min(axis=2)) / 255 * 1.6, 0, 1)
+        alfa = np.maximum(oscuridad, 0.30) * sil
+        alfa = np.maximum(alfa, liq * 0.94 * sil)
+        alfa[:FIN_TAPA] = sil[:FIN_TAPA]
     out = np.dstack([rgb.clip(0, 255), alfa * 255]).astype("uint8")
     img = Image.fromarray(out, "RGBA")
 
