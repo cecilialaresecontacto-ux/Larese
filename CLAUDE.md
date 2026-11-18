@@ -33,6 +33,9 @@ No uses el script de la skill `larese-anuncios` tal cual: tiene los colores y la
 | Pieza | Herramienta |
 |---|---|
 | Post, cuadrado, historia, portada o carrusel simple | `python3 herramientas/pieza-marca/scripts/crear_pieza.py spec.json salida.png` (mismo spec que `larese-anuncios`; `color` y `categoria` se ignoran; `"fondo": "blanco"` y `"letra": "vino"` solo si la dueña lo pide) |
+| Carrusel de productos estilo editorial (slides crema y bordó con estampilla) | `python3 herramientas/carrusel-bordo/scripts/crear_carrusel.py carrusel.json carpeta/` (para un carrusel a medida, importá sus funciones, como `flyer-black-friday-decants/carrusel/armar_carrusel.py`) |
+| Decants de 5 y 10 ml con la foto real del frasquito, para fondo vino | `flyer-black-friday-decants/fuente/decants_vino.py` (función `frasco(color, ml)`) |
+| Foto de producto chica (menos de ~1000 px) | `python3 herramientas/agrandar-foto/agrandar.py foto.jpg foto-x4.png` (necesita `opencv-contrib-python-headless<5`; con OpenCV 5 no abre el modelo) |
 | Fondo blanco, solo si lo pide | `python3 herramientas/pieza-fondo-blanco/scripts/crear_pieza.py spec.json salida.png` |
 
 Si armás una pieza a mano o con otra herramienta, respetá la paleta y la tipografía de arriba. Podés importar las funciones de `herramientas/pieza-marca/scripts/crear_pieza.py` (logo, botón, pie, fuentes), como hace `flyer-black-friday-decants/fuente/armar_flyer.py`.
