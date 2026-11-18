@@ -29,6 +29,8 @@ SALIDA = AQUI
 
 FECHAS = "19 al 30 de noviembre"
 PRECIOS = [("5 ml", 45000, 5), ("10 ml", 90000, 10)]
+# perfumes con otro precio en la promo (lo confirmó la dueña): nombre -> (5 ml, 10 ml)
+PRECIOS_ESPECIALES = {"Light Blue": (25000, 50000)}
 
 # Los 17 perfumes disponibles para el Black Friday (lista de la dueña, 18 de noviembre).
 # nombre, marca, tipo, notas, foto, color del perfume en el decant
@@ -166,7 +168,9 @@ def slide_fragancia(n, nombre, marca, tipo, notas, archivo, color):
 
     f_ml = cc.sans(19, "SemiBold")
     f_pr = cc.serif(31, 500)
-    for cx, (ml, precio, cap) in zip((690, 900), PRECIOS):
+    especial = PRECIOS_ESPECIALES.get(nombre)
+    precios = [(ml, especial[i] if especial else p, cap) for i, (ml, p, cap) in enumerate(PRECIOS)]
+    for cx, (ml, precio, cap) in zip((690, 900), precios):
         dec = frasco(color, cap, claro=True)
         pegar(img, dec, cx, base, 430 * dec.height / frasco(color, 10, claro=True).height, 200)
         d = ImageDraw.Draw(img)
@@ -242,7 +246,7 @@ def slide_cierre():
     y += 264
     d.line((W / 2 - 60, y, W / 2 + 60, y), fill=SUAVE, width=2)
     y += 44
-    cc.escribir(d, W / 2, y, "Todos los decants a un solo precio", cc.sans(30), TEXTO, ancla="ma")
+    cc.escribir(d, W / 2, y, "Todos los decants", cc.sans(30), TEXTO, ancla="ma")
     y += 80
     f_ml, f_pr = cc.sans(22, "SemiBold"), cc.serif(60, 500)
     for k, (ml, precio, _) in enumerate(PRECIOS):
@@ -251,6 +255,10 @@ def slide_cierre():
         cc.escribir(d, cx, y + 36, cc.guaranies(precio), f_pr, PRINCIPAL, ancla="ma")
     d.line((W / 2, y + 6, W / 2, y + 110), fill=SUAVE, width=1)
     y += 170
+    for nombre, (p5, p10) in PRECIOS_ESPECIALES.items():
+        t = f"{nombre}: 5 ml {cc.guaranies(p5)} · 10 ml {cc.guaranies(p10)}"
+        cc.escribir(d, W / 2, y - 18, t, cc.sans(26, "Medium"), PRINCIPAL, ancla="ma")
+        y += 52
     cc.escribir(d, W / 2, y, "Envíos a todo Paraguay", cc.serif_it(34, 420), CHICO, ancla="ma")
 
     f_b = cc.sans(32, "SemiBold")
