@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Flyer Black Friday de decants: 6 frascos con el nombre de cada perfume al lado.
+"""Flyer Black Friday de decants: 6 frascos con el nombre de cada perfume al lado
+y el precio único (5 ml Gs. 45.000 · 10 ml Gs. 90.000).
 
-Usa el mismo estilo (fondo blanco, Poppins, logo, botón y pie) que
-herramientas/pieza-fondo-blanco/scripts/crear_pieza.py.
+Paleta y tipografía de marca (CLAUDE.md): fondo crema, logo bordó vino, títulos y
+nombres en Playfair Display, marcas en Pinyon Script dorado, textos chicos en Poppins.
+Reutiliza las piezas de herramientas/pieza-marca/scripts/crear_pieza.py.
 
-Uso: python3 fuente/armar_flyer.py   (desde flyer-black-friday-decants/)
+Uso: python3 flyer-black-friday-decants/fuente/armar_flyer.py
 """
 import os
 import sys
@@ -13,10 +15,13 @@ from PIL import Image, ImageDraw, ImageFilter
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CARPETA = os.path.dirname(AQUI)
-sys.path.insert(0, os.path.join(CARPETA, "..", "herramientas", "pieza-fondo-blanco", "scripts"))
+sys.path.insert(0, os.path.join(CARPETA, "..", "herramientas", "pieza-marca", "scripts"))
 import crear_pieza as cp  # noqa: E402
 
-# Cada frasco de la foto (de izquierda a derecha) con un perfume de color parecido
+DORADO = (0x99, 0x79, 0x57)
+
+# Cada frasco de la foto (de izquierda a derecha) con un perfume de color parecido.
+# "\n" marca dónde corta el nombre.
 PERFUMES = [
     ("Libre", "Yves Saint Laurent"),
     ("Scandal\nLe Parfum", "Jean Paul Gaultier"),
@@ -25,10 +30,11 @@ PERFUMES = [
     ("J'adore", "Dior"),
     ("La Bomba", "Carolina Herrera"),
 ]
+PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 
-ETIQUETA = "Decants · 3, 5 y 10 ml"
+ETIQUETA = "Decants de perfume"
 TITULO = "Black Friday"
-SUBTITULO = "Precios especiales en decants"
+SUBTITULO = "Todos a un solo precio"
 CTA = "¡Pedí los tuyos!"
 
 
@@ -41,7 +47,8 @@ def frascos():
         if hay and not dentro:
             ini, dentro = x, True
         elif not hay and dentro:
-            cols.append((ini, x)); dentro = False
+            cols.append((ini, x))
+            dentro = False
     if dentro:
         cols.append((ini, foto.width))
     out = []
@@ -54,80 +61,92 @@ def frascos():
 
 def celda(img, frasco, nombre, marca, caja, M):
     x0, y0, x1, y1 = caja
-    alto = (y1 - y0) * M.get("alto_frasco", 0.94)
+    alto = (y1 - y0) * M["alto_frasco"]
     esc = alto / frasco.height
-    f = frasco.resize((int(frasco.width * esc), int(alto)), Image.LANCZOS)
+    f = cp.nitido(frasco.resize((int(frasco.width * esc), int(alto)), Image.LANCZOS), esc)
     fx = int(x0)
     fy = int(y0 + (y1 - y0 - f.height) / 2)
-    # sombra suave bajo el frasco
     sombra = Image.new("L", img.size, 0)
     sw = f.width * 0.9
     ImageDraw.Draw(sombra).ellipse((fx + (f.width - sw) / 2, fy + f.height - 10,
                                     fx + (f.width + sw) / 2, fy + f.height + 14), fill=150)
-    img.alpha_composite(cp.capa_color(sombra.filter(ImageFilter.GaussianBlur(12)), (0, 0, 0), 0.5))
+    img.alpha_composite(cp.capa_color(sombra.filter(ImageFilter.GaussianBlur(12)), cp.BORDO, 0.35))
     img.alpha_composite(f, (fx, fy))
 
-    # texto al lado del frasco
+    # nombre (Playfair) y marca (Pinyon Script dorado) al lado del frasco
     d = ImageDraw.Draw(img)
     tx = fx + f.width + M["sep"]
     maxw = x1 - tx
-    # el nombre corta donde dice "\n"; la letra se achica hasta que cada renglón entre
-    ln = nombre.upper().split("\n")
+    ln = nombre.split("\n")
     tam = M["nom"]
     while tam > M["nom"] * 0.6 and max(d.textlength(l, font=cp.fuente(tam, b"Bold")) for l in ln) > maxw:
         tam -= 1
     fn = cp.fuente(tam, b"Bold")
-    fm, lm, _ = cp.ajustar(d, marca, M["mar"], M["mar"] * 0.6, maxw, 1, b"Medium")
-    raya = M["nom"] * 0.9
-    total = cp.alto_linea(fn, 0.95) * len(ln) + raya + cp.alto_linea(fm, 1.05) * len(lm)
+    tm = M["mar"]
+    while tm > M["mar"] * 0.6 and d.textlength(marca, font=cp.cursiva(tm)) > maxw:
+        tm -= 1
+    fm = cp.cursiva(tm)
+    alto_nom = cp.alto_linea(fn, 1.0)
+    total = alto_nom * len(ln) + cp.alto_linea(fm, 0.9)
     y = fy + f.height * 0.56 - total / 2
     for l in ln:
-        d.text((tx, y), l, font=fn, fill=cp.TEXTO)
-        y += cp.alto_linea(fn, 0.95)
-    ry = y + raya * 0.42
-    d.line((tx + 2, ry, tx + M["nom"] * 1.4, ry), fill=cp.TEXTO, width=3)
-    y += raya
-    for l in lm:
-        d.text((tx, y), l, font=fm, fill=cp.GRIS)
-        y += cp.alto_linea(fm, 1.05)
+        d.text((tx, y), l, font=fn, fill=cp.TINTA)
+        y += alto_nom
+    d.text((tx, y - tm * 0.05), marca, font=fm, fill=DORADO)
+
+
+def bloque_precios(img, cx, y, M):
+    """5 ml | 10 ml, cada uno con su precio en Playfair, separados por una línea dorada."""
+    d = ImageDraw.Draw(img)
+    fl = cp.fuente(M["ml"], b"Medium")
+    fp = cp.fuente(M["pre"], b"Bold")
+    ancho = max(d.textlength(cp.guaranies(p), font=fp) for _, p in PRECIOS)
+    sep = M["pre"] * 1.1
+    alto = cp.alto_linea(fl, 1.1) + cp.alto_linea(fp, 1.0)
+    for i, (ml, p) in enumerate(PRECIOS):
+        px = cx + (i - 0.5) * (ancho + sep)
+        cp.txt(d, px, y, ml.upper(), fl, cp.MALVA, esp=M["ml"] * 0.18)
+        cp.txt(d, px, y + cp.alto_linea(fl, 1.1), cp.guaranies(p), fp, cp.TINTA)
+    d.line((cx, y + alto * 0.12, cx, y + alto * 0.92), fill=DORADO, width=2)
+    return y + alto
 
 
 MEDIDAS = {
-    "post": dict(tam=(1080, 1350), logo_w=210, logo_y=56, eti=30, tit=104, sub=28, cta=32, pie=24, pie_y=60,
-                 margen=56, nom=28, mar=21, sep=16, gap_y=40),
-    "historia": dict(tam=(1080, 1920), logo_w=250, logo_y=170, eti=34, tit=116, sub=32, cta=40, pie=30, pie_y=190,
-                     margen=44, nom=30, mar=21, sep=14, gap_y=80, alto_frasco=0.86),
+    "post": dict(tam=(1080, 1350), logo_w=200, logo_y=50, eti=54, tit=96, sub=24, cta=30, pie=23, pie_y=52,
+                 margen=56, nom=31, mar=34, sep=16, gap_y=26, alto_frasco=0.95, ml=21, pre=50),
+    "historia": dict(tam=(1080, 1920), logo_w=250, logo_y=170, eti=62, tit=116, sub=30, cta=40, pie=30, pie_y=190,
+                     margen=44, nom=34, mar=38, sep=14, gap_y=60, alto_frasco=0.88, ml=26, pre=66),
 }
 
 
 def armar(formato):
     M = MEDIDAS[formato]
     w, h = M["tam"]
-    img = cp.fondo(w, h, cp.FONDO)
+    img = cp.fondo(w, h, cp.CREMA)
     d = ImageDraw.Draw(img)
     cx = w / 2
 
-    # arriba: logo, etiqueta, título y subtítulo
+    # arriba: logo bordó, etiqueta en cursiva, título Playfair, subtítulo Poppins
     logo = cp.logo_mascara("texto", M["logo_w"])
-    img.alpha_composite(cp.capa_color(logo, cp.TEXTO), (int(cx - logo.width / 2), M["logo_y"]))
-    y = M["logo_y"] + logo.height + M["eti"] * 1.3
-    fe = cp.fuente(M["eti"], b"SemiBold")
-    cp.txt(d, cx, y, ETIQUETA.upper(), fe, cp.GRIS, esp=M["eti"] * 0.06)
-    y += cp.alto_linea(fe, 1.05)
-    ft, lt, _ = cp.ajustar(d, TITULO.upper(), M["tit"], 60, w - 130, 1, b"Bold")
-    for l in lt:
-        cp.txt(d, cx, y, l, ft, cp.TEXTO)
-        y += cp.alto_linea(ft, 0.86)
+    img.alpha_composite(cp.capa_color(logo, cp.BORDO), (int(cx - logo.width / 2), M["logo_y"]))
+    y = M["logo_y"] + logo.height + M["eti"] * 0.45
+    fe = cp.cursiva(M["eti"])
+    cp.txt(d, cx, y, ETIQUETA, fe, cp.MALVA)
+    y += cp.alto_linea(fe, 0.85)
+    ft = cp.fuente(M["tit"], b"Bold")
+    cp.txt(d, cx, y, TITULO, ft, cp.TINTA)
+    y += cp.alto_linea(ft, 0.98)
     fs = cp.fuente(M["sub"], b"Medium")
-    y += 6
-    cp.txt(d, cx, y, SUBTITULO.upper(), fs, cp.GRIS, esp=M["sub"] * 0.04)
-    arriba = y + cp.alto_linea(fs, 1.15) + h * 0.03
+    cp.txt(d, cx, y, SUBTITULO.upper(), fs, cp.MALVA, esp=M["sub"] * 0.12)
+    arriba = y + cp.alto_linea(fs, 1.15) + h * 0.025
 
-    # abajo: botón y pie
+    # abajo: precios, botón y pie
     pie_y = h - M["pie_y"] - M["pie"] * 2.1
     alto_cta = cp.alto_linea(cp.fuente(M["cta"], b"SemiBold")) + M["cta"] * 0.9
-    y_cta = pie_y - M["pie"] * 1.6 - alto_cta
-    abajo = y_cta - h * 0.035
+    y_cta = pie_y - M["pie"] * 1.4 - alto_cta
+    alto_pre = cp.alto_linea(cp.fuente(M["ml"], b"Medium"), 1.1) + cp.alto_linea(cp.fuente(M["pre"], b"Bold"), 1.0)
+    y_pre = y_cta - M["cta"] * 0.6 - alto_pre
+    abajo = y_pre - h * 0.02
 
     # medio: grilla de 3 columnas x 2 filas
     cp.marca_de_agua(img, (arriba + abajo) / 2)
@@ -137,10 +156,11 @@ def armar(formato):
         c, r = i % 3, i // 3
         x0 = M["margen"] + c * ancho_col
         y0 = arriba + r * (alto_fila + M["gap_y"])
-        celda(img, frasco, nombre, marca, (x0 + 6, y0, x0 + ancho_col - 10, y0 + alto_fila), M)
+        celda(img, frasco, nombre, marca, (x0 + 6, y0, x0 + ancho_col - 8, y0 + alto_fila), M)
 
-    cp.boton(img, cx, y_cta, CTA, M["cta"], cp.ACENTO)
-    cp.pie(img, pie_y, M["pie"], cp.ACENTO)
+    bloque_precios(img, cx, y_pre, M)
+    cp.boton(img, cx, y_cta, CTA, M["cta"], cp.BORDO)
+    cp.pie(img, pie_y, M["pie"], cp.BORDO)
     return img.convert("RGB")
 
 
