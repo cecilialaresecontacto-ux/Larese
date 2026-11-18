@@ -30,7 +30,7 @@ SALIDA = AQUI
 FECHAS = "19 al 30 de noviembre"
 PRECIOS = [("5 ml", 45000, 5), ("10 ml", 90000, 10)]
 # perfumes con otro precio en la promo (lo confirmó la dueña): nombre -> (5 ml, 10 ml)
-PRECIOS_ESPECIALES = {"Light Blue": (25000, 50000)}
+PRECIOS_ESPECIALES = {"Light Blue": (25000, 50000), "Bright Crystal": (25000, 50000)}
 
 # Los 17 perfumes disponibles para el Black Friday (lista de la dueña, 18 de noviembre).
 # nombre, marca, tipo, notas, foto, color del perfume en el decant
@@ -255,10 +255,16 @@ def slide_cierre():
         cc.escribir(d, cx, y + 36, cc.guaranies(precio), f_pr, PRINCIPAL, ancla="ma")
     d.line((W / 2, y + 6, W / 2, y + 110), fill=SUAVE, width=1)
     y += 170
-    for nombre, (p5, p10) in PRECIOS_ESPECIALES.items():
-        t = f"{nombre}: 5 ml {cc.guaranies(p5)} · 10 ml {cc.guaranies(p10)}"
-        cc.escribir(d, W / 2, y - 18, t, cc.sans(26, "Medium"), PRINCIPAL, ancla="ma")
-        y += 52
+    # los perfumes con otro precio, agrupados por precio ("Light Blue y Bright Crystal: ...")
+    grupos = {}
+    for nombre, precios in PRECIOS_ESPECIALES.items():
+        grupos.setdefault(precios, []).append(nombre)
+    for (p5, p10), nombres in grupos.items():
+        quienes = " y ".join([", ".join(nombres[:-1]), nombres[-1]]) if len(nombres) > 1 else nombres[0]
+        cc.escribir(d, W / 2, y - 18, f"{quienes}:", cc.sans(26, "Medium"), PRINCIPAL, ancla="ma")
+        cc.escribir(d, W / 2, y + 20, f"5 ml {cc.guaranies(p5)} · 10 ml {cc.guaranies(p10)}",
+                    cc.sans(26, "Medium"), PRINCIPAL, ancla="ma")
+        y += 92
     cc.escribir(d, W / 2, y, "Envíos a todo Paraguay", cc.serif_it(34, 420), CHICO, ancla="ma")
 
     f_b = cc.sans(32, "SemiBold")

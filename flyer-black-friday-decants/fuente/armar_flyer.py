@@ -34,7 +34,7 @@ PERFUMES = [
     ("Addict\nPurple Glow", "Dior", (205, 165, 222)),
     ("Coco\nMademoiselle\nIntense", "Chanel", (226, 160, 98)),
     ("Sì Passione", "Armani", (224, 108, 128)),
-    ("Bright Crystal", "Versace", (242, 182, 194)),
+    ("Born in Roma", "Valentino", (240, 178, 180)),
 ]
 PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 
