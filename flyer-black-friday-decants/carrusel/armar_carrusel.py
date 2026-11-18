@@ -49,6 +49,25 @@ PRINCIPAL = cc.MARFIL
 SUAVE = cc.DORADO
 
 
+def recorte_fino(ruta, umbral):
+    """Recorta el fondo blanco con un umbral bajo, para frascos de vidrio casi blanco."""
+    import numpy as np
+    from PIL import ImageFilter
+    im = Image.open(ruta).convert("RGB")
+    b = im.copy()
+    w, h = b.size
+    marca = (1, 254, 3)
+    for p in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1), (w // 2, 0), (w // 2, h - 1), (0, h // 2), (w - 1, h // 2)]:
+        if b.getpixel(p) != marca:
+            ImageDraw.floodfill(b, p, marca, thresh=umbral)
+    fuera = np.all(np.array(b) == marca, axis=-1)
+    a = Image.fromarray(np.where(fuera, 0, 255).astype("uint8"))
+    a = a.filter(ImageFilter.MinFilter(5)).filter(ImageFilter.GaussianBlur(1.5))
+    out = im.convert("RGBA")
+    out.putalpha(a)
+    return out.crop(a.getbbox())
+
+
 def foto(ruta):
     """Recorte del frasco original (algunas fotos traen la caja: se recortan igual)."""
     if not os.path.exists(ruta):  # sin la versión agrandada, la original
@@ -63,6 +82,9 @@ def foto(ruta):
         recorte = os.path.join(FOTOS, "11-jadore-frasco.png")
         im.crop((int(im.width * 0.56), 0, im.width, im.height)).save(recorte)
         ruta = recorte
+    if os.path.basename(ruta).startswith("10-libre"):
+        # el vidrio de Libre es casi blanco: con el recorte común se come la base
+        return recorte_fino(ruta, umbral=6), True
     prod, ok = cc.cargar_producto(ruta)
     if ok:
         # sobre vino se nota el filo blanco del recorte: se come 2 px del borde
