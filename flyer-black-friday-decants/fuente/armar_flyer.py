@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flyer Black Friday de decants (19 al 21 de noviembre), fondo blanco (lo pidió la dueña):
+"""Flyer Black Friday de decants (19 al 30 de noviembre), fondo blanco (lo pidió la dueña):
 6 frascos con el nombre de cada perfume al lado y el precio único
 (5 ml Gs. 45.000 · 10 ml Gs. 90.000).
 
@@ -40,7 +40,7 @@ PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 
 ETIQUETA = "Todos los decants"
 TITULO = "Black Friday"
-SUBTITULO = "19 al 21 de noviembre"
+SUBTITULO = "19 al 30 de noviembre"
 CTA = "¡Pedí los tuyos!"
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Historia Black Friday estilo "calendario" (referencia que mandó la dueña el 18/11):
 fondo blanco con la grilla de un calendario inclinada, tarjeta oscura con textura de
-plástico, el día 19 marcado con fibra, los días 20 y 21 en la grilla y productos
+plástico, las fechas marcadas con fibra, los días 29 y 30 en la grilla y productos
 inclinados alrededor. En lugar de un "% de descuento", los precios reales de los decants.
 
 Paleta y tipografía de marca: bordó vino / bordó cuero, rosa marfil, dorado, tinta;
@@ -104,7 +104,7 @@ def tarjeta():
     cc.escribir(d, 90, 195, "FRIDAY", f, cc.MARFIL)
     # las fechas marcadas con fibra
     f_f = cc.sans(54, "SemiBold")
-    tf = "19 al 21"
+    tf = "19 al 30"
     wf = cc.ancho(d, tf, f_f)
     xf = w - 70 - wf
     cc.escribir(d, xf, 108, tf, f_f, cc.MARFIL)
@@ -121,7 +121,7 @@ def tarjeta():
         cc.escribir(d, 106, y + 39, ml, f_tag, cc.BORDO_CUERO)
         cc.escribir(d, 90 + tw + 56, y, "Gs. " + precio, f_pr, BLANCO)
         y += 112
-    cc.escribir(d, 92, y + 30, "DEL 19 AL 21 DE NOVIEMBRE", cc.sans(26, "SemiBold"), cc.DORADO, esp=5)
+    cc.escribir(d, 92, y + 30, "DEL 19 AL 30 DE NOVIEMBRE", cc.sans(26, "SemiBold"), cc.DORADO, esp=5)
     return t
 
 
@@ -162,8 +162,8 @@ def armar():
 
     # días de la grilla
     f_dia = cc.sans(118, "Medium")
-    cc.escribir(d, 80, 1500, "20", f_dia, cc.TINTA)
-    cc.escribir(d, 830, 1470, "21", f_dia, cc.TINTA)
+    cc.escribir(d, 80, 1500, "29", f_dia, cc.TINTA)
+    cc.escribir(d, 830, 1470, "30", f_dia, cc.TINTA)
 
     # tarjeta inclinada
     t = girado(tarjeta(), -GIRO * -1)  # mismo giro que la grilla

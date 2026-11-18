@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Carrusel Black Friday de decants (19 al 21 de noviembre), en fondo blanco (lo pidió la dueña).
+"""Carrusel Black Friday de decants (19 al 30 de noviembre), en fondo blanco (lo pidió la dueña).
 
 Slide 1: portada con los decants y los dos precios.
 Slides 2 a 18: los 17 perfumes disponibles, uno por slide, con el frasco original y al lado
@@ -27,7 +27,7 @@ W, H = cc.W, cc.H
 FOTOS = os.path.join(AQUI, "fotos")
 SALIDA = AQUI
 
-FECHAS = "19 al 21 de noviembre"
+FECHAS = "19 al 30 de noviembre"
 PRECIOS = [("5 ml", 45000, 5), ("10 ml", 90000, 10)]
 
 # Los 17 perfumes disponibles para el Black Friday (lista de la dueña, 18 de noviembre).
@@ -129,7 +129,7 @@ def pegar(img, p, cx, base, alto_max, ancho_max):
 
 
 def cinta_fechas(img, y, ancho_linea=70):
-    """BLACK FRIDAY · 19 AL 21 DE NOVIEMBRE, con dos líneas finas a los costados."""
+    """BLACK FRIDAY · 19 AL 30 DE NOVIEMBRE, con dos líneas finas a los costados."""
     d = ImageDraw.Draw(img)
     f = cc.sans(20, "SemiBold")
     t = f"BLACK FRIDAY  ·  {FECHAS.upper()}"
@@ -237,7 +237,7 @@ def slide_cierre():
     d = ImageDraw.Draw(img)
     cc.logo(img, W / 2, 110, 300, cc.BORDO)
     y = 330
-    cc.escribir(d, W / 2, y, "Solo del 19 al 21", cc.serif(92, 450), PRINCIPAL, ancla="ma")
+    cc.escribir(d, W / 2, y, "Del 19 al 30", cc.serif(92, 450), PRINCIPAL, ancla="ma")
     cc.escribir(d, W / 2, y + 114, "de noviembre", cc.cursiva(78), SUAVE, ancla="ma")
     y += 264
     d.line((W / 2 - 60, y, W / 2 + 60, y), fill=SUAVE, width=2)
