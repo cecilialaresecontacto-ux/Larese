@@ -34,7 +34,7 @@ PRECIOS = [("5 ml", 45000, 5), ("10 ml", 90000, 10)]
 # nombre, marca, tipo, notas, foto, color del perfume en el decant
 FRAGANCIAS = [
     ("Miss Dior", "Dior", "Eau de Parfum",
-     "El floral más romántico de Dior, en su nueva versión.", "p-miss-dior-x4.png", (240, 175, 182)),
+     "El floral más romántico de Dior, en su nueva versión.", "miss-dior-x4.png", (240, 175, 182)),
     ("J'adore", "Dior", "Eau de Parfum",
      "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado.", "s-jadore.jpg", (232, 190, 110)),
     ("Addict Rosy Glow", "Dior", "Eau de Parfum",
@@ -189,7 +189,7 @@ def slide_portada():
     d = ImageDraw.Draw(img)
     cc.logo(img, W / 2, 84, 230, cc.BORDO)
 
-    cc.escribir(d, W / 2, 196, "Decants de perfume", cc.cursiva(76), SUAVE, ancla="ma")
+    cc.escribir(d, W / 2, 196, "Todos los decants", cc.cursiva(76), SUAVE, ancla="ma")
     cc.escribir(d, W / 2, 268, "Black Friday", cc.serif(128, 450), PRINCIPAL, ancla="ma")
     f_f = cc.sans(24, "SemiBold")
     t = FECHAS.upper()

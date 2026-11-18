@@ -38,7 +38,7 @@ PERFUMES = [
 ]
 PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 
-ETIQUETA = "Decants de perfume"
+ETIQUETA = "Todos los decants"
 TITULO = "Black Friday"
 SUBTITULO = "19 al 21 de noviembre"
 CTA = "¡Pedí los tuyos!"

@@ -95,31 +95,33 @@ def circulo_fibra(d, caja, color, vueltas=3, ancho=7):
 
 
 def tarjeta():
-    w, h = 820, 780
+    w, h = 860, 840
     t = textura_plastico(w, h, cc.BORDO_CUERO)
     d = ImageDraw.Draw(t)
     # BLACK / FRIDAY
     f = cc.serif(122, 700)
-    cc.escribir(d, 90, 80, "BLACK", f, cc.MARFIL)
-    cc.escribir(d, 90, 205, "FRIDAY", f, cc.MARFIL)
-    # el 19 marcado con fibra
-    f19 = cc.sans(92, "SemiBold")
-    x19 = 610
-    cc.escribir(d, x19, 78, "19", f19, cc.MARFIL)
-    w19 = cc.ancho(d, "19", f19)
-    circulo_fibra(d, (x19 - 44, 72, x19 + w19 + 44, 204), cc.MARFIL, vueltas=2.6, ancho=6)
-    cc.escribir(d, 92, 360, "al 21 de noviembre", cc.cursiva(70), cc.DORADO)
+    cc.escribir(d, 90, 70, "BLACK", f, cc.MARFIL)
+    cc.escribir(d, 90, 195, "FRIDAY", f, cc.MARFIL)
+    # las fechas marcadas con fibra
+    f_f = cc.sans(54, "SemiBold")
+    tf = "19 al 21"
+    wf = cc.ancho(d, tf, f_f)
+    xf = w - 70 - wf
+    cc.escribir(d, xf, 108, tf, f_f, cc.MARFIL)
+    circulo_fibra(d, (xf - 40, 80, xf + wf + 40, 200), cc.MARFIL, vueltas=2.6, ancho=6)
+    cc.escribir(d, 92, 352, "Todos los decants", cc.cursiva(78), cc.DORADO)
 
     # precios en lugar del porcentaje: etiqueta blanca chica + precio grande
     f_tag = cc.sans(30, "SemiBold")
     f_pr = cc.serif(82, 600)
-    y = 490
+    y = 480
     for ml, precio in (("5 ml", "45.000"), ("10 ml", "90.000")):
         tw = cc.ancho(d, ml, f_tag)
         d.rectangle((90, y + 34, 90 + tw + 32, y + 86), fill=BLANCO)
         cc.escribir(d, 106, y + 39, ml, f_tag, cc.BORDO_CUERO)
         cc.escribir(d, 90 + tw + 56, y, "Gs. " + precio, f_pr, BLANCO)
         y += 112
+    cc.escribir(d, 92, y + 30, "DEL 19 AL 21 DE NOVIEMBRE", cc.sans(26, "SemiBold"), cc.DORADO, esp=5)
     return t
 
 
@@ -168,7 +170,7 @@ def armar():
     sombra = t.getchannel("A").filter(ImageFilter.GaussianBlur(24))
     s = Image.new("RGBA", t.size, (40, 10, 12, 0))
     s.putalpha(sombra.point(lambda v: int(v * 0.35)))
-    tx, ty = int(W / 2 - t.width / 2 + 40), 540
+    tx, ty = int(W / 2 - t.width / 2 + 30), 520
     img.alpha_composite(s, (tx + 16, ty + 28))
     img.alpha_composite(t, (tx, ty))
 
@@ -182,8 +184,8 @@ def armar():
     pegar_girado(img, jadore, 965, 1215, 430, -16)
     d10 = frasco((240, 175, 182), 10, claro=True)
     d5 = frasco((226, 160, 98), 5, claro=True)
-    pegar_girado(img, d10, 360, 1480, 340, 10)
-    pegar_girado(img, d5, 520, 1525, 340 * d5.height / d10.height, -6)
+    pegar_girado(img, d10, 560, 1525, 290, 10)
+    pegar_girado(img, d5, 700, 1560, 290 * d5.height / d10.height, -6)
 
     # píldora con el WhatsApp
     d = ImageDraw.Draw(img)
