@@ -120,29 +120,13 @@ def slide_fragancia(n, nombre, marca, tipo, notas, archivo, color):
     cc.logo(img, W / 2, 70, 118, cc.CREMA)
     cinta_fechas(img, 128)
 
-    # [ 01 ]  Nombre  /  marca en cursiva
-    izq, y_num = 110, 200
-    f_num, f_cor = cc.serif(110, 380), cc.serif(140, 300)
-    num = f"{n:02d}"
-    cc.escribir(d, izq, y_num - 20, "[", f_cor, PRINCIPAL)
-    xb = izq + cc.ancho(d, "[", f_cor) + 14
-    cc.escribir(d, xb, y_num, num, f_num, PRINCIPAL)
-    xb2 = xb + cc.ancho(d, num, f_num) + 14
-    cc.escribir(d, xb2, y_num - 20, "]", f_cor, PRINCIPAL)
-    x_tit = xb2 + cc.ancho(d, "]", f_cor) + 36
-    tam = 72
-    while True:
-        f_tit = cc.serif(tam, 450)
-        lineas = cc.envolver(d, nombre, f_tit, W - 100 - x_tit)
-        if len(lineas) <= 2 or tam <= 48:
-            break
+    # Nombre centrado (sin número) y la marca en cursiva debajo
+    tam = 96
+    while tam > 60 and cc.ancho(d, nombre, cc.serif(tam, 450)) > W - 220:
         tam -= 4
-    alto_l = tam * 1.12
-    y_t = y_num + 84 - alto_l * len(lineas) / 2
-    for i, l in enumerate(lineas):
-        cc.escribir(d, x_tit, y_t + i * alto_l, l, f_tit, PRINCIPAL)
-    y_marca = max(y_t + alto_l * len(lineas), y_num + 140) + 4
-    cc.escribir(d, W - 100, y_marca, marca, cc.cursiva(60), SUAVE, ancla="ra")
+    f_tit = cc.serif(tam, 450)
+    cc.escribir(d, W / 2, 205, nombre, f_tit, PRINCIPAL, ancla="ma")
+    cc.escribir(d, W / 2, 205 + tam * 1.2, marca, cc.cursiva(66), SUAVE, ancla="ma")
 
     # producto a la izquierda, decants de 5 y 10 ml a la derecha
     base = 960
