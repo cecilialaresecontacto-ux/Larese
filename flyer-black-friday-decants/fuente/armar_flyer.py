@@ -27,12 +27,12 @@ MARFIL = (0xFC, 0xE5, 0xDA)
 # "\n" marca dónde corta el nombre.
 # nombre, marca, color del perfume (los mismos que en el carrusel)
 PERFUMES = [
+    ("Miss Dior", "Dior", (240, 175, 182)),
     ("Libre", "Yves Saint Laurent", (238, 200, 140)),
-    ("Scandal", "Jean Paul Gaultier", (234, 168, 150)),
-    ("Good Girl\nBlush", "Carolina Herrera", (246, 195, 190)),
-    ("La Vie\nEst Belle", "Lancôme", (236, 160, 165)),
-    ("J'adore", "Dior", (232, 190, 110)),
-    ("La Bomba", "Carolina Herrera", (226, 120, 150)),
+    ("Addict\nPurple Glow", "Dior", (205, 165, 222)),
+    ("Coco\nMademoiselle\nIntense", "Chanel", (226, 160, 98)),
+    ("Sì Passione", "Armani", (224, 108, 128)),
+    ("Light Blue", "Dolce & Gabbana", (214, 230, 242)),
 ]
 PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 

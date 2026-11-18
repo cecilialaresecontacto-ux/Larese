@@ -2,9 +2,9 @@
 """Carrusel Black Friday de decants (19 al 21 de noviembre), todo en fondo vino.
 
 Slide 1: portada con los decants y los dos precios.
-Slides 2 a 7: una fragancia por slide, con el frasco original y al lado sus decants
-de 5 y 10 ml (foto real del frasquito, con el color de ese perfume) y el precio de cada uno.
-Slide 8: cierre con el WhatsApp.
+Slides 2 a 18: los 17 perfumes disponibles, uno por slide, con el frasco original y al lado
+sus decants de 5 y 10 ml (foto real del frasquito, con el color de ese perfume) y el precio.
+Slide 19: cierre con el WhatsApp. (Instagram acepta hasta 20 slides.)
 
 Estilo editorial de herramientas/carrusel-bordo (estampilla bordó, Playfair, Pinyon Script, Poppins).
 
@@ -29,21 +29,46 @@ SALIDA = AQUI
 FECHAS = "19 al 21 de noviembre"
 PRECIOS = [("5 ml", 45000, 5), ("10 ml", 90000, 10)]
 
+# Los 17 perfumes disponibles para el Black Friday (lista de la dueña, 18 de noviembre).
 # nombre, marca, tipo, notas, foto, color del perfume en el decant
 FRAGANCIAS = [
+    ("Miss Dior", "Dior", "Eau de Parfum",
+     "El floral más romántico de Dior, en su nueva versión.", "p-miss-dior-x4.png", (240, 175, 182)),
+    ("J'adore", "Dior", "Eau de Parfum",
+     "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado.", "s-jadore.jpg", (232, 190, 110)),
+    ("Addict Rosy Glow", "Dior", "Eau de Parfum",
+     "Lichi, rosa y un fondo cremoso de vainilla.", "p-rosy-glow-x4.png", (240, 160, 186)),
+    ("Addict Peachy Glow", "Dior", "Eau de Parfum",
+     "Durazno jugoso y jazmín sobre vainilla y crema batida.", "p-peachy-glow-x4.png", (245, 178, 145)),
+    ("Addict Purple Glow", "Dior", "Eau de Parfum",
+     "Flores confitadas, frambuesa e iris sobre un fondo de vainilla.", "p-purple-glow-x4.png", (205, 165, 222)),
+    ("Coco Mademoiselle Intense", "Chanel", "Eau de Parfum Intense",
+     "La versión más profunda y sensual del clásico de Chanel.", "p-coco-mademoiselle-x4.png", (226, 160, 98)),
     ("Libre", "Yves Saint Laurent", "Eau de Parfum",
      "Lavanda francesa y azahar sobre un fondo de vainilla.", "10-libre-x4.png", (238, 200, 140)),
-    ("Scandal", "Jean Paul Gaultier", "Eau de Parfum",
-     "Miel y gardenia: femenino, empolvado e irresistible.", "13-scandal-x4.png", (234, 168, 150)),
-    ("Good Girl Blush", "Carolina Herrera", "Eau de Parfum",
-     "La versión empolvada y suave de Good Girl, dulce y floral.", "good-girl-blush-x4.png", (246, 195, 190)),
-    ("La Vie Est Belle", "Lancôme", "Eau de Parfum",
-     "Iris, praliné y vainilla: el dulce más elegante.", "12-la-vie-est-belle-x4.png", (236, 160, 165)),
-    ("J'adore", "Dior", "Eau de Parfum",
-     "Un bouquet luminoso de jazmín y nardos. Clásico y sofisticado.", "11-jadore.jpg", (232, 190, 110)),
-    ("La Bomba", "Carolina Herrera", "Eau de Parfum",
-     "Vibrante y explosiva, con una frescura exótica que seduce.", "07-la-bomba.jpg", (226, 120, 150)),
+    ("Devotion Intense", "Dolce & Gabbana", "Eau de Parfum",
+     "Avellana tostada y flores luminosas: cálido y envolvente.", "r-devotion2.png", (238, 150, 96)),
+    ("Light Blue", "Dolce & Gabbana", "Eau de Toilette",
+     "Limón siciliano y manzana, fresco como un verano en el Mediterráneo.", "s-light-blue.jpg", (214, 230, 242)),
+    ("Born in Roma", "Valentino", "Eau de Parfum",
+     "Jazmín y vainilla con un fondo amaderado, elegante y moderno.", "r-born2.png", (240, 178, 180)),
+    ("Divine Couture", "Jean Paul Gaultier", "Eau de Parfum",
+     "Notas marinas, flores blancas y un toque dulce de merengue.", "r-divine.webp", (238, 150, 130)),
+    ("Scandal Le Parfum", "Jean Paul Gaultier", "Le Parfum",
+     "Jazmín radiante y caramelo salado: intenso y adictivo.", "p-scandal-le-parfum-x4.png", (214, 118, 72)),
+    ("L'Interdit", "Givenchy", "Eau de Toilette",
+     "Flores blancas con un toque cítrico chispeante. Luminoso y vibrante.", "p-linterdit-x4.png", (244, 196, 166)),
+    ("Sì Passione", "Armani", "Eau de Parfum",
+     "Grosella negra, pera, rosa y jazmín sobre una vainilla intensa.", "p-si-passione-x4.png", (224, 108, 128)),
+    ("Bright Crystal", "Versace", "Eau de Toilette",
+     "Yuzu y granada sobre un acorde helado, floral y luminoso.", "p-bright-crystal-x4.png", (242, 182, 194)),
+    ("Erba Pura", "Xerjoff", "Eau de Parfum · Nicho",
+     "Cítricos sicilianos y frutas mediterráneas sobre almizcle blanco.", "s-erba-pura.jpg", (240, 214, 150)),
+    ("Naxos", "Xerjoff", "Eau de Parfum · Nicho",
+     "Cítricos y lavanda que se vuelven miel especiada con canela.", "p-naxos-x4.png", (210, 150, 80)),
 ]
+# en la portada, 6 decants de colores bien distintos
+PORTADA = ["Miss Dior", "Libre", "Addict Purple Glow", "Coco Mademoiselle Intense", "Sì Passione", "Light Blue"]
 
 PRINCIPAL = cc.MARFIL
 SUAVE = cc.DORADO
@@ -76,10 +101,10 @@ def foto(ruta):
             if os.path.exists(base + ext):
                 ruta = base + ext
                 break
-    if os.path.basename(ruta).startswith("11-jadore"):
+    if "jadore" in os.path.basename(ruta):
         # la caja de J'adore es blanca sobre blanco y no se recorta bien: solo el frasco
         im = Image.open(ruta).convert("RGB")
-        recorte = os.path.join(FOTOS, "11-jadore-frasco.png")
+        recorte = os.path.join(FOTOS, "jadore-frasco.png")
         im.crop((int(im.width * 0.56), 0, im.width, im.height)).save(recorte)
         ruta = recorte
     if os.path.basename(ruta).startswith("10-libre"):
@@ -177,7 +202,8 @@ def slide_portada():
     # fila de decants, uno por fragancia, alternando 10 y 5 ml
     base = 930
     paso = 128
-    for i, fr in enumerate(FRAGANCIAS):
+    elegidas = [fr for nombre in PORTADA for fr in FRAGANCIAS if fr[0] == nombre]
+    for i, fr in enumerate(elegidas):
         cap = 10 if i % 2 == 0 else 5
         dec = frasco(fr[5], cap)
         alto = 400 * dec.height / frasco(fr[5], 10).height
