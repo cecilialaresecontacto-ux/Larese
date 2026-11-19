@@ -5,6 +5,7 @@ Slide 1: portada con los decants y los dos precios.
 Slides 2 a 18: los 17 perfumes disponibles, uno por slide, con el frasco original y al lado
 sus decants de 5 y 10 ml (foto real del frasquito, con el color de ese perfume) y el precio.
 Slide 19: cierre con el WhatsApp. (Instagram acepta hasta 20 slides.)
+También guarda cada slide en formato historia (1080x1920) en carrusel/historias/.
 
 Estilo editorial de herramientas/carrusel-bordo (Playfair, Pinyon Script, Poppins) en su versión
 "fondo blanco y letra vino": títulos y precios en bordó vino, marcas en cursiva dorada.
@@ -80,8 +81,8 @@ TEXTO = cc.TINTA         # notas
 CHICO = cc.MALVA         # pie y textos chicos
 
 
-def lienzo():
-    return Image.new("RGBA", (W, H), BLANCO + (255,))
+def lienzo(alto=None):
+    return Image.new("RGBA", (W, alto or H), BLANCO + (255,))
 
 
 def recorte_fino(ruta, umbral):
@@ -188,6 +189,61 @@ def slide_fragancia(n, nombre, marca, tipo, notas, archivo, color):
     return img
 
 
+def slide_fragancia_historia(nombre, marca, tipo, notas, archivo, color):
+    """Lo mismo que slide_fragancia, pero armado para historia (1080x1920): logo, fechas,
+    nombre, frasco y decants más grandes, botón y pie dentro de la zona segura."""
+    HH = 1920
+    img = lienzo(HH)
+    d = ImageDraw.Draw(img)
+    cc.logo(img, W / 2, 175, 190, cc.BORDO)
+    cinta_fechas(img, 270)
+
+    tam = 112
+    while tam > 64 and cc.ancho(d, nombre, cc.serif(tam, 450)) > W - 160:
+        tam -= 4
+    f_tit = cc.serif(tam, 450)
+    cc.escribir(d, W / 2, 345, nombre, f_tit, PRINCIPAL, ancla="ma")
+    cc.escribir(d, W / 2, 345 + tam * 1.2, marca, cc.cursiva(76), SUAVE, ancla="ma")
+
+    base = 1240
+    prod, ok = foto(os.path.join(FOTOS, archivo))
+    if ok:
+        pegar(img, prod, 300, base, 600, 470)
+    else:
+        cc.tarjeta_foto(img, prod, (70, base - 600, 530, base), SUAVE)
+    d = ImageDraw.Draw(img)
+    d.line((W / 2 + 40, base - 480, W / 2 + 40, base + 120), fill=SUAVE, width=1)
+
+    f_ml = cc.sans(24, "SemiBold")
+    f_pr = cc.serif(40, 500)
+    especial = PRECIOS_ESPECIALES.get(nombre)
+    precios = [(ml, especial[i] if especial else p, cap) for i, (ml, p, cap) in enumerate(PRECIOS)]
+    for cx, (ml, precio, cap) in zip((700, 925), precios):
+        dec = frasco(color, cap, claro=True)
+        pegar(img, dec, cx, base, 540 * dec.height / frasco(color, 10, claro=True).height, 230)
+        d = ImageDraw.Draw(img)
+        cc.escribir(d, cx, base + 28, ml.upper(), f_ml, SUAVE, esp=5, ancla="ma")
+        cc.escribir(d, cx, base + 64, cc.guaranies(precio), f_pr, PRINCIPAL, ancla="ma")
+    cc.escribir(d, 300, base + 28, tipo.upper(), f_ml, SUAVE, esp=5, ancla="ma")
+
+    f_notas = cc.serif_it(36, 400)
+    y = 1420
+    for l in cc.equilibrar(d, notas, f_notas, 860):
+        cc.escribir(d, W / 2, y, l, f_notas, TEXTO, ancla="ma")
+        y += 48
+
+    # botón
+    f_b = cc.sans(34, "SemiBold")
+    tb = "¡Pedí el tuyo!"
+    tw = cc.ancho(d, tb, f_b)
+    cy = 1560
+    d.rounded_rectangle((W / 2 - tw / 2 - 52, cy - 42, W / 2 + tw / 2 + 52, cy + 42), radius=42, fill=cc.BORDO)
+    bb = f_b.getbbox(tb)
+    d.text((W / 2 - tw / 2, cy - (bb[1] + bb[3]) / 2), tb, font=f_b, fill=cc.CREMA)
+    cc.pie(img, 1660, CHICO)
+    return img
+
+
 def slide_portada():
     img = lienzo()
     d = ImageDraw.Draw(img)
@@ -282,10 +338,29 @@ def main():
     slides = [slide_portada()]
     slides += [slide_fragancia(i, *fr) for i, fr in enumerate(FRAGANCIAS, 1)]
     slides.append(slide_cierre())
-    for i, s in enumerate(slides, 1):
+    # versión historia (1080x1920) en carrusel/historias/: los perfumes con su propio diseño;
+    # portada y cierre, el mismo slide centrado (Instagram tapa ~250 px arriba y abajo)
+    carpeta_hist = os.path.join(SALIDA, "historias")
+    os.makedirs(carpeta_hist, exist_ok=True)
+    nombres = ["portada"] + [slug(fr[0]) for fr in FRAGANCIAS] + ["cierre"]
+    for i, (s, nombre) in enumerate(zip(slides, nombres), 1):
         ruta = os.path.join(SALIDA, f"{i:02d}.png")
         s.convert("RGB").save(ruta, optimize=True)
         print(ruta)
+        if 1 < i < len(slides):  # perfumes: diseño propio de historia
+            hist = slide_fragancia_historia(*FRAGANCIAS[i - 2]).convert("RGB")
+        else:  # portada y cierre: el mismo slide centrado
+            hist = Image.new("RGB", (1080, 1920), BLANCO)
+            hist.paste(s.convert("RGB"), (0, (1920 - H) // 2))
+        ruta_h = os.path.join(carpeta_hist, f"{i:02d}-{nombre}.png")
+        hist.save(ruta_h, optimize=True)
+        print(ruta_h)
+
+
+def slug(nombre):
+    import unicodedata
+    t = unicodedata.normalize("NFKD", nombre).encode("ascii", "ignore").decode().lower()
+    return "".join(c if c.isalnum() else "-" for c in t).strip("-").replace("--", "-")
 
 
 if __name__ == "__main__":
