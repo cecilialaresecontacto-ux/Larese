@@ -29,9 +29,9 @@ MARFIL = (0xFC, 0xE5, 0xDA)
 DORADO = (0x99, 0x79, 0x57)
 
 PILDORA = "PARA REVENDEDORAS Y EMPRENDEDORES"
-TITULO = ["VENTA", "POR MAYOR"]
+TITULO = ["VENTA", "MAYORISTA"]
 SUBTITULO = "PERFUMES ÁRABES, DE DISEÑADOR Y DECANTS"
-SELLO = ("precios", "especiales", "X MAYOR")
+SELLO = ("precios", "especiales", "MAYORISTA")
 BENEFICIOS = ["Precios especiales por cantidad", "Armá tu propio negocio de perfumes",
               "Variedad de marcas para tu catálogo"]
 CTA = "¡Pedí la lista de precios!"
@@ -97,7 +97,10 @@ def sello(img, cx, cy, r):
     d = ImageDraw.Draw(img)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=MARFIL)
     f1 = cp.cursiva(r * 0.42)
-    f2 = cp.fuente(r * 0.36, b"ExtraBold")
+    tam2 = r * 0.36
+    while cp.ancho_txt(ImageDraw.Draw(img), SELLO[2], cp.fuente(tam2, b"ExtraBold")) > r * 1.55:
+        tam2 -= 1
+    f2 = cp.fuente(tam2, b"ExtraBold")
     cp.txt(d, cx, cy - r * 0.62, SELLO[0], f1, cp.BORDO)
     cp.txt(d, cx, cy - r * 0.30, SELLO[1], f1, cp.BORDO)
     cp.txt(d, cx, cy + r * 0.08, SELLO[2], f2, cp.BORDO)
