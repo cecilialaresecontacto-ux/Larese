@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flyer Black Friday de decants (19 al 30 de noviembre), fondo blanco (lo pidió la dueña):
+"""Flyer Black Friday de decants (desde el 19 hasta el 30 de noviembre o agotar stock), fondo blanco (lo pidió la dueña):
 6 frascos con el nombre de cada perfume al lado y el precio único
 (5 ml Gs. 45.000 · 10 ml Gs. 90.000).
 
@@ -38,9 +38,10 @@ PERFUMES = [
 ]
 PRECIOS = [("5 ml", 45000), ("10 ml", 90000)]
 
-ETIQUETA = "Todos los decants"
+ETIQUETA = "YA ARRANCÓ EL"
 TITULO = "Black Friday"
-SUBTITULO = "19 al 30 de noviembre"
+SUBTITULO = "HASTA EL 30 O AGOTAR STOCK"   # la dueña lo pidió así, en mayúsculas (19/11)
+TODOS = "Todos los decants"
 CTA = "¡Pedí los tuyos!"
 
 
@@ -119,20 +120,24 @@ def armar(formato):
     logo = cp.logo_mascara("texto", M["logo_w"])
     img.alpha_composite(cp.capa_color(logo, cp.BORDO), (int(cx - logo.width / 2), M["logo_y"]))
     y = M["logo_y"] + logo.height + M["eti"] * 0.45
-    fe = cp.cursiva(M["eti"])
-    cp.txt(d, cx, y, ETIQUETA, fe, DORADO)
-    y += cp.alto_linea(fe, 0.85)
+    fe = cp.fuente(M["sub"] * 1.25, b"SemiBold")
+    y += M["eti"] * 0.15
+    cp.txt(d, cx, y, ETIQUETA, fe, cp.BORDO, esp=M["sub"] * 0.2)
+    y += cp.alto_linea(fe, 1.0)
     ft = cp.fuente(M["tit"], b"Bold")
     cp.txt(d, cx, y, TITULO, ft, cp.BORDO)
     y += cp.alto_linea(ft, 0.98)
-    fs = cp.fuente(M["sub"], b"Medium")
-    t = SUBTITULO.upper()
-    cp.txt(d, cx, y, t, fs, DORADO, esp=M["sub"] * 0.12)
-    wl = cp.ancho_txt(d, t, fs, M["sub"] * 0.12)
-    ly = y + cp.alto_linea(fs) * 0.5
-    d.line((cx - wl / 2 - 90, ly, cx - wl / 2 - 22, ly), fill=DORADO, width=1)
-    d.line((cx + wl / 2 + 22, ly, cx + wl / 2 + 90, ly), fill=DORADO, width=1)
-    arriba = y + cp.alto_linea(fs, 1.15) + h * 0.025
+    # HASTA EL 30 O AGOTAR STOCK: píldora con borde bordó (el botón de abajo es bordó lleno)
+    fs = cp.fuente(M["sub"] * 1.1, b"SemiBold")
+    esp = M["sub"] * 0.12
+    wl = cp.ancho_txt(d, SUBTITULO, fs, esp)
+    al = cp.alto_linea(fs)
+    px, py = M["sub"] * 1.1, M["sub"] * 0.45
+    y += M["sub"] * 0.2
+    d.rounded_rectangle((cx - wl / 2 - px, y, cx + wl / 2 + px, y + al + 2 * py),
+                        radius=(al + 2 * py) / 2, outline=cp.BORDO, width=3)
+    cp.txt(d, cx, y + py - M["sub"] * 0.05, SUBTITULO, fs, cp.BORDO, esp=esp)
+    arriba = y + al + 2 * py + h * 0.025
 
     # abajo: precios, botón y pie
     pie_y = h - M["pie_y"] - M["pie"] * 2.1
@@ -140,7 +145,9 @@ def armar(formato):
     y_cta = pie_y - M["pie"] * 1.4 - alto_cta
     alto_pre = cp.alto_linea(cp.fuente(M["ml"], b"Medium"), 1.1) + cp.alto_linea(cp.fuente(M["pre"], b"Bold"), 1.0)
     y_pre = y_cta - M["cta"] * 0.6 - alto_pre
-    abajo = y_pre - h * 0.02
+    f_todos = cp.cursiva(M["eti"] * 0.95)
+    y_todos = y_pre - cp.alto_linea(f_todos, 0.8) - M["ml"] * 0.9
+    abajo = y_todos - h * 0.015
 
     # medio: grilla de 3 columnas x 2 filas
     ancho_col = (w - 2 * M["margen"]) / 3
@@ -151,6 +158,7 @@ def armar(formato):
         y0 = arriba + r * (alto_fila + M["gap_y"])
         celda(img, fr, nombre, marca, (x0 + 6, y0, x0 + ancho_col - 8, y0 + alto_fila), M)
 
+    cp.txt(ImageDraw.Draw(img), cx, y_todos, TODOS, f_todos, DORADO)
     bloque_precios(img, cx, y_pre, M)
     # botón y círculos del pie en bordó vino, con letras e íconos crema
     previo = (cp.BLANCO, cp.TEXTO)
