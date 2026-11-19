@@ -50,3 +50,7 @@ La dueña eligió el estilo del carrusel de Navidad para los títulos (reemplaza
 - **Nada de arcos, franjas ni marcos detrás del producto** (ni rellenos de rosa ni de línea dorada): a la dueña no le gustan. El producto va directo sobre el fondo (blanco o bordó), con una sombra suave. Las fotos que no se pueden recortar van como tarjeta con esquinas redondeadas.
 - Para historias con sticker de Instagram (encuesta, quiz, slider, preguntas) usá `revivir-cuenta/crear_interaccion.py`, que tiene el mismo estilo.
 - Si armás una pieza a mano o con otra herramienta (Remotion, HTML, etc.), también va con esta paleta y estas fuentes. Están en `herramientas/pieza-marca/assets/fonts`.
+
+## Edición de videos (reels y TikTok)
+
+La dueña eligió un estilo de edición nuevo para **todos** sus videos. Está descrito en `herramientas/estilo-video/README.md`: cortes rápidos que ilustran lo que se dice, texto en el centro palabra por palabra con letras mezcladas (gruesa, a mano, cursiva con serifa) y un color de acento en recuadros, círculos y franjas. Reemplaza al estilo de la skill `larese-reels` (letra blanca + cursiva dorada con brillo neón). Con la paleta de marca, salvo que ella pida otra cosa. Nunca usar cortes de películas o series: solo material propio de la dueña.
