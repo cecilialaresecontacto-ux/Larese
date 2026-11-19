@@ -26,7 +26,7 @@ ac.FRAGANCIAS = [
     ("Le Beau", "Jean Paul Gaultier", "Eau de Toilette",
      "Fresco y solar, con un toque de coco y haba tonka.", "m-le-beau-recorte.png", (214, 222, 160)),
     ("Eros Parfum", "Versace", "Parfum",
-     "Cítricos y menta sobre un fondo intenso y provocador.", "p-eros-parfum-x4.png", (176, 214, 214)),
+     "Cítricos y menta sobre un fondo intenso y provocador.", "eros-frasco.png", (176, 214, 214)),
     ("Stronger With You Parfum", "Emporio Armani", "Parfum",
      "Fougère cálido y especiado: la versión más intensa de la línea.",
      "p-stronger-with-you-x4.png", (204, 112, 92)),
@@ -36,6 +36,7 @@ ac.FRAGANCIAS = [
 ]
 ac.PORTADA = [f[0] for f in ac.FRAGANCIAS]
 ac.SALIDA = AQUI
+ac.PRECIOS_ESPECIALES = {}  # en los masculinos todos van a 45.000 y 90.000
 
 if __name__ == "__main__":
     ac.main()
