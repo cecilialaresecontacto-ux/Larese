@@ -112,6 +112,9 @@ def foto(ruta):
             if os.path.exists(base + ext):
                 ruta = base + ext
                 break
+    if os.path.basename(ruta).startswith("tarjeta-"):
+        # foto con fondo oscuro que no se puede recortar: va como tarjeta
+        return Image.open(ruta).convert("RGBA"), False
     if "jadore" in os.path.basename(ruta):
         # la caja de J'adore es blanca sobre blanco y no se recorta bien: solo el frasco
         im = Image.open(ruta).convert("RGB")
