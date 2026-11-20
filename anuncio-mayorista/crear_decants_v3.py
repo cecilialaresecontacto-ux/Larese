@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Venta mayorista de decants, hasta 40% off por unidad: diseño "de cartelera" inspirado en
+"""Venta mayorista de decants, hasta 40% off por unidad, en fondo NEGRO (lo pidió la dueña
+el 20/11): diseño "de cartelera" inspirado en
 la referencia que mandó la dueña el 20/11 (cortina de terciopelo, título en cursiva + recto,
 producto sobre bandeja en mesa de mármol con reflejo, descuento al costado, recuadro de línea
 fina abajo). Todo con la marca LARESE: paleta bordó, rosa marfil y dorado; Playfair, Pinyon y
@@ -26,7 +27,7 @@ from decants_vino import frasco  # noqa: E402
 FUENTES = os.path.join(RAIZ, "herramientas", "pieza-marca", "assets", "fonts")
 BORDO = np.array([0x41, 0x03, 0x0B], float)
 CUERO = np.array([0x2A, 0x0B, 0x0D], float)
-TERCIOPELO = np.array([0xB0, 0x1C, 0x2C], float)   # brillo del terciopelo (bordó más claro)
+TERCIOPELO = np.array([0x30, 0x2A, 0x2B], float)   # terciopelo negro: brillo gris cálido de los pliegues   # brillo del terciopelo (bordó más claro)
 MARFIL = (0xFC, 0xE5, 0xDA)
 DORADO = (0xEA, 0xCF, 0xA2)  # dorado claro: sobre el terciopelo rojo el dorado antiguo se pierde
 random.seed(40)
@@ -66,9 +67,9 @@ def cortina(w, h):
     luz = np.exp(-(((xx - 0.68) / 0.55) ** 2 + ((yy - 0.18) / 0.65) ** 2))
     v = (pli[None, :] * 0.75 + 0.25) * (0.45 + 0.85 * luz)
     v = np.clip(v, 0, 1)[..., None]
-    rgb = BORDO * 1.2 * (1 - v) + TERCIOPELO * v
+    rgb = np.array([8, 6, 7], float) * (1 - v) + TERCIOPELO * v
     # viñeta: casi negro a la izquierda y abajo
-    vin = np.clip(1.25 - 0.8 * np.sqrt(((xx - 0.55) / 0.8) ** 2 + ((yy - 0.4) / 1.0) ** 2), 0.45, 1)[..., None]
+    vin = np.clip(1.2 - 0.95 * np.sqrt(((xx - 0.55) / 0.8) ** 2 + ((yy - 0.4) / 1.0) ** 2), 0.3, 1)[..., None]
     rgb = rgb * vin
     img = Image.fromarray(rgb.clip(0, 255).astype("uint8"), "RGB")
     ruido = Image.effect_noise((w, h), 14).convert("RGB")
@@ -78,7 +79,7 @@ def cortina(w, h):
 def marmol(w, h):
     """Mesa de mármol negro con vetas claras muy suaves y un brillo al fondo."""
     yy = np.linspace(0, 1, h)[:, None]
-    g = (np.array([58, 30, 32]) * (1 - yy[..., None]) + np.array([26, 14, 15]) * yy[..., None])
+    g = (np.array([20, 17, 18]) * (1 - yy[..., None]) + np.array([3, 3, 3]) * yy[..., None])
     base = np.broadcast_to(g, (h, w, 3)).copy()
     img = Image.fromarray(base.astype("uint8"), "RGB").convert("RGBA")
     vetas = Image.new("L", (w, h), 0)
@@ -96,7 +97,7 @@ def marmol(w, h):
     # brillo del borde de la mesa
     borde = Image.new("L", (w, h), 0)
     ImageDraw.Draw(borde).rectangle((0, 0, w, 3), fill=255)
-    img.alpha_composite(cp.capa_color(borde.filter(ImageFilter.GaussianBlur(2)), (120, 70, 70), 0.6))
+    img.alpha_composite(cp.capa_color(borde.filter(ImageFilter.GaussianBlur(2)), (110, 100, 100), 0.6))
     return img
 
 
@@ -115,7 +116,7 @@ def foco(img, cx, cy, rx, ry, fuerza):
     """Luz de escenario detrás del producto."""
     capa = Image.new("L", img.size, 0)
     ImageDraw.Draw(capa).ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=255)
-    img.alpha_composite(cp.capa_color(capa.filter(ImageFilter.GaussianBlur(min(rx, ry) * 0.55)), (255, 200, 190), fuerza))
+    img.alpha_composite(cp.capa_color(capa.filter(ImageFilter.GaussianBlur(min(rx, ry) * 0.55)), (255, 230, 215), fuerza))
 
 
 def bandeja_con_decants(ancho, alto_dec):
