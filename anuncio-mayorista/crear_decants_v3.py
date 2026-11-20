@@ -26,9 +26,9 @@ from decants_vino import frasco  # noqa: E402
 FUENTES = os.path.join(RAIZ, "herramientas", "pieza-marca", "assets", "fonts")
 BORDO = np.array([0x41, 0x03, 0x0B], float)
 CUERO = np.array([0x2A, 0x0B, 0x0D], float)
-TERCIOPELO = np.array([0x8A, 0x10, 0x1C], float)   # brillo del terciopelo (bordó más claro)
+TERCIOPELO = np.array([0xB0, 0x1C, 0x2C], float)   # brillo del terciopelo (bordó más claro)
 MARFIL = (0xFC, 0xE5, 0xDA)
-DORADO = (0xC9, 0xA9, 0x7C)
+DORADO = (0xEA, 0xCF, 0xA2)  # dorado claro: sobre el terciopelo rojo el dorado antiguo se pierde
 random.seed(40)
 
 # decants sobre la bandeja: (color, ml, dx relativo, fila 0 = atrás / 1 = adelante)
@@ -64,11 +64,11 @@ def cortina(w, h):
     pli = pli ** 1.8
     yy, xx = np.mgrid[0:h, 0:w] / np.array([h, w])[:, None, None]
     luz = np.exp(-(((xx - 0.68) / 0.55) ** 2 + ((yy - 0.18) / 0.65) ** 2))
-    v = (pli[None, :] * 0.85 + 0.15) * (0.25 + 0.95 * luz)
+    v = (pli[None, :] * 0.75 + 0.25) * (0.45 + 0.85 * luz)
     v = np.clip(v, 0, 1)[..., None]
-    rgb = CUERO * 0.55 * (1 - v) + TERCIOPELO * v
+    rgb = BORDO * 1.2 * (1 - v) + TERCIOPELO * v
     # viñeta: casi negro a la izquierda y abajo
-    vin = np.clip(1.15 - 1.1 * np.sqrt(((xx - 0.62) / 0.75) ** 2 + ((yy - 0.35) / 0.9) ** 2), 0.12, 1)[..., None]
+    vin = np.clip(1.25 - 0.8 * np.sqrt(((xx - 0.55) / 0.8) ** 2 + ((yy - 0.4) / 1.0) ** 2), 0.45, 1)[..., None]
     rgb = rgb * vin
     img = Image.fromarray(rgb.clip(0, 255).astype("uint8"), "RGB")
     ruido = Image.effect_noise((w, h), 14).convert("RGB")
@@ -78,7 +78,7 @@ def cortina(w, h):
 def marmol(w, h):
     """Mesa de mármol negro con vetas claras muy suaves y un brillo al fondo."""
     yy = np.linspace(0, 1, h)[:, None]
-    g = (np.array([24, 15, 16]) * (1 - yy[..., None]) + np.array([7, 5, 5]) * yy[..., None])
+    g = (np.array([58, 30, 32]) * (1 - yy[..., None]) + np.array([26, 14, 15]) * yy[..., None])
     base = np.broadcast_to(g, (h, w, 3)).copy()
     img = Image.fromarray(base.astype("uint8"), "RGB").convert("RGBA")
     vetas = Image.new("L", (w, h), 0)
@@ -98,6 +98,24 @@ def marmol(w, h):
     ImageDraw.Draw(borde).rectangle((0, 0, w, 3), fill=255)
     img.alpha_composite(cp.capa_color(borde.filter(ImageFilter.GaussianBlur(2)), (120, 70, 70), 0.6))
     return img
+
+
+def aclarar(q):
+    """Decant más luminoso sobre fondo oscuro: vidrio como velo claro más visible y
+    perfume y tapa un poco más brillantes."""
+    a = np.array(q).astype(float)
+    alfa = a[..., 3]
+    vidrio = (alfa > 8) & (alfa < 140)
+    a[..., 3] = np.where(vidrio, np.maximum(alfa, 150), alfa)
+    a[..., :3] = np.where(vidrio[..., None], a[..., :3] * 0.5 + 255 * 0.5, a[..., :3] * 1.18)
+    return Image.fromarray(a.clip(0, 255).astype("uint8"), "RGBA")
+
+
+def foco(img, cx, cy, rx, ry, fuerza):
+    """Luz de escenario detrás del producto."""
+    capa = Image.new("L", img.size, 0)
+    ImageDraw.Draw(capa).ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=255)
+    img.alpha_composite(cp.capa_color(capa.filter(ImageFilter.GaussianBlur(min(rx, ry) * 0.55)), (255, 200, 190), fuerza))
 
 
 def bandeja_con_decants(ancho, alto_dec):
@@ -127,7 +145,7 @@ def bandeja_con_decants(ancho, alto_dec):
             fr = frasco(color, ml)
             f10 = frasco(color, 10)
             h = alto_dec * fr.height / f10.height * (0.93 if fila == 0 else 1.0)
-            q = fr.resize((max(1, int(fr.width * h / fr.height)), int(h)), Image.LANCZOS)
+            q = aclarar(fr.resize((max(1, int(fr.width * h / fr.height)), int(h)), Image.LANCZOS))
             x = cx + dx * ancho * 0.92
             base = piso - ry * (0.35 if fila == 0 else -0.05)
             s = Image.new("L", capa.size, 0)
@@ -154,6 +172,7 @@ def armar(formato):
     capa, apoyo = bandeja_con_decants(M["bandeja"], M["alto_dec"])
     bx = int(W * M["x_band"] - capa.width / 2)
     by = int(y_mesa + 30 - apoyo)
+    foco(img, bx + capa.width / 2, by + apoyo - M["alto_dec"] * 0.55, M["bandeja"] * 0.62, M["alto_dec"] * 0.85, 0.45)
     sombra = capa.getchannel("A").filter(ImageFilter.GaussianBlur(20))
     img.alpha_composite(cp.capa_color(sombra, (0, 0, 0), 0.5), (bx + 14, by + 22))
     img.alpha_composite(capa, (bx, by))
