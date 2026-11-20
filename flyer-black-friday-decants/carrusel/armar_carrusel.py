@@ -55,7 +55,7 @@ FRAGANCIAS = [
     ("Light Blue", "Dolce & Gabbana", "Eau de Toilette",
      "Limón siciliano y manzana, fresco como un verano en el Mediterráneo.", "s-light-blue.jpg", (214, 230, 242)),
     ("Born in Roma", "Valentino", "Eau de Parfum",
-     "Jazmín y vainilla con un fondo amaderado, elegante y moderno.", "r-born2.png", (240, 178, 180)),
+     "Jazmín y vainilla con un fondo amaderado, elegante y moderno.", "born-in-roma-donna-x4.png", (240, 178, 180)),
     ("Divine Couture", "Jean Paul Gaultier", "Eau de Parfum",
      "Notas marinas, flores blancas y un toque dulce de merengue.", "r-divine.webp", (238, 150, 130)),
     ("Scandal Le Parfum", "Jean Paul Gaultier", "Le Parfum",
@@ -239,11 +239,11 @@ def slide_fragancia_historia(nombre, marca, tipo, notas, archivo, color):
     f_b = cc.sans(34, "SemiBold")
     tb = "¡Pedí el tuyo!"
     tw = cc.ancho(d, tb, f_b)
-    cy = 1560
+    cy = max(1560, y + 88)  # con notas de dos renglones, el botón baja un poco
     d.rounded_rectangle((W / 2 - tw / 2 - 52, cy - 42, W / 2 + tw / 2 + 52, cy + 42), radius=42, fill=cc.BORDO)
     bb = f_b.getbbox(tb)
     d.text((W / 2 - tw / 2, cy - (bb[1] + bb[3]) / 2), tb, font=f_b, fill=cc.CREMA)
-    cc.pie(img, 1660, CHICO)
+    cc.pie(img, cy + 100, CHICO)
     return img
 
 
