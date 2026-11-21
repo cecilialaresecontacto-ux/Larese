@@ -27,16 +27,17 @@ VERDE = (0xB8, 0xD8, 0x7A)   # el verde del frasco, solo para un brillo suave de
 
 # notas de la página: salida, corazón, fondo
 NOTAS = [("SALIDA", "Té Lapsang\nSouchong", "te"), ("CORAZÓN", "Jazmín", "jazmin"), ("FONDO", "Vainilla", "vainilla")]
-PRECIOS = [("5 ML", 70000), ("10 ML", 115000)]
+# precio de promo y precio anterior (tachado), confirmados por la dueña el 21/11
+PRECIOS = [("5 ML", 45000, 70000), ("10 ML", 90000, 115000)]
 
 MEDIDAS = {
     # frasco: (cx, base, alto); notas: (x etiqueta, y etiqueta, lado de la línea)
     "historia": dict(tam=(1080, 1920), logo=(190, 300), tit=96, cur=70, marca=26, y_tit=330,
                      frasco=(540, 1330, 640), notas=[(60, 740, "izq"), (60, 960, "izq"), (60, 1180, "izq")],
-                     pre=(1430, 44, 22), iso=1640, glow=(540, 1050, 380, 420)),
+                     pre=(1400, 54, 22), iso=1640, glow=(540, 1050, 380, 420)),
     "post": dict(tam=(1080, 1350), logo=(50, 170), tit=78, cur=58, marca=22, y_tit=130,
                  frasco=(540, 1060, 560), notas=[(60, 440, "izq"), (60, 630, "izq"), (60, 820, "izq")],
-                 pre=(1110, 38, 19), iso=None, glow=(540, 800, 330, 360)),
+                 pre=(1060, 44, 19), iso=None, glow=(540, 800, 330, 360)),
 }
 
 
@@ -153,18 +154,26 @@ def armar(formato):
     d = ImageDraw.Draw(img)
     f_ml = cp.fuente(tm, b"SemiBold")
     f_pr = cp.fuente(tp, b"Bold")
-    ancho = max(d.textlength(cp.guaranies(v), font=f_pr) for _, v in PRECIOS)
-    for i, (ml, v) in enumerate(PRECIOS):
+    f_ant = cp.fuente(tp * 0.5, b"Medium")
+    alto_ant = cp.alto_linea(f_ant, 1.05)
+    ancho = max(d.textlength(cp.guaranies(v), font=f_pr) for _, v, _ in PRECIOS)
+    for i, (ml, v, antes) in enumerate(PRECIOS):
         px = cx + (i - 0.5) * (ancho + tp * 1.2)
         cp.txt(d, px, yp, "DECANT " + ml, f_ml, DORADO, esp=tm * 0.15)
-        cp.txt(d, px, yp + cp.alto_linea(f_ml, 1.1), cp.guaranies(v), f_pr, MARFIL)
-    d.line((cx, yp + 6, cx, yp + cp.alto_linea(f_ml, 1.1) + cp.alto_linea(f_pr, 0.9)), fill=DORADO, width=2)
+        ya = yp + cp.alto_linea(f_ml, 1.1)
+        t_ant = "Antes " + cp.guaranies(antes)
+        cp.txt(d, px, ya, t_ant, f_ant, (0xC8, 0xA0, 0xA0))
+        wa = d.textlength(t_ant, font=f_ant)
+        d.line((px - wa / 2 + d.textlength("Antes ", font=f_ant) - 2, ya + tp * 0.33,
+                px + wa / 2 + 2, ya + tp * 0.33), fill=(0xC8, 0xA0, 0xA0), width=2)
+        cp.txt(d, px, ya + alto_ant, cp.guaranies(v), f_pr, MARFIL)
+    d.line((cx, yp + 6, cx, yp + cp.alto_linea(f_ml, 1.1) + alto_ant + cp.alto_linea(f_pr, 0.9)), fill=DORADO, width=2)
 
     # botón y pie
     f_b = cp.fuente(34 * esc, b"SemiBold")
     tb = "¡Pedí el tuyo!"
     tw = d.textlength(tb, font=f_b)
-    cyb = yp + cp.alto_linea(f_ml, 1.1) + cp.alto_linea(f_pr, 1.0) + 60 * esc
+    cyb = yp + cp.alto_linea(f_ml, 1.1) + alto_ant + cp.alto_linea(f_pr, 1.0) + 60 * esc
     d.rounded_rectangle((cx - tw / 2 - 50 * esc, cyb - 40 * esc, cx + tw / 2 + 50 * esc, cyb + 40 * esc),
                         radius=40 * esc, fill=MARFIL)
     bb = f_b.getbbox(tb)
