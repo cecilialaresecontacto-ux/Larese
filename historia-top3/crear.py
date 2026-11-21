@@ -29,7 +29,7 @@ CINTA = (0xC9, 0xA9, 0x7C)
 
 # (nombre en la etiqueta, foto, centro x, base y, alto, giro, etiqueta: x, y)
 FRASCOS = [
-    ("Miss Dior", "miss-dior-x4.png", 290, 1440, 470, 12, (140, 800)),
+    ("Born in Roma", "born-in-roma-donna-x4.png", 290, 1440, 500, 12, (120, 780)),
     ("Libre", "10-libre-x4.png", 540, 1250, 590, 0, (590, 580)),
     ("Coco\nMademoiselle", "p-coco-mademoiselle-x4.png", 800, 1440, 540, -12, (770, 720)),
 ]
