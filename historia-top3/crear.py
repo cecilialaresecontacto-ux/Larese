@@ -6,7 +6,7 @@ en dos esquinas, el logo arriba y el isotipo abajo. Todo con la paleta de marca
 (bordó vino, rosa marfil, dorado) y las fuentes de marca.
 
 Uso: python3 historia-top3/crear.py
-Salida: historia-top3/historia.png (1080x1920)
+Salida: historia-top3/historia.png (dama) e historia-caballero.png (1080x1920)
 """
 import math
 import os
@@ -19,7 +19,7 @@ RAIZ = os.path.join(AQUI, "..")
 sys.path.insert(0, os.path.join(RAIZ, "herramientas", "pieza-marca", "scripts"))
 sys.path.insert(0, os.path.join(RAIZ, "flyer-black-friday-decants", "carrusel"))
 import crear_pieza as cp  # noqa: E402
-from armar_carrusel import FOTOS, foto  # noqa: E402
+from armar_carrusel import FOTOS, foto, recorte_fino  # noqa: E402
 
 W, H = 1080, 1920
 BORDO = cp.BORDO
@@ -77,7 +77,10 @@ def cinta_curva(img, cx, cy, r, a0, a1, ancho, texto, reverso=False):
 
 
 def frasco_girado(img, nombre_foto, cx, base, alto, giro):
-    p, ok = foto(os.path.join(FOTOS, nombre_foto))
+    if nombre_foto.startswith("profondo"):  # base de vidrio casi blanca: recorte fino
+        p = recorte_fino(os.path.join(FOTOS, nombre_foto), umbral=5)
+    else:
+        p, ok = foto(os.path.join(FOTOS, nombre_foto))
     # se come el filo blanco del recorte, que sobre bordó se nota
     p.putalpha(p.getchannel("A").filter(ImageFilter.MinFilter(11)).filter(ImageFilter.GaussianBlur(3)))
     esc = alto / p.height
@@ -130,7 +133,16 @@ def armar():
     return img.convert("RGB")
 
 
+# versión caballero (pedido de la dueña el 21/11): frascos azules, que resaltan sobre el bordó
+FRASCOS_CABALLERO = [
+    ("Acqua di Giò\nProfondo", "profondo-frasco-x4.png", 285, 1440, 500, 12, (90, 760)),
+    ("Sauvage", "p-sauvage-x4.png", 540, 1250, 600, 0, (590, 580)),
+    ("Eros Parfum", "eros-frasco.png", 800, 1440, 500, -12, (760, 760)),
+]
+
 if __name__ == "__main__":
-    ruta = os.path.join(AQUI, "historia.png")
-    armar().save(ruta, optimize=True)
-    print(ruta)
+    for nombre, frascos in (("historia.png", FRASCOS), ("historia-caballero.png", FRASCOS_CABALLERO)):
+        FRASCOS = frascos
+        ruta = os.path.join(AQUI, nombre)
+        armar().save(ruta, optimize=True)
+        print(ruta)
