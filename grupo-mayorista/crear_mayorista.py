@@ -46,7 +46,7 @@ FORMATOS = {
     "meta-historia": dict(size=(1080, 1920), k=1.0, ante_y=300, titulo_y=342, sub_y=470,
                           prod=(545, 1105), prod_sin_nombres=(560, 1205), nombres_y=1130, boton_y=1245, tienda_y=1370, pie_y=1470),
     "meta-post": dict(size=(1080, 1350), k=0.82, ante_y=46, titulo_y=82, sub_y=186,
-                      prod=(250, 860), prod_sin_nombres=(255, 950), nombres_y=880, boton_y=990, tienda_y=1105, pie_y=1210),
+                      prod=(250, 860), prod_sin_nombres=(280, 955), nombres_y=880, boton_y=990, tienda_y=1105, pie_y=1210),
 }
 
 
@@ -128,8 +128,8 @@ def armar(SPEC, formato):
     if len(prods) == 4:
         # grupo: los 2 del medio atrás y más grandes, los 2 de las puntas adelante
         # (centro x relativo, base relativa en la zona, alto relativo, ancho máx relativo)
-        lugares = [(0.22, 1.00, 0.46, 0.40), (0.35, 0.76, 0.74, 0.36),
-                   (0.70, 0.76, 0.74, 0.30), (0.79, 1.00, 0.46, 0.38)]
+        lugares = [(0.22, 1.00, 0.46, 0.40), (0.32, 0.76, 0.78, 0.42),
+                   (0.69, 0.76, 0.74, 0.46), (0.79, 1.00, 0.46, 0.38)]
         for i in (1, 2, 0, 3):  # primero los de atrás
             rx, rb, rh, rw = lugares[i]
             pegar(img, cargados[i], w * rx, y0 + alto_zona * rb, w * rw, alto_zona * rh)
