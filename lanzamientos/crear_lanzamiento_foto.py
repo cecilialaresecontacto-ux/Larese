@@ -10,6 +10,8 @@ Uso:
     python3 crear_lanzamiento_foto.py spec.json historia salida.png
     python3 crear_lanzamiento_foto.py spec.json post salida.png
     python3 crear_lanzamiento_foto.py spec.json historia-completa salida.png   # foto en toda la pieza
+    python3 crear_lanzamiento_foto.py spec.json meta-historia salida.png       # anuncio Meta 9:16
+    python3 crear_lanzamiento_foto.py spec.json meta-post salida.png           # anuncio Meta 4:5
 
 Spec (JSON):
 {
@@ -28,6 +30,8 @@ Spec (JSON):
 import json
 import os
 import sys
+
+import numpy as np
 
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -176,15 +180,34 @@ def velo(img, y0, y1, a0, a1):
     img.alpha_composite(capa_color(m.resize((w, h)), FONDO))
 
 
-def armar_completa(SPEC):
-    """Historia con la foto ocupando toda la pieza y los textos sobre velos blancos."""
-    w, h = 1080, 1920
+# Piezas con la foto en toda la pieza. Las "meta-*" dejan libres las zonas que tapa
+# Meta en los anuncios (historia: 14 % arriba y 20 % abajo).
+COMPLETA = {
+    "historia-completa": dict(size=(1080, 1920), escena_alto=None, escena_y=None,
+                              velo_arriba=(300, 470), velo_abajo=(1400, 1580),
+                              marca_y=200, marca_w=640, titulo_y=300, titulo_t=50, sello=(915, 545, 104),
+                              detalle_y=1520, logo_w=300, pie_y=1730),
+    "meta-historia": dict(size=(1080, 1920), escena_alto=860, escena_y=440,
+                          velo_arriba=(420, 560), velo_abajo=(1200, 1310),
+                          marca_y=285, marca_w=560, titulo_y=372, titulo_t=44, sello=(880, 560, 92),
+                          detalle_y=1300, logo_w=270, pie_y=1490),
+    "meta-post": dict(size=(1080, 1350), escena_alto=900, escena_y=160,
+                      velo_arriba=(110, 230), velo_abajo=(980, 1085),
+                      marca_y=36, marca_w=430, titulo_y=100, titulo_t=34, sello=(900, 270, 84),
+                      detalle_y=1100, logo_w=240, pie_y=1262),
+}
+
+
+def armar_completa(SPEC, formato="historia-completa"):
+    """Foto ocupando toda la pieza y los textos sobre velos blancos."""
+    L = COMPLETA[formato]
+    w, h = L["size"]
     cx = w / 2
     foto = Image.open(SPEC["foto"]).convert("RGB")
     if SPEC.get("foto_recorte"):  # escena limpia, sin los textos de la campaña
         foto = foto.crop(tuple(SPEC["foto_recorte"]))
 
-    # fondo: la misma escena agrandada y desenfocada, para cubrir toda la historia
+    # fondo: la misma escena agrandada y desenfocada, para cubrir toda la pieza
     esc = max(w / foto.width, h / foto.height)
     fondo_img = foto.resize((int(foto.width * esc) + 1, int(foto.height * esc) + 1), Image.LANCZOS)
     fx = (fondo_img.width - w) // 2
@@ -192,48 +215,60 @@ def armar_completa(SPEC):
     fondo_img = fondo_img.crop((fx, fy, fx + w, fy + h)).filter(ImageFilter.GaussianBlur(38))
     img = fondo_img.convert("RGBA")
 
-    # escena nítida a lo ancho, con los bordes de arriba y abajo fundidos
-    ph = int(foto.height * w / foto.width)
-    nitida = foto.resize((w, ph), Image.LANCZOS).convert("RGBA")
+    # escena nítida, con los bordes fundidos en el fondo desenfocado
+    if L["escena_alto"]:
+        ph = L["escena_alto"]
+        pw = min(w, int(foto.width * ph / foto.height))
+    else:
+        pw = w
+        ph = int(foto.height * w / foto.width)
+    nitida = foto.resize((pw, ph), Image.LANCZOS).convert("RGBA")
     fundido = 150
-    alfa = []
-    for y in range(ph):
-        t = min(1, y / fundido, (ph - 1 - y) / fundido)
-        alfa.append(int(255 * t * t * (3 - 2 * t)))
-    m = Image.new("L", (1, ph))
-    m.putdata(alfa)
-    nitida.putalpha(m.resize((w, ph)))
-    py0 = SPEC.get("foto_completa_y", 400)
-    img.alpha_composite(nitida, (0, py0))
+    fundido_x = 90 if pw < w else 0
+    ys = np.arange(ph)
+    ty = np.clip(np.minimum(ys, ph - 1 - ys) / fundido, 0, 1)
+    if fundido_x:
+        xs = np.arange(pw)
+        tx = np.clip(np.minimum(xs, pw - 1 - xs) / fundido_x, 0, 1)
+    else:
+        tx = np.ones(pw)
+    t = np.minimum(ty[:, None], tx[None, :])
+    t = t * t * (3 - 2 * t)
+    nitida.putalpha(Image.fromarray((t * 255).astype("uint8")))
+    py0 = L["escena_y"] if L["escena_y"] is not None else SPEC.get("foto_completa_y", 400)
+    img.alpha_composite(nitida, (int((w - pw) / 2), py0))
 
-    velo(img, 300, 470, 0.80, 0.0)    # arriba: logo y título
-    velo(img, 1400, 1580, 0.0, 0.82)  # abajo: detalle, disponible y pie
+    va, vb = L["velo_arriba"], L["velo_abajo"]
+    velo(img, va[0], va[1], 0.80, 0.0)   # arriba: logo y título
+    velo(img, vb[0], vb[1], 0.0, 0.82)   # abajo: detalle, tienda y pie
 
     d = ImageDraw.Draw(img)
     ml = Image.open(SPEC["marca_logo"]).convert("L")
-    mw = 640
+    mw = L["marca_w"]
     ml = ml.resize((mw, int(ml.height * mw / ml.width)), Image.LANCZOS)
-    img.alpha_composite(capa_color(ml, TEXTO), (int(cx - mw / 2), 200))
-    ft = fuente(50, "Bold")
-    txt(d, cx, 300, SPEC["titulo"].upper(), ft, TEXTO, esp=3)
+    img.alpha_composite(capa_color(ml, TEXTO), (int(cx - mw / 2), L["marca_y"]))
+    tt = L["titulo_t"]
+    txt(d, cx, L["titulo_y"], SPEC["titulo"].upper(), fuente(tt, "Bold"), TEXTO, esp=tt * 0.06)
 
     if SPEC.get("sello"):
-        sello(img, 915, 545, 104, SPEC["sello"])
+        sx, sy, sr = L["sello"]
+        sello(img, sx, sy, sr, SPEC["sello"])
 
     d = ImageDraw.Draw(img)
-    y = 1520
+    k = tt / 50  # escala de los textos de abajo
+    y = L["detalle_y"]
     if SPEC.get("detalle"):
-        fdet = fuente(29, "Medium")
-        txt(d, cx, y, SPEC["detalle"].upper(), fdet, GRIS, esp=3.5)
-        y += alto_linea(fdet) + 42
-    logo = logo_mascara("texto", 300)
+        fdet = fuente(29 * k, "Medium")
+        txt(d, cx, y, SPEC["detalle"].upper(), fdet, GRIS, esp=3.5 * k)
+        y += alto_linea(fdet) + 42 * k
+    logo = logo_mascara("texto", L["logo_w"])
     if SPEC.get("tienda_extra"):
         # logo larese STORE | MAYORISTA (o el texto que se pida)
-        fx = fuente(44, "Bold")
+        fx = fuente(44 * k * (L["logo_w"] / 300) / k, "Bold")
         extra = SPEC["tienda_extra"].upper()
-        esp = 44 * 0.14
+        esp = fx.size * 0.14
         we = ancho_txt(d, extra, fx, esp)
-        gap = 34
+        gap = 34 * L["logo_w"] / 300
         xi = cx - (logo.width + 2 * gap + we) / 2
         img.alpha_composite(capa_color(logo, TEXTO), (int(xi), int(y)))
         d = ImageDraw.Draw(img)
@@ -242,7 +277,7 @@ def armar_completa(SPEC):
         a, _ = fx.getmetrics()
         txt(d, xl + gap + we / 2, y + logo.height * 0.80 - a, extra, fx, TEXTO, esp=esp)
     else:
-        fdisp = fuente(40, "Medium")
+        fdisp = fuente(40 * L["logo_w"] / 300, "Medium")
         gap = 24
         wt = ancho_txt(d, "Disponible en", fdisp)
         xi = cx - (wt + gap + logo.width) / 2
@@ -251,14 +286,14 @@ def armar_completa(SPEC):
         img.alpha_composite(capa_color(logo, TEXTO), (int(xi + wt + gap), int(y)))
 
     d = ImageDraw.Draw(img)
-    py = 1730
+    py = L["pie_y"]
     d.line((cx - 260, py - 26, cx + 260, py - 26), fill=(200, 200, 200), width=2)
-    txt(d, cx, py, SPEC.get("pie", PIE), fuente(24, "Medium"), GRIS)
+    txt(d, cx, py, SPEC.get("pie", PIE), fuente(24 if h > 1500 else 22, "Medium"), GRIS)
     return img.convert("RGB")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4 or sys.argv[2] not in list(MEDIDAS) + ["historia-completa"]:
+    if len(sys.argv) != 4 or sys.argv[2] not in list(MEDIDAS) + list(COMPLETA):
         print(__doc__)
         sys.exit(1)
     ruta_spec = os.path.abspath(sys.argv[1])
@@ -267,6 +302,6 @@ if __name__ == "__main__":
     for k in ("foto", "recuadro", "marca_logo"):
         if spec.get(k) and not os.path.isabs(spec[k]):
             spec[k] = os.path.join(os.path.dirname(ruta_spec), spec[k])
-    pieza = armar_completa(spec) if sys.argv[2] == "historia-completa" else armar(spec, sys.argv[2])
+    pieza = armar_completa(spec, sys.argv[2]) if sys.argv[2] in COMPLETA else armar(spec, sys.argv[2])
     pieza.save(sys.argv[3], "PNG")
     print(sys.argv[3])
