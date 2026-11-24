@@ -3,6 +3,7 @@
 Anuncio del GRUPO MAYORISTA de LARESE STORE con 3 perfumes, fondo blanco.
 
 Uso:
+    python3 crear_mayorista.py spec.json historia salida.png        # 1080x1920, historia común de Instagram
     python3 crear_mayorista.py spec.json meta-historia salida.png   # 1080x1920, zonas seguras de Meta
     python3 crear_mayorista.py spec.json meta-post salida.png       # 1080x1350
 
@@ -39,6 +40,9 @@ from crear_pieza import (  # noqa: E402
 
 # posiciones (y) de cada bloque; la historia deja libre el 14 % de arriba y el 20 % de abajo
 FORMATOS = {
+    "historia": dict(size=(1080, 1920), k=1.0, ante_y=190, titulo_y=232, sub_y=360,
+                     prod=(440, 1250), prod_sin_nombres=(450, 1360), nombres_y=1275,
+                     boton_y=1440, tienda_y=1575, pie_y=1680),
     "meta-historia": dict(size=(1080, 1920), k=1.0, ante_y=300, titulo_y=342, sub_y=470,
                           prod=(545, 1105), prod_sin_nombres=(560, 1205), nombres_y=1130, boton_y=1245, tienda_y=1370, pie_y=1470),
     "meta-post": dict(size=(1080, 1350), k=0.82, ante_y=46, titulo_y=82, sub_y=186,
@@ -64,9 +68,23 @@ def solo_frasco(prod):
     return izq.crop(izq.getbbox())
 
 
+def sin_borde_blanco(p):
+    """Achica un poco el recorte y borra el halo blanco que queda del fondo original."""
+    a = p.getchannel("A").filter(ImageFilter.MinFilter(5))
+    arr = np.array(p.convert("RGB")).astype(int)
+    blanco = (arr.min(axis=2) > 232)
+    borde = np.array(a.filter(ImageFilter.MinFilter(9))) < 255  # solo cerca del contorno
+    alfa = np.array(a)
+    alfa[blanco & borde] = 0
+    p = p.copy()
+    p.putalpha(Image.fromarray(alfa).filter(ImageFilter.GaussianBlur(0.8)))
+    return p
+
+
 def pegar(img, p, cx, base, ancho_max, alto_max):
     esc = min(ancho_max / p.width, alto_max / p.height)
     p = p.resize((int(p.width * esc), int(p.height * esc)), Image.LANCZOS)
+    p = sin_borde_blanco(p)
     x, y = int(cx - p.width / 2), int(base - p.height)
     # sombra de contacto
     s = Image.new("L", img.size, 0)
@@ -110,8 +128,8 @@ def armar(SPEC, formato):
     if len(prods) == 4:
         # grupo: los 2 del medio atrás y más grandes, los 2 de las puntas adelante
         # (centro x relativo, base relativa en la zona, alto relativo, ancho máx relativo)
-        lugares = [(0.22, 1.00, 0.46, 0.40), (0.37, 0.76, 0.74, 0.36),
-                   (0.65, 0.76, 0.74, 0.30), (0.79, 1.00, 0.46, 0.38)]
+        lugares = [(0.22, 1.00, 0.46, 0.40), (0.35, 0.76, 0.74, 0.36),
+                   (0.70, 0.76, 0.74, 0.30), (0.79, 1.00, 0.46, 0.38)]
         for i in (1, 2, 0, 3):  # primero los de atrás
             rx, rb, rh, rw = lugares[i]
             pegar(img, cargados[i], w * rx, y0 + alto_zona * rb, w * rw, alto_zona * rh)
