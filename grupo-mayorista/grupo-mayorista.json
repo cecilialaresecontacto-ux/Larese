@@ -1,0 +1,12 @@
+{
+  "antetitulo": "Sumate a nuestro",
+  "titulo": "Grupo Mayorista",
+  "subtitulo": "Perfumes de marca a precio mayorista",
+  "productos": [
+    {"imagen": "fotos/miss-dior-2.webp", "nombre": "Miss Dior", "marca": "Dior"},
+    {"imagen": "fotos/good-girl.jpg", "nombre": "Good Girl", "marca": "Carolina Herrera"},
+    {"imagen": "fotos/la-vie-est-belle.png", "nombre": "La Vie Est Belle", "marca": "Lancôme", "solo_frasco": true}
+  ],
+  "boton": "Sumate por WhatsApp",
+  "pie": "WhatsApp 0972 736 002"
+}
