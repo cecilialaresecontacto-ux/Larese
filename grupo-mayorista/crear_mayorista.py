@@ -20,6 +20,8 @@ Spec (JSON):
   "pie": "WhatsApp 0972 736 002"
 }
 "solo_frasco": si la foto trae frasco y caja separados, se queda con el de la izquierda.
+Con 4 productos se arma un grupo (orden: adelante-izq, atrás-izq, atrás-der, adelante-der)
+y no se muestran nombres. Con "mostrar_nombres": false tampoco en fila.
 """
 import json
 import os
@@ -38,9 +40,9 @@ from crear_pieza import (  # noqa: E402
 # posiciones (y) de cada bloque; la historia deja libre el 14 % de arriba y el 20 % de abajo
 FORMATOS = {
     "meta-historia": dict(size=(1080, 1920), k=1.0, ante_y=300, titulo_y=342, sub_y=470,
-                          prod=(545, 1105), nombres_y=1130, boton_y=1245, tienda_y=1370, pie_y=1470),
+                          prod=(545, 1105), prod_sin_nombres=(560, 1205), nombres_y=1130, boton_y=1245, tienda_y=1370, pie_y=1470),
     "meta-post": dict(size=(1080, 1350), k=0.82, ante_y=46, titulo_y=82, sub_y=186,
-                      prod=(250, 860), nombres_y=880, boton_y=990, tienda_y=1105, pie_y=1210),
+                      prod=(250, 860), prod_sin_nombres=(255, 950), nombres_y=880, boton_y=990, tienda_y=1105, pie_y=1210),
 }
 
 
@@ -93,34 +95,45 @@ def armar(SPEC, formato):
     fs = fuente(32 * k, "Medium")
     txt(d, cx, F["sub_y"], SPEC["subtitulo"], fs, GRIS)
 
-    y0, y1 = F["prod"]
+    sin_nombres = len(SPEC["productos"]) == 4 or not SPEC.get("mostrar_nombres", True)
+    y0, y1 = F["prod_sin_nombres"] if sin_nombres else F["prod"]
 
-    # los 3 perfumes sobre una misma base
-    prods = SPEC["productos"][:3]
-    n = len(prods)
-    margen = 24
-    pesos = [1.0] * n
-    if n == 3:
-        pesos = [0.95, 1.10, 0.95]  # el del medio un poco más ancho
-    anchos = [(w - 2 * margen) * pe / sum(pesos) for pe in pesos]
-    for i, pr in enumerate(prods):
-        slot = anchos[i]
+    prods = SPEC["productos"]
+    cargados = []
+    for pr in prods:
         p, ok = cargar_producto(pr["imagen"])
         if not ok:
             raise SystemExit(f"No se pudo recortar {pr['imagen']}")
-        if pr.get("solo_frasco"):
-            p = solo_frasco(p)
-        pcx = margen + sum(anchos[:i]) + slot / 2
-        pegar(img, p, pcx, y1, slot * 0.98, (y1 - y0) * (1.0 if i == 1 else 0.90))
+        cargados.append(solo_frasco(p) if pr.get("solo_frasco") else p)
+    alto_zona = y1 - y0
 
-        d = ImageDraw.Draw(img)
-        fn = fuente(31 * k, "Bold")
-        nombre = pr["nombre"].upper()
-        while ancho_txt(d, nombre, fn, 1.5) > slot - 16:
-            fn = fuente(fn.size - 2, "Bold")
-        y = F["nombres_y"]
-        txt(d, pcx, y, nombre, fn, TEXTO, esp=1.5)
-        txt(d, pcx, y + alto_linea(fn, 1.05), pr["marca"], fuente(24 * k, "Medium"), GRIS)
+    if len(prods) == 4:
+        # grupo: los 2 del medio atrás y más grandes, los 2 de las puntas adelante
+        # (centro x relativo, base relativa en la zona, alto relativo, ancho máx relativo)
+        lugares = [(0.22, 1.00, 0.46, 0.40), (0.37, 0.76, 0.74, 0.36),
+                   (0.65, 0.76, 0.74, 0.30), (0.79, 1.00, 0.46, 0.38)]
+        for i in (1, 2, 0, 3):  # primero los de atrás
+            rx, rb, rh, rw = lugares[i]
+            pegar(img, cargados[i], w * rx, y0 + alto_zona * rb, w * rw, alto_zona * rh)
+    else:
+        # en fila, sobre una misma base (el del medio un poco más grande)
+        n = len(prods)
+        margen = 24
+        pesos = [0.95, 1.10, 0.95] if n == 3 else [1.0] * n
+        anchos = [(w - 2 * margen) * pe / sum(pesos) for pe in pesos]
+        for i, pr in enumerate(prods):
+            slot = anchos[i]
+            pcx = margen + sum(anchos[:i]) + slot / 2
+            pegar(img, cargados[i], pcx, y1, slot * 0.98, alto_zona * (1.0 if i == n // 2 else 0.90))
+            if SPEC.get("mostrar_nombres", True) and pr.get("nombre"):
+                d = ImageDraw.Draw(img)
+                fn = fuente(31 * k, "Bold")
+                nombre = pr["nombre"].upper()
+                while ancho_txt(d, nombre, fn, 1.5) > slot - 16:
+                    fn = fuente(fn.size - 2, "Bold")
+                y = F["nombres_y"]
+                txt(d, pcx, y, nombre, fn, TEXTO, esp=1.5)
+                txt(d, pcx, y + alto_linea(fn, 1.05), pr.get("marca", ""), fuente(24 * k, "Medium"), GRIS)
 
     # botón
     d = ImageDraw.Draw(img)
