@@ -21,6 +21,7 @@ Spec (JSON):
   "detalle": "Eau de Parfum Intense · 100 ml",  # sin recuadro: línea abajo de la foto
   "medida": "100 ml.",
   "sello": "LANZAMIENTO",
+  "tienda_extra": "Mayorista",              # opcional: logo larese | MAYORISTA en vez de "Disponible en"
   "pie": "WhatsApp 0972 736 002  ·  Envíos a todo Paraguay"
 }
 """
@@ -225,14 +226,29 @@ def armar_completa(SPEC):
         fdet = fuente(29, "Medium")
         txt(d, cx, y, SPEC["detalle"].upper(), fdet, GRIS, esp=3.5)
         y += alto_linea(fdet) + 42
-    fdisp = fuente(40, "Medium")
     logo = logo_mascara("texto", 300)
-    gap = 24
-    wt = ancho_txt(d, "Disponible en", fdisp)
-    xi = cx - (wt + gap + logo.width) / 2
-    a, _ = fdisp.getmetrics()
-    d.text((xi, y + logo.height * 0.80 - a), "Disponible en", font=fdisp, fill=TEXTO)
-    img.alpha_composite(capa_color(logo, TEXTO), (int(xi + wt + gap), int(y)))
+    if SPEC.get("tienda_extra"):
+        # logo larese STORE | MAYORISTA (o el texto que se pida)
+        fx = fuente(44, "Bold")
+        extra = SPEC["tienda_extra"].upper()
+        esp = 44 * 0.14
+        we = ancho_txt(d, extra, fx, esp)
+        gap = 34
+        xi = cx - (logo.width + 2 * gap + we) / 2
+        img.alpha_composite(capa_color(logo, TEXTO), (int(xi), int(y)))
+        d = ImageDraw.Draw(img)
+        xl = xi + logo.width + gap
+        d.line((xl, y + 4, xl, y + logo.height - 2), fill=TEXTO, width=3)
+        a, _ = fx.getmetrics()
+        txt(d, xl + gap + we / 2, y + logo.height * 0.80 - a, extra, fx, TEXTO, esp=esp)
+    else:
+        fdisp = fuente(40, "Medium")
+        gap = 24
+        wt = ancho_txt(d, "Disponible en", fdisp)
+        xi = cx - (wt + gap + logo.width) / 2
+        a, _ = fdisp.getmetrics()
+        d.text((xi, y + logo.height * 0.80 - a), "Disponible en", font=fdisp, fill=TEXTO)
+        img.alpha_composite(capa_color(logo, TEXTO), (int(xi + wt + gap), int(y)))
 
     d = ImageDraw.Draw(img)
     py = 1730
