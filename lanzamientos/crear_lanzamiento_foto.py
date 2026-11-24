@@ -38,11 +38,12 @@ from crear_pieza import (  # noqa: E402
 
 MEDIDAS = {
     "historia": dict(size=(1080, 1920), marca_y=200, marca_w=640, titulo_y=300, titulo_t=50,
-                     foto=(40, 392, 1040), alto_max=1030, recuadro=310, sello=(965, 480, 104),
+                     foto=(0, 392, 1080), alto_max=1030, recuadro=310, sello=(960, 500, 100),
                      medida_t=46, pie_y=1700),
-    "post": dict(size=(1080, 1350), marca_y=48, marca_w=500, titulo_y=124, titulo_t=40,
-                 foto=(60, 192, 1020), alto_max=850, recuadro=265, sello=(985, 262, 84),
-                 medida_t=38, pie_y=1282),
+    "post": dict(size=(1080, 1350), marca_y=34, marca_w=430, titulo_y=96, titulo_t=34,
+                 foto=(0, 148, 1080), alto_max=945, recuadro=265, sello=(985, 238, 78),
+                 logo_w=215,
+                 medida_t=38, pie_y=1300),
 }
 
 
@@ -82,10 +83,13 @@ def armar(SPEC, formato):
         arriba = int(sobra * 0.35)
         foto = foto.crop((0, arriba, fw, arriba + M["alto_max"]))
     fy1 = fy0 + foto.height
-    sombra(img, (fx0, fy0, fx1, fy1), 22, 0.14)
+    a_lo_ancho = fx0 == 0 and fx1 == w  # foto de borde a borde: sin marco ni sombra
+    if not a_lo_ancho:
+        sombra(img, (fx0, fy0, fx1, fy1), 22, 0.14)
     img.alpha_composite(foto.convert("RGBA"), (fx0, fy0))
     d = ImageDraw.Draw(img)
-    d.rectangle((fx0, fy0, fx1 - 1, fy1 - 1), outline=(215, 215, 215), width=2)
+    if not a_lo_ancho:
+        d.rectangle((fx0, fy0, fx1 - 1, fy1 - 1), outline=(215, 215, 215), width=2)
 
     # recuadro con frasco y caja, montado sobre la esquina de abajo a la derecha
     R = M["recuadro"]
@@ -110,14 +114,14 @@ def armar(SPEC, formato):
     if not SPEC.get("recuadro"):
         # sin recuadro: detalle + tamaño centrado, y "Disponible en" + logo en una fila
         d = ImageDraw.Draw(img)
-        y = fy1 + M["titulo_t"] * 0.9
+        y = fy1 + M["titulo_t"] * 0.8
         detalle = SPEC.get("detalle") or SPEC.get("medida", "")
         if detalle:
             fdet = fuente(M["titulo_t"] * 0.58, "Medium")
             txt(d, cx, y, detalle.upper(), fdet, GRIS, esp=M["titulo_t"] * 0.07)
-            y += alto_linea(fdet) + M["titulo_t"] * 1.1
+            y += alto_linea(fdet) + M["titulo_t"] * 0.9
         fdisp = fuente(M["titulo_t"] * 0.8, "Medium")
-        logo = logo_mascara("texto", 300 if formato == "historia" else 250)
+        logo = logo_mascara("texto", M.get("logo_w", 300))
         gap = 24
         wt = ancho_txt(d, "Disponible en", fdisp)
         xi = cx - (wt + gap + logo.width) / 2
