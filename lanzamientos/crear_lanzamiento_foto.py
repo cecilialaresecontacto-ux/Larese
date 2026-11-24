@@ -37,11 +37,11 @@ from crear_pieza import (  # noqa: E402
 )
 
 MEDIDAS = {
-    "historia": dict(size=(1080, 1920), marca_y=215, marca_w=640, titulo_y=318, titulo_t=50,
-                     foto=(60, 420, 1020), recuadro=310, sello=(935, 515, 108),
-                     medida_t=46, pie_y=1660),
-    "post": dict(size=(1080, 1350), marca_y=58, marca_w=520, titulo_y=140, titulo_t=40,
-                 foto=(125, 212, 955), recuadro=265, sello=(940, 290, 90),
+    "historia": dict(size=(1080, 1920), marca_y=200, marca_w=640, titulo_y=300, titulo_t=50,
+                     foto=(40, 392, 1040), alto_max=1030, recuadro=310, sello=(965, 480, 104),
+                     medida_t=46, pie_y=1700),
+    "post": dict(size=(1080, 1350), marca_y=48, marca_w=500, titulo_y=124, titulo_t=40,
+                 foto=(60, 192, 1020), alto_max=850, recuadro=265, sello=(985, 262, 84),
                  medida_t=38, pie_y=1282),
 }
 
@@ -77,6 +77,10 @@ def armar(SPEC, formato):
         foto = foto.crop(tuple(SPEC["foto_recorte"]))
     fw = fx1 - fx0
     foto = foto.resize((fw, int(foto.height * fw / foto.width)), Image.LANCZOS)
+    sobra = foto.height - M.get("alto_max", foto.height)
+    if sobra > 0:  # recorta lo que no entra: un poco arriba y más abajo
+        arriba = int(sobra * 0.35)
+        foto = foto.crop((0, arriba, fw, arriba + M["alto_max"]))
     fy1 = fy0 + foto.height
     sombra(img, (fx0, fy0, fx1, fy1), 22, 0.14)
     img.alpha_composite(foto.convert("RGBA"), (fx0, fy0))
