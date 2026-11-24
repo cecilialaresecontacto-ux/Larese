@@ -9,6 +9,7 @@ el sello LANZAMIENTO con el isotipo "la", y "Disponible en" + logo larese STORE.
 Uso:
     python3 crear_lanzamiento_foto.py spec.json historia salida.png
     python3 crear_lanzamiento_foto.py spec.json post salida.png
+    python3 crear_lanzamiento_foto.py spec.json historia-completa salida.png   # foto en toda la pieza
 
 Spec (JSON):
 {
@@ -161,8 +162,87 @@ def armar(SPEC, formato):
     return img.convert("RGB")
 
 
+def velo(img, y0, y1, a0, a1):
+    """Velo blanco que va de opacidad a0 (en y0) a a1 (en y1); fuera del tramo sigue el borde."""
+    w, h = img.size
+    col = []
+    for y in range(h):
+        t = min(1, max(0, (y - y0) / (y1 - y0)))
+        t = t * t * (3 - 2 * t)
+        col.append(int(255 * (a0 + (a1 - a0) * t)))
+    m = Image.new("L", (1, h))
+    m.putdata(col)
+    img.alpha_composite(capa_color(m.resize((w, h)), FONDO))
+
+
+def armar_completa(SPEC):
+    """Historia con la foto ocupando toda la pieza y los textos sobre velos blancos."""
+    w, h = 1080, 1920
+    cx = w / 2
+    foto = Image.open(SPEC["foto"]).convert("RGB")
+    if SPEC.get("foto_recorte"):  # escena limpia, sin los textos de la campaña
+        foto = foto.crop(tuple(SPEC["foto_recorte"]))
+
+    # fondo: la misma escena agrandada y desenfocada, para cubrir toda la historia
+    esc = max(w / foto.width, h / foto.height)
+    fondo_img = foto.resize((int(foto.width * esc) + 1, int(foto.height * esc) + 1), Image.LANCZOS)
+    fx = (fondo_img.width - w) // 2
+    fy = (fondo_img.height - h) // 2
+    fondo_img = fondo_img.crop((fx, fy, fx + w, fy + h)).filter(ImageFilter.GaussianBlur(38))
+    img = fondo_img.convert("RGBA")
+
+    # escena nítida a lo ancho, con los bordes de arriba y abajo fundidos
+    ph = int(foto.height * w / foto.width)
+    nitida = foto.resize((w, ph), Image.LANCZOS).convert("RGBA")
+    fundido = 150
+    alfa = []
+    for y in range(ph):
+        t = min(1, y / fundido, (ph - 1 - y) / fundido)
+        alfa.append(int(255 * t * t * (3 - 2 * t)))
+    m = Image.new("L", (1, ph))
+    m.putdata(alfa)
+    nitida.putalpha(m.resize((w, ph)))
+    py0 = SPEC.get("foto_completa_y", 400)
+    img.alpha_composite(nitida, (0, py0))
+
+    velo(img, 300, 470, 0.80, 0.0)    # arriba: logo y título
+    velo(img, 1400, 1580, 0.0, 0.82)  # abajo: detalle, disponible y pie
+
+    d = ImageDraw.Draw(img)
+    ml = Image.open(SPEC["marca_logo"]).convert("L")
+    mw = 640
+    ml = ml.resize((mw, int(ml.height * mw / ml.width)), Image.LANCZOS)
+    img.alpha_composite(capa_color(ml, TEXTO), (int(cx - mw / 2), 200))
+    ft = fuente(50, "Bold")
+    txt(d, cx, 300, SPEC["titulo"].upper(), ft, TEXTO, esp=3)
+
+    if SPEC.get("sello"):
+        sello(img, 915, 545, 104, SPEC["sello"])
+
+    d = ImageDraw.Draw(img)
+    y = 1520
+    if SPEC.get("detalle"):
+        fdet = fuente(29, "Medium")
+        txt(d, cx, y, SPEC["detalle"].upper(), fdet, GRIS, esp=3.5)
+        y += alto_linea(fdet) + 42
+    fdisp = fuente(40, "Medium")
+    logo = logo_mascara("texto", 300)
+    gap = 24
+    wt = ancho_txt(d, "Disponible en", fdisp)
+    xi = cx - (wt + gap + logo.width) / 2
+    a, _ = fdisp.getmetrics()
+    d.text((xi, y + logo.height * 0.80 - a), "Disponible en", font=fdisp, fill=TEXTO)
+    img.alpha_composite(capa_color(logo, TEXTO), (int(xi + wt + gap), int(y)))
+
+    d = ImageDraw.Draw(img)
+    py = 1730
+    d.line((cx - 260, py - 26, cx + 260, py - 26), fill=(200, 200, 200), width=2)
+    txt(d, cx, py, SPEC.get("pie", PIE), fuente(24, "Medium"), GRIS)
+    return img.convert("RGB")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) != 4 or sys.argv[2] not in MEDIDAS:
+    if len(sys.argv) != 4 or sys.argv[2] not in list(MEDIDAS) + ["historia-completa"]:
         print(__doc__)
         sys.exit(1)
     ruta_spec = os.path.abspath(sys.argv[1])
@@ -171,5 +251,6 @@ if __name__ == "__main__":
     for k in ("foto", "recuadro", "marca_logo"):
         if spec.get(k) and not os.path.isabs(spec[k]):
             spec[k] = os.path.join(os.path.dirname(ruta_spec), spec[k])
-    armar(spec, sys.argv[2]).save(sys.argv[3], "PNG")
+    pieza = armar_completa(spec) if sys.argv[2] == "historia-completa" else armar(spec, sys.argv[2])
+    pieza.save(sys.argv[3], "PNG")
     print(sys.argv[3])
