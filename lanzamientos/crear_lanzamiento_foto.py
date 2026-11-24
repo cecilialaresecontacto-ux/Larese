@@ -17,6 +17,7 @@ Spec (JSON):
   "foto": "campana.jpg",
   "foto_recorte": [0, 290, 1320, 1520],     # opcional: (x0, y0, x1, y1) de la foto
   "recuadro": "frasco-caja.png",            # opcional: frasco + caja sobre blanco
+  "detalle": "Eau de Parfum Intense · 100 ml",  # sin recuadro: línea abajo de la foto
   "medida": "100 ml.",
   "sello": "LANZAMIENTO",
   "pie": "WhatsApp 0972 736 002  ·  Envíos a todo Paraguay"
@@ -97,33 +98,51 @@ def armar(SPEC, formato):
         rec = rec.resize((R - 2 * borde, R - 2 * borde), Image.LANCZOS)
         img.paste(rec, (rx0 + borde, ry0 + borde))
 
-    # tamaño en vertical, pegado al recuadro
-    if SPEC.get("medida"):
-        fm = fuente(M["medida_t"], "Medium")
-        tw = int(ancho_txt(d, SPEC["medida"], fm)) + 10
-        th = int(alto_linea(fm, 1.25))
-        capa = Image.new("RGBA", (tw, th), (0, 0, 0, 0))
-        ImageDraw.Draw(capa).text((4, 0), SPEC["medida"], font=fm, fill=TEXTO)
-        capa = capa.rotate(90, expand=True, resample=Image.BICUBIC)
-        my = int((fy1 + ry1) / 2 - capa.height / 2)
-        img.alpha_composite(capa, (rx0 - capa.width - 6, max(fy1 + 8, my)))
-
     # sello LANZAMIENTO sobre la esquina de arriba a la derecha de la foto
     if SPEC.get("sello"):
         sx, sy, sr = M["sello"]
         sello(img, sx, sy, sr, SPEC["sello"])
 
-    # "Disponible en" + logo larese STORE, a la izquierda del recuadro
-    d = ImageDraw.Draw(img)
-    zona_x0, zona_x1 = fx0, rx0 - (M["medida_t"] * 1.4)
-    zcx = (zona_x0 + zona_x1) / 2
-    fdisp = fuente(M["titulo_t"] * 0.72, "Medium")
-    logo = logo_mascara("texto", min(330, (zona_x1 - zona_x0) * 0.82))
-    alto_bloque = alto_linea(fdisp, 1.2) + logo.height
-    y = (fy1 + ry1) / 2 - alto_bloque / 2 + 6
-    txt(d, zcx, y, "Disponible en", fdisp, GRIS)
-    y += alto_linea(fdisp, 1.2)
-    img.alpha_composite(capa_color(logo, TEXTO), (int(zcx - logo.width / 2), int(y)))
+    if not SPEC.get("recuadro"):
+        # sin recuadro: detalle + tamaño centrado, y "Disponible en" + logo en una fila
+        d = ImageDraw.Draw(img)
+        y = fy1 + M["titulo_t"] * 0.9
+        detalle = SPEC.get("detalle") or SPEC.get("medida", "")
+        if detalle:
+            fdet = fuente(M["titulo_t"] * 0.58, "Medium")
+            txt(d, cx, y, detalle.upper(), fdet, GRIS, esp=M["titulo_t"] * 0.07)
+            y += alto_linea(fdet) + M["titulo_t"] * 1.1
+        fdisp = fuente(M["titulo_t"] * 0.8, "Medium")
+        logo = logo_mascara("texto", 300 if formato == "historia" else 250)
+        gap = 24
+        wt = ancho_txt(d, "Disponible en", fdisp)
+        xi = cx - (wt + gap + logo.width) / 2
+        a, _ = fdisp.getmetrics()
+        d.text((xi, y + logo.height * 0.80 - a), "Disponible en", font=fdisp, fill=TEXTO)
+        img.alpha_composite(capa_color(logo, TEXTO), (int(xi + wt + gap), int(y)))
+    else:
+        # tamaño en vertical, pegado al recuadro
+        if SPEC.get("medida"):
+            fm = fuente(M["medida_t"], "Medium")
+            tw = int(ancho_txt(d, SPEC["medida"], fm)) + 10
+            th = int(alto_linea(fm, 1.25))
+            capa = Image.new("RGBA", (tw, th), (0, 0, 0, 0))
+            ImageDraw.Draw(capa).text((4, 0), SPEC["medida"], font=fm, fill=TEXTO)
+            capa = capa.rotate(90, expand=True, resample=Image.BICUBIC)
+            my = int((fy1 + ry1) / 2 - capa.height / 2)
+            img.alpha_composite(capa, (rx0 - capa.width - 6, max(fy1 + 8, my)))
+
+        # "Disponible en" + logo larese STORE, a la izquierda del recuadro
+        d = ImageDraw.Draw(img)
+        zona_x0, zona_x1 = fx0, rx0 - (M["medida_t"] * 1.4)
+        zcx = (zona_x0 + zona_x1) / 2
+        fdisp = fuente(M["titulo_t"] * 0.72, "Medium")
+        logo = logo_mascara("texto", min(330, (zona_x1 - zona_x0) * 0.82))
+        alto_bloque = alto_linea(fdisp, 1.2) + logo.height
+        y = (fy1 + ry1) / 2 - alto_bloque / 2 + 6
+        txt(d, zcx, y, "Disponible en", fdisp, GRIS)
+        y += alto_linea(fdisp, 1.2)
+        img.alpha_composite(capa_color(logo, TEXTO), (int(zcx - logo.width / 2), int(y)))
 
     # pie
     d = ImageDraw.Draw(img)
