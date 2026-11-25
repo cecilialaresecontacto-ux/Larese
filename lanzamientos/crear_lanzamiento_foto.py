@@ -43,7 +43,7 @@ from crear_pieza import (  # noqa: E402
 )
 
 MEDIDAS = {
-    "historia": dict(size=(1080, 1920), marca_y=200, marca_w=640, titulo_y=300, titulo_t=50,
+    "historia": dict(size=(1080, 1920), marca_y=200, marca_w=640, marca_alto=82, titulo_y=300, titulo_t=50,
                      foto=(0, 392, 1080), alto_max=1030, recuadro=310, sello=(960, 500, 100),
                      medida_t=46, pie_y=1700),
     "post": dict(size=(1080, 1350), marca_y=34, marca_w=430, titulo_y=96, titulo_t=34,
@@ -185,15 +185,15 @@ def velo(img, y0, y1, a0, a1):
 COMPLETA = {
     "historia-completa": dict(size=(1080, 1920), escena_alto=None, escena_y=None,
                               velo_arriba=(300, 470), velo_abajo=(1400, 1580),
-                              marca_y=200, marca_w=640, titulo_y=300, titulo_t=50, sello=(915, 545, 104),
+                              marca_y=200, marca_w=640, marca_alto=82, titulo_y=300, titulo_t=50, sello=(915, 545, 104),
                               detalle_y=1520, logo_w=300, pie_y=1730),
     "meta-historia": dict(size=(1080, 1920), escena_alto=860, escena_y=440,
                           velo_arriba=(420, 560), velo_abajo=(1200, 1310),
-                          marca_y=285, marca_w=560, titulo_y=372, titulo_t=44, sello=(880, 560, 92),
+                          marca_y=285, marca_w=560, marca_alto=72, titulo_y=372, titulo_t=44, sello=(880, 560, 92),
                           detalle_y=1300, logo_w=270, pie_y=1490),
     "meta-post": dict(size=(1080, 1350), escena_alto=900, escena_y=160,
                       velo_arriba=(110, 230), velo_abajo=(980, 1085),
-                      marca_y=36, marca_w=430, titulo_y=100, titulo_t=34, sello=(900, 270, 84),
+                      marca_y=36, marca_w=430, marca_alto=50, titulo_y=100, titulo_t=34, sello=(900, 270, 84),
                       detalle_y=1100, logo_w=240, pie_y=1262),
 }
 
@@ -244,9 +244,12 @@ def armar_completa(SPEC, formato="historia-completa"):
 
     d = ImageDraw.Draw(img)
     ml = Image.open(SPEC["marca_logo"]).convert("L")
-    mw = L["marca_w"]
-    ml = ml.resize((mw, int(ml.height * mw / ml.width)), Image.LANCZOS)
-    img.alpha_composite(capa_color(ml, TEXTO), (int(cx - mw / 2), L["marca_y"]))
+    # ancho fijo, pero sin pasar un alto máximo (logos cortos como DIOR no salen gigantes)
+    mw = min(L["marca_w"], int(L.get("marca_alto", 999) * ml.width / ml.height))
+    mh = int(ml.height * mw / ml.width)
+    ml = ml.resize((mw, mh), Image.LANCZOS)
+    ajuste = (int(L["marca_w"] * 0.099) - mh) // 2 if mh < L["marca_w"] * 0.099 else 0
+    img.alpha_composite(capa_color(ml, TEXTO), (int(cx - mw / 2), L["marca_y"] + max(0, ajuste)))
     tt = L["titulo_t"]
     txt(d, cx, L["titulo_y"], SPEC["titulo"].upper(), fuente(tt, "Bold"), TEXTO, esp=tt * 0.06)
 
